@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can read/write their own user profile
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+
+    // Users can create trips and read their own trips
+    match /trips/{tripId} {
+      allow create: if request.auth != null;
+      allow read, update: if request.auth != null
+                           && resource.data.userId == request.auth.uid;
+    }
+
+    // Users can ONLY read driverRequests (not write)
+    match /driverRequests/{driverId}/trips/{tripId} {
+      allow read: if request.auth != null;
+      // Note: User App logic creates these documents via client-side code in current implementation. 
+      // STRICTLY speaking, the prompt says "User app must NOT update this after creation", 
+      // but to CREATE it, we need 'create' permission or the Driver App won't get it 
+      // (unless using Cloud Functions). 
+      // For this pure client-side MVP from the prompt, we MUST allow create.
+      allow create: if request.auth != null;
+    }
+
+    // Drivers: Allow reading for all authenticated users, writing only for owners
+    match /drivers/{driverId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == driverId;
+    }
+  }
+}

@@ -1,0 +1,87 @@
+.intro-container {
+    position: fixed;
+    inset: 0;
+    z-index: 99990;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.intro-lottie-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.intro-header {
+    position: absolute;
+    top: 18%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20;
+}
+
+.intro-bottom-panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 46%;
+    background-color: #ffffff;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+    padding: 45px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 10;
+}
+
+/* Desktop Responsive Styles */
+@media (min-width: 768px) {
+    .intro-container {
+        /* On desktop, we want a centralized, cleaner look */
+        justify-content: center;
+        background-color: #111827;
+        /* Dark background fallback */
+    }
+
+    .intro-header {
+        position: relative;
+        top: auto;
+        margin-bottom: 40px;
+        color: white;
+    }
+
+    .intro-header h1 {
+        font-size: 64px !important;
+        /* Larger title on desktop */
+    }
+
+    .intro-bottom-panel {
+        position: relative;
+        bottom: auto;
+        height: auto;
+        width: 100%;
+        max-width: 480px;
+        border-radius: 24px;
+        /* Rounded card on desktop */
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "nexridein",
+    "Nexride": "nexridein"
+  },
+  "targets": {},
+  "etags": {}
+}

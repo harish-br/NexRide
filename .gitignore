@@ -1,0 +1,10 @@
+.env
+.env.local
+.env.*.local
+node_modules
+dist
+.firebase
+.DS_Store
+
+# Allow functions env to be deployed
+!functions/.env

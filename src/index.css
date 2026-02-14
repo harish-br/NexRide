@@ -1,0 +1,58 @@
+/* Cleaned up default styles */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: white;
+  margin: 0;
+}
+
+/* 
+  Enforce Portrait - Even if browser rotates 
+  If the device is rotated to landscape, we force the container to maintain height > width 
+  or simply suppress any "landscape" media query behaviors by not having them.
+  The goal is: "App should behave as if landscape does not exist"
+*/
+
+/* 
+  We ensure the root container takes full viewport. 
+  On mobile browsers, if they rotate, we can't physically stop the browser UI from rotating.
+  But we can make our content look correct.
+*/
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Global Typography: iOS System Native */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+  font-weight: 600;
+  /* Semibold */
+}
+
+p,
+span,
+div,
+input,
+textarea {
+  font-family: inherit;
+  font-weight: 400;
+  /* Regular */
+}
+
+button,
+label {
+  font-family: inherit;
+  font-weight: 500;
+  /* Medium */
+}
+
+b,
+strong {
+  font-weight: 600;
+}

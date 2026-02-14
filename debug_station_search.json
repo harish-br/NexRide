@@ -1,0 +1,54 @@
+{
+  "success": true,
+  "data": {
+    "stations": [
+      {
+        "code": "AMSA",
+        "name": "Ammasandra"
+      },
+      {
+        "code": "BLMK",
+        "name": "Bhalumaska"
+      },
+      {
+        "code": "BMSB",
+        "name": "Bhimasar"
+      },
+      {
+        "code": "BMSR",
+        "name": "Bhimasar"
+      },
+      {
+        "code": "BRMA",
+        "name": "Barmasia"
+      },
+      {
+        "code": "BUBR",
+        "name": "Bhutakiya Bhimasar"
+      },
+      {
+        "code": "CKMI",
+        "name": "Chhotaki Masaudhi Halt"
+      },
+      {
+        "code": "GMMG",
+        "name": "Masagram Jn"
+      },
+      {
+        "code": "GUS",
+        "name": "Ghumasan"
+      },
+      {
+        "code": "GUSB",
+        "name": "Ghumasan Bg"
+      }
+    ]
+  },
+  "meta": {
+    "timestamp": "2025-12-25T10:20:59.697Z",
+    "traceId": "9f0adbcd-c3d4-4691-a7fd-b656df68048b",
+    "executionTime": 19,
+    "service": "TrainAPI_V1",
+    "method": "searchStations"
+  }
+}

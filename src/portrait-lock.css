@@ -1,0 +1,54 @@
+/* Portrait Lock Styles */
+.rotate-warning {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #111827;
+    /* Dark theme background */
+    color: white;
+    z-index: 99999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.rotate-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+}
+
+.rotate-content h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.rotate-content p {
+    font-size: 16px;
+    color: #9CA3AF;
+    line-height: 1.5;
+}
+
+/* Force Portrait on Mobile Landscape */
+@media screen and (orientation: landscape) and (max-width: 1024px) {
+
+    /* Hide the App */
+    #root {
+        display: none !important;
+    }
+
+    /* Show Warning */
+    .rotate-warning {
+        display: flex !important;
+    }
+
+    /* Prevent scrolling on body */
+    body {
+        overflow: hidden !important;
+        background-color: #111827 !important;
+    }
+}

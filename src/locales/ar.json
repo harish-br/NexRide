@@ -1,0 +1,48 @@
+{
+    "profile": {
+        "title": "الملف الشخصي",
+        "subtitle": "إدارة حساب NexRide الخاص بك",
+        "your_details": "تفاصيلك",
+        "your_trips": "رحلاتك",
+        "trips_history": "التاريخ والقادم",
+        "safety_center": "مركز السلامة",
+        "safety_subtitle": "جهات اتصال وأطر الطوارئ",
+        "terms": "الأحكام والشروط",
+        "privacy": "سياسة الخصوصية",
+        "refund": "سياسة الاسترداد",
+        "support": "اتصل بالدعم",
+        "logout": "تسجيل الخروج",
+        "language": "اللغة",
+        "select_language": "اختر اللغة",
+        "language_saved_info": "سيتم حفظ اللغة المختارة في ملفك الشخصي وتطبيقها على جميع أجهزتك.",
+        "version": "v1.0.0 • نكس رايد",
+        "error_title": "خطأ في الملف الشخصي",
+        "go_back": "العودة"
+    },
+    "common": {
+        "back": "رجوع",
+        "welcome": "مرحباً",
+        "guest": "ضيف",
+        "traveller": "مسافر",
+        "verified_user": "مستخدم موثق",
+        "loading": "جارٍ التحميل...",
+        "fetching_location": "جاري جلب الموقع...",
+        "current_location": "الموقع الحالي",
+        "centering_location": "جاري التمركز على موقعك...",
+        "verifying_payment": "جاري التحقق من الدفع...",
+        "payment_success": "تم التحقق من الدفع: بنجاح"
+    },
+    "nav": {
+        "home": "الرئيسية",
+        "tickets": "التذاكر",
+        "ride": "رحلة",
+        "profile": "الملف الشخصي"
+    },
+    "errors": {
+        "no_nearby_stops": "لا توجد مواقف حافلات قريبة في حدود 1.5 كم",
+        "location_unavailable": "تعذر جلب الموقع.",
+        "location_denied": "تم رفض نصريح الموقع.",
+        "gps_issue": "الموقع غير متاح. تحقق من نظام تحديد المواقع العالمي (GPS).",
+        "location_timeout": "انتهت مهلة طلب الموقع."
+    }
+}
