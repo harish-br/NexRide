@@ -63,10 +63,10 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    marginTop: '6px',
+                    gap: '6px',
                     flexWrap: 'nowrap',
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    marginTop: '4px'
                 }}>
                     <span style={{
                         fontSize: '14px',
@@ -78,13 +78,13 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                     
                     {isNearest && (
                         <>
-                            <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 2px' }}>&middot;</span>
+                            <span style={{ color: '#9CA3AF', fontSize: '14px' }}>-</span>
                             <span style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 background: '#ECFDF5',
                                 color: '#047857',
-                                padding: '3px 10px',
+                                padding: '4px 10px',
                                 borderRadius: '999px',
                                 fontSize: '12px',
                                 fontWeight: 600
@@ -94,15 +94,13 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                         </>
                     )}
 
-                    <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 2px' }}>&middot;</span>
+                    <span style={{ color: '#9CA3AF', fontSize: '14px' }}>-</span>
 
                     <span style={{
                         fontSize: '15px',
                         fontWeight: 600,
                         color: '#2563EB',
-                        cursor: 'pointer',
-                        whiteSpace: 'nowrap',
-                        marginLeft: '2px'
+                        cursor: 'pointer'
                     }}>
                         View on map
                     </span>
