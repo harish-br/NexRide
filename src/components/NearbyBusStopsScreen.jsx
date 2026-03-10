@@ -63,6 +63,8 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
+                    gap: '8px',
+                    marginTop: '6px',
                     flexWrap: 'wrap'
                 }}>
                     <span style={{
@@ -72,27 +74,34 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                     }}>
                         {formatDistance(stop.distance)}
                     </span>
+                    
+                    {isNearest && (
+                        <>
+                            <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 2px' }}>&middot;</span>
+                            <span style={{
+                                background: '#ECFDF5',
+                                color: '#047857',
+                                padding: '3px 10px',
+                                borderRadius: '999px',
+                                fontSize: '12px',
+                                fontWeight: 600
+                            }}>
+                                Closest
+                            </span>
+                        </>
+                    )}
+
+                    <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 2px' }}>&middot;</span>
+
                     <span style={{
                         fontSize: '15px',
                         fontWeight: 600,
                         color: '#2563EB',
-                        marginLeft: '8px'
+                        cursor: 'pointer',
+                        marginLeft: '2px'
                     }}>
                         View on map
                     </span>
-                    {isNearest && (
-                        <span style={{
-                            background: '#ECFDF5',
-                            color: '#047857',
-                            padding: '4px 10px',
-                            borderRadius: '999px',
-                            fontSize: '12px',
-                            fontWeight: 600,
-                            marginLeft: '8px'
-                        }}>
-                            Closest
-                        </span>
-                    )}
                 </div>
 
             </div>
