@@ -65,7 +65,8 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                     alignItems: 'center',
                     gap: '8px',
                     marginTop: '6px',
-                    flexWrap: 'wrap'
+                    flexWrap: 'nowrap',
+                    whiteSpace: 'nowrap'
                 }}>
                     <span style={{
                         fontSize: '14px',
@@ -79,6 +80,8 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                         <>
                             <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 2px' }}>&middot;</span>
                             <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
                                 background: '#ECFDF5',
                                 color: '#047857',
                                 padding: '3px 10px',
@@ -98,6 +101,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                         fontWeight: 600,
                         color: '#2563EB',
                         cursor: 'pointer',
+                        whiteSpace: 'nowrap',
                         marginLeft: '2px'
                     }}>
                         View on map
