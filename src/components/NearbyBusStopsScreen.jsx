@@ -49,33 +49,20 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
             <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
 
                 {/* Top row */}
-                <div>
-                    <div style={{
-                        fontSize: '22px',
-                        fontWeight: 700,
-                        color: '#111827',
-                        letterSpacing: '-0.01em',
-                        marginBottom: stop.type ? '2px' : '6px'
-                    }}>
-                        {stop.name}
-                    </div>
-                    {stop.type && (
-                        <div style={{
-                            fontSize: '15px',
-                            fontWeight: 500,
-                            color: '#4B5563',
-                            marginBottom: '6px'
-                        }}>
-                            {stop.type}
-                        </div>
-                    )}
+                <div style={{
+                    fontSize: '22px',
+                    fontWeight: 700,
+                    color: '#111827',
+                    letterSpacing: '-0.01em',
+                    marginBottom: '6px'
+                }}>
+                    {stop.name}
                 </div>
 
                 {/* Second row */}
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '6px',
                     flexWrap: 'nowrap',
                     whiteSpace: 'nowrap',
                     marginTop: '4px'
@@ -87,21 +74,44 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                     }}>
                         {formatDistance(stop.distance)}
                     </span>
+
+                    {stop.type === "Town Bus Stop" && (
+                        <>
+                            <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
+                            <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                background: '#ECFDF5',
+                                color: '#047857',
+                                padding: '3px 10px',
+                                borderRadius: '999px',
+                                fontSize: '12px',
+                                fontWeight: 600
+                            }}>
+                                Town Bus Stop
+                            </span>
+                        </>
+                    )}
                     
                     {isNearest && (
-                        <span style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            background: '#ECFDF5',
-                            color: '#047857',
-                            padding: '4px 10px',
-                            borderRadius: '999px',
-                            fontSize: '12px',
-                            fontWeight: 600
-                        }}>
-                            Closest
-                        </span>
+                        <>
+                            <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
+                            <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                background: '#ECFDF5',
+                                color: '#047857',
+                                padding: '3px 10px',
+                                borderRadius: '999px',
+                                fontSize: '12px',
+                                fontWeight: 600
+                            }}>
+                                Closest
+                            </span>
+                        </>
                     )}
+
+                    <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
 
                     <span style={{
                         fontSize: '15px',
