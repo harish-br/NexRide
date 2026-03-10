@@ -17,7 +17,7 @@ const FormatETA = ({ distance }) => {
 
     return (
         <span>
-            <span style={{ fontWeight: 800 }}>{minutes}</span>
+            <span style={{ fontWeight: 900 }}>{minutes}</span>
             <span style={{ fontSize: 14, marginLeft: 4 }}>min</span>
         </span>
     );
@@ -47,7 +47,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
         >
             {/* Left Section (Stop Info) */}
             <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                
+
                 {/* Top row */}
                 <div style={{
                     fontSize: '22px',
@@ -98,15 +98,15 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
             </div>
 
             {/* Right Section (Walking ETA) */}
-            <div style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'flex-end', 
-                paddingRight: '116px',
-                position: 'relative', 
-                zIndex: 1 
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                paddingRight: '110px',
+                position: 'relative',
+                zIndex: 1
             }}>
-                
+
                 {/* Walking ETA */}
                 <div style={{
                     fontSize: '22px',
@@ -125,14 +125,15 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
 
             </div>
 
-            {/* Icon - Absolutely positioned to bottom right */}
+            {/* Icon - Absolutely positioned to vertically centered right */}
             <div style={{
                 position: 'absolute',
-                right: '0px',
-                bottom: '-4px',
-                width: '110px',
+                right: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '100px',
                 height: 'auto',
-                opacity: 0.9,
+                opacity: 0.95,
                 zIndex: 0
             }}>
                 <img
