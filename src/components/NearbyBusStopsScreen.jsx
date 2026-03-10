@@ -102,7 +102,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 display: 'flex', 
                 flexDirection: 'column', 
                 alignItems: 'flex-end', 
-                paddingRight: '56px',
+                paddingRight: '116px',
                 position: 'relative', 
                 zIndex: 1 
             }}>
@@ -128,9 +128,9 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
             {/* Icon - Absolutely positioned to bottom right */}
             <div style={{
                 position: 'absolute',
-                right: '16px',
-                bottom: '16px',
-                width: '36px',
+                right: '0px',
+                bottom: '-4px',
+                width: '110px',
                 height: 'auto',
                 opacity: 0.9,
                 zIndex: 0
