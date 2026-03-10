@@ -16,7 +16,7 @@ const FormatETA = ({ distance }) => {
     const minutes = Math.ceil(distance / 80);
 
     return (
-        <span>
+        <span style={{ whiteSpace: 'nowrap' }}>
             <span style={{ fontWeight: 900 }}>{minutes}</span>
             <span style={{ fontSize: 14, marginLeft: 4 }}>min</span>
         </span>
@@ -46,7 +46,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
             }}
         >
             {/* Left Section (Stop Info) */}
-            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
 
                 {/* Top row */}
                 <div style={{
@@ -65,62 +65,74 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                     alignItems: 'center',
                     flexWrap: 'nowrap',
                     whiteSpace: 'nowrap',
-                    marginTop: '4px'
+                    marginTop: '4px',
+                    overflowX: 'auto',
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none'
                 }}>
-                    <span style={{
-                        fontSize: '14px',
-                        fontWeight: 500,
-                        color: '#6B7280'
-                    }}>
-                        {formatDistance(stop.distance)}
-                    </span>
+                    <style>
+                        {`
+                        .no-scrollbar::-webkit-scrollbar {
+                            display: none;
+                        }
+                        `}
+                    </style>
+                    <div className="no-scrollbar" style={{ display: 'flex', alignItems: 'center' }}>
+                        <span style={{
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            color: '#6B7280'
+                        }}>
+                            {formatDistance(stop.distance)}
+                        </span>
 
-                    {stop.type === "Town Bus Stop" && (
-                        <>
-                            <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
-                            <span style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                background: '#ECFDF5',
-                                color: '#047857',
-                                padding: '3px 10px',
-                                borderRadius: '999px',
-                                fontSize: '12px',
-                                fontWeight: 600
-                            }}>
-                                Town Bus Stop
-                            </span>
-                        </>
-                    )}
-                    
-                    {isNearest && (
-                        <>
-                            <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
-                            <span style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                background: '#ECFDF5',
-                                color: '#047857',
-                                padding: '3px 10px',
-                                borderRadius: '999px',
-                                fontSize: '12px',
-                                fontWeight: 600
-                            }}>
-                                Closest
-                            </span>
-                        </>
-                    )}
+                        {stop.type === "Town Bus Stop" && (
+                            <>
+                                <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
+                                <span style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    background: '#ECFDF5',
+                                    color: '#047857',
+                                    padding: '3px 10px',
+                                    borderRadius: '999px',
+                                    fontSize: '12px',
+                                    fontWeight: 600
+                                }}>
+                                    Town Bus Stop
+                                </span>
+                            </>
+                        )}
+                        
+                        {isNearest && (
+                            <>
+                                <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
+                                <span style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    background: '#ECFDF5',
+                                    color: '#047857',
+                                    padding: '3px 10px',
+                                    borderRadius: '999px',
+                                    fontSize: '12px',
+                                    fontWeight: 600
+                                }}>
+                                    Closest
+                                </span>
+                            </>
+                        )}
 
-                    <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
+                        <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
 
-                    <span style={{
-                        fontSize: '15px',
-                        fontWeight: 600,
-                        color: '#2563EB',
-                        cursor: 'pointer'
-                    }}>
-                        View on map
-                    </span>
+                        <span style={{
+                            fontSize: '15px',
+                            fontWeight: 600,
+                            color: '#2563EB',
+                            cursor: 'pointer'
+                        }}>
+                            View on map
+                        </span>
+                    </div>
                 </div>
 
             </div>
@@ -132,7 +144,9 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 alignItems: 'flex-end',
                 paddingRight: '110px',
                 position: 'relative',
-                zIndex: 1
+                zIndex: 1,
+                flexShrink: 0,
+                minWidth: 'max-content'
             }}>
 
                 {/* Walking ETA */}
