@@ -4,7 +4,6 @@ import { ArrowLeft, Locate, AlertCircle } from 'lucide-react';
 import haptics from '../utils/haptics';
 import { getDistance } from '../utils/locationUtils';
 import busStopsData from '../data/busStopsData';
-import busIconImg from '../assets/bus_hero_final.png';
 
 const RADIUS_METERS = 2000;
 
@@ -29,17 +28,17 @@ const FormatETA = ({ distance }) => {
 const StopCard = ({ stop, isNearest, onViewMap }) => {
     return (
         <motion.div
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => {
                 haptics.light();
                 onViewMap(stop);
             }}
             style={{
-                background: 'white',
-                borderRadius: '16px',
+                background: '#FFFFFF',
+                borderRadius: '18px',
                 padding: '20px 18px',
-                marginBottom: '12px',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                marginBottom: '14px',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
                 display: 'flex',
                 justifyContent: 'space-between',
                 position: 'relative',
@@ -51,9 +50,10 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 
                 {/* Top row */}
                 <div style={{
-                    fontSize: '20px',
+                    fontSize: '22px',
                     fontWeight: 700,
                     color: '#111827',
+                    letterSpacing: '-0.01em',
                     marginBottom: '6px'
                 }}>
                     {stop.name}
@@ -63,11 +63,11 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
                     flexWrap: 'wrap'
                 }}>
                     <span style={{
                         fontSize: '14px',
+                        fontWeight: 500,
                         color: '#6B7280'
                     }}>
                         {formatDistance(stop.distance)}
@@ -75,7 +75,8 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                     <span style={{
                         fontSize: '15px',
                         fontWeight: 600,
-                        color: '#2563EB'
+                        color: '#2563EB',
+                        marginLeft: '8px'
                     }}>
                         View on map
                     </span>
@@ -86,7 +87,8 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                             padding: '4px 10px',
                             borderRadius: '999px',
                             fontSize: '12px',
-                            fontWeight: 600
+                            fontWeight: 600,
+                            marginLeft: '8px'
                         }}>
                             Closest
                         </span>
@@ -107,7 +109,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 
                 {/* Walking ETA */}
                 <div style={{
-                    fontSize: '20px',
+                    fontSize: '22px',
                     fontWeight: 700,
                     color: '#111827'
                 }}>
@@ -127,15 +129,15 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
             <div style={{
                 position: 'absolute',
                 right: '16px',
-                bottom: '14px',
-                width: '34px',
+                bottom: '16px',
+                width: '36px',
                 height: 'auto',
-                opacity: 0.95,
+                opacity: 0.9,
                 zIndex: 0
             }}>
                 <img
-                    src={busIconImg}
-                    alt="Bus"
+                    src="/icons/nearby_bus_stop_3d_new.png"
+                    alt="Nearby"
                     style={{
                         width: '100%',
                         height: 'auto',
@@ -307,10 +309,10 @@ const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
                         <p
                             style={{
                                 textAlign: 'center',
-                                paddingTop: '20px',
+                                marginTop: '22px',
+                                marginBottom: 0,
                                 fontSize: '15px',
-                                color: '#9CA3AF',
-                                margin: 0
+                                color: '#9CA3AF'
                             }}
                         >
                             Tap a stop to view on map
