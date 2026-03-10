@@ -122,16 +122,6 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                             </>
                         )}
 
-                        <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
-
-                        <span style={{
-                            fontSize: '15px',
-                            fontWeight: 600,
-                            color: '#2563EB',
-                            cursor: 'pointer'
-                        }}>
-                            Map
-                        </span>
                     </div>
                 </div>
 
