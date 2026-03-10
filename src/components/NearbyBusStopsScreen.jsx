@@ -103,7 +103,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                                 </span>
                             </>
                         )}
-                        
+
                         {isNearest && (
                             <>
                                 <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
@@ -130,7 +130,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                             color: '#2563EB',
                             cursor: 'pointer'
                         }}>
-                            View on map
+                            Map
                         </span>
                     </div>
                 </div>
