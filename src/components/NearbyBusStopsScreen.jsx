@@ -49,14 +49,26 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
             <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
 
                 {/* Top row */}
-                <div style={{
-                    fontSize: '22px',
-                    fontWeight: 700,
-                    color: '#111827',
-                    letterSpacing: '-0.01em',
-                    marginBottom: '6px'
-                }}>
-                    {stop.name}
+                <div>
+                    <div style={{
+                        fontSize: '22px',
+                        fontWeight: 700,
+                        color: '#111827',
+                        letterSpacing: '-0.01em',
+                        marginBottom: stop.type ? '2px' : '6px'
+                    }}>
+                        {stop.name}
+                    </div>
+                    {stop.type && (
+                        <div style={{
+                            fontSize: '15px',
+                            fontWeight: 500,
+                            color: '#4B5563',
+                            marginBottom: '6px'
+                        }}>
+                            {stop.type}
+                        </div>
+                    )}
                 </div>
 
                 {/* Second row */}

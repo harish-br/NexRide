@@ -153,6 +153,13 @@ const busStopsData = [
         name: "Bargur",
         latitude: 11.6380,
         longitude: 77.6370
+    },
+    {
+        id: "kuppichipalayam_town_bus_stop",
+        name: "Kuppichipalayam",
+        type: "Town Bus Stop",
+        latitude: 11.5311085,
+        longitude: 77.7080057
     }
 ];
 
