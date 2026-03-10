@@ -4,6 +4,7 @@ import { ArrowLeft, Locate, AlertCircle } from 'lucide-react';
 import haptics from '../utils/haptics';
 import { getDistance } from '../utils/locationUtils';
 import busStopsData from '../data/busStopsData';
+import busIconImg from '../assets/bus_hero_final.png';
 
 const RADIUS_METERS = 2000;
 
@@ -34,113 +35,113 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 onViewMap(stop);
             }}
             style={{
+                background: 'white',
+                borderRadius: '16px',
+                padding: '20px 18px',
+                marginBottom: '12px',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '22px 18px',
-                borderBottom: '1px solid #F1F3F5'
+                position: 'relative',
+                cursor: 'pointer'
             }}
         >
-
-            <div style={{ display: 'flex', gap: 16, flex: 1 }}>
-
-                <div
-                    style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 10,
-                        background: '#F3F4F6',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <img src="/icons/bus_icon_minimal.jpg" style={{ width: 24 }} />
+            {/* Left Section (Stop Info) */}
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                
+                {/* Top row */}
+                <div style={{
+                    fontSize: '20px',
+                    fontWeight: 700,
+                    color: '#111827',
+                    marginBottom: '6px'
+                }}>
+                    {stop.name}
                 </div>
 
-                <div style={{ flex: 1 }}>
-
-                    <div
-                        style={{
-                            fontSize: 20,
-                            fontWeight: 700,
-                            color: '#111827'
-                        }}
-                    >
-                        {stop.name}
-                    </div>
-
-                    <div
-                        style={{
-                            display: 'flex',
-                            gap: 10,
-                            marginTop: 6,
-                            alignItems: 'center'
-                        }}
-                    >
-
-                        <span
-                            style={{
-                                fontSize: 15,
-                                color: '#6B7280',
-                                fontWeight: 500
-                            }}
-                        >
-                            {formatDistance(stop.distance)}
+                {/* Second row */}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    flexWrap: 'wrap'
+                }}>
+                    <span style={{
+                        fontSize: '14px',
+                        color: '#6B7280'
+                    }}>
+                        {formatDistance(stop.distance)}
+                    </span>
+                    <span style={{
+                        fontSize: '15px',
+                        fontWeight: 600,
+                        color: '#2563EB'
+                    }}>
+                        View on map
+                    </span>
+                    {isNearest && (
+                        <span style={{
+                            background: '#ECFDF5',
+                            color: '#047857',
+                            padding: '4px 10px',
+                            borderRadius: '999px',
+                            fontSize: '12px',
+                            fontWeight: 600
+                        }}>
+                            Closest
                         </span>
-
-                        <span
-                            style={{
-                                fontSize: 16,
-                                fontWeight: 600,
-                                color: '#2563EB'
-                            }}
-                        >
-                            View on map
-                        </span>
-
-                        {isNearest && (
-                            <span
-                                style={{
-                                    fontSize: 12,
-                                    padding: '5px 10px',
-                                    borderRadius: 999,
-                                    background: '#ECFDF5',
-                                    color: '#047857',
-                                    fontWeight: 600
-                                }}
-                            >
-                                Closest
-                            </span>
-                        )}
-
-                    </div>
-
+                    )}
                 </div>
 
             </div>
 
-            <div style={{ textAlign: 'right' }}>
-
-                <div
-                    style={{
-                        fontSize: 20,
-                        fontWeight: 800
-                    }}
-                >
+            {/* Right Section (Walking ETA) */}
+            <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'flex-end', 
+                paddingRight: '56px',
+                position: 'relative', 
+                zIndex: 1 
+            }}>
+                
+                {/* Walking ETA */}
+                <div style={{
+                    fontSize: '20px',
+                    fontWeight: 700,
+                    color: '#111827'
+                }}>
                     <FormatETA distance={stop.distance} />
                 </div>
-
-                <div
-                    style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: '#16A34A'
-                    }}
-                >
+                <div style={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#16A34A'
+                }}>
                     Walk
                 </div>
 
+            </div>
+
+            {/* Icon - Absolutely positioned to bottom right */}
+            <div style={{
+                position: 'absolute',
+                right: '16px',
+                bottom: '14px',
+                width: '34px',
+                height: 'auto',
+                opacity: 0.95,
+                zIndex: 0
+            }}>
+                <img
+                    src={busIconImg}
+                    alt="Bus"
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        objectFit: 'contain'
+                    }}
+                />
             </div>
 
         </motion.div>
@@ -290,14 +291,7 @@ const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
 
                 {nearbyStops.length > 0 && (
 
-                    <div
-                        style={{
-                            background: '#fff',
-                            borderRadius: 16,
-                            overflow: 'hidden',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-                        }}
-                    >
+                    <div style={{ paddingBottom: '24px' }}>
 
                         {nearbyStops.map((stop, index) => (
 
@@ -313,9 +307,10 @@ const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
                         <p
                             style={{
                                 textAlign: 'center',
-                                padding: '24px',
-                                fontSize: 15,
-                                color: '#9CA3AF'
+                                paddingTop: '20px',
+                                fontSize: '15px',
+                                color: '#9CA3AF',
+                                margin: 0
                             }}
                         >
                             Tap a stop to view on map
