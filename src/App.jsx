@@ -28,6 +28,8 @@ import AdminRouteCreator from './components/AdminRouteCreator';
 import SafetyScreen from './components/SafetyScreen';
 import RideScreen from './components/RideScreen';
 import WebLanding from './components/WebLanding';
+import NearbyBusStopsScreen from './components/NearbyBusStopsScreen';
+import NearbyStopMapScreen from './components/NearbyStopMapScreen';
 
 // LoginScreen import removed
 import AuthSheet from './components/AuthSheet'; // Import Auth Sheet
@@ -108,6 +110,7 @@ export default function App() {
   const [showLocationModal, setShowLocationModal] = useState(false); // NEW: Location Modal State
   const [isManualLocationMode, setIsManualLocationMode] = useState(false); // NEW: Manual choice flag
   const [showActiveRideScanner, setShowActiveRideScanner] = useState(false); // NEW: Active Ride Scanner State
+  const [selectedNearbyStop, setSelectedNearbyStop] = useState(null); // Nearby Bus Stop Map View
 
   // Route Stats
   const [routeStats, setRouteStats] = useState({ distance: '', duration: '', summary: '' });
@@ -737,8 +740,7 @@ export default function App() {
   };
 
   const handleNearbyClick = () => {
-    setRecenterTrigger(prev => prev + 1);
-    setSheetState('collapsed');
+    navigateTo('nearby-stops');
   };
 
   const handleActiveRideScan = (data) => {
@@ -951,6 +953,25 @@ export default function App() {
               {/* ADMIN ROUTE CREATOR */}
               {activeScreen === 'admin-route-create' && (
                 <AdminRouteCreator onBack={goBack} />
+              )}
+
+              {/* NEARBY BUS STOPS SCREENS */}
+              {activeScreen === 'nearby-stops' && (
+                <NearbyBusStopsScreen
+                  userPosition={userPosition}
+                  onBack={goBack}
+                  onViewStopOnMap={(stop) => {
+                    setSelectedNearbyStop(stop);
+                    navigateTo('nearby-stop-map');
+                  }}
+                />
+              )}
+              {activeScreen === 'nearby-stop-map' && selectedNearbyStop && (
+                <NearbyStopMapScreen
+                  userPosition={userPosition}
+                  stop={selectedNearbyStop}
+                  onBack={goBack}
+                />
               )}
 
               {/* LEGAL PAGES */}

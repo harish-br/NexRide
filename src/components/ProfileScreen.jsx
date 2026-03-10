@@ -73,11 +73,11 @@ const PillComponent = ({ icon: Icon, label, subLabel, onClick, rightElement, isL
         style={{
             display: 'flex',
             alignItems: 'center',
-            padding: '16px 20px',
+            padding: '12px 20px',
             cursor: 'pointer',
             backgroundColor: '#FFFFFF', // White
             borderRadius: '20px',
-            marginBottom: '12px',
+            marginBottom: '8px',
             position: 'relative',
             opacity: isLocked ? 0.7 : 1,
             transition: 'transform 0.1s ease, background-color 0.2s',
@@ -106,7 +106,7 @@ const PillComponent = ({ icon: Icon, label, subLabel, onClick, rightElement, isL
             )}
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', textAlign: isRTL ? 'right' : 'left' }}>
-            <span style={{ fontSize: '16px', fontWeight: '600', color: textColor }}>{label}</span>
+            <span style={{ fontSize: '16px', fontWeight: '700', color: textColor }}>{label}</span>
             {subLabel && <span style={{ fontSize: '13px', color: '#3C3C43', fontWeight: '400', marginTop: '2px' }}>{subLabel}</span>}
         </div>
         {rightElement ? rightElement : <ChevronRight size={20} color="#D1D5DB" style={{ transform: isRTL ? 'rotate(180deg)' : 'none' }} />}
@@ -268,7 +268,7 @@ const ProfileScreenContent = ({ user, authStatus, onNavigate, onLegalNavigate, o
 
                 <Pill customIcon={contactIcon} label={t('profile.support')} subLabel="support@nexride.co.in" onClick={() => onLegalNavigate('contact')} />
 
-                <div style={{ marginTop: '24px' }}>
+                <div style={{ marginTop: '16px' }}>
                     <Pill customIcon={logoutIcon} label={t('profile.logout')} textColor="#000000" onClick={handleLogout} />
                 </div>
 
