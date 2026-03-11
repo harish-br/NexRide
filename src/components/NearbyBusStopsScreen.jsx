@@ -50,12 +50,11 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 
                 {/* Stop Name */}
                 <div style={{
-                    fontSize: '22px',
-                    fontWeight: 700,
-                    lineHeight: 1.2,
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    lineHeight: 1.3,
                     color: '#111827',
-                    wordBreak: 'break-word',
-                    letterSpacing: '-0.01em'
+                    wordBreak: 'break-word'
                 }}>
                     {stop.name}
                 </div>
