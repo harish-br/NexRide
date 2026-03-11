@@ -434,11 +434,12 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
+                        overflow: 'hidden',
                     }}>
                         <img 
                             src="/icons/nearby_bus_stop_3d_new.png" 
                             alt="Nearby" 
-                            style={{ width: '36px', height: '36px', objectFit: 'contain' }} 
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                         />
                     </div>
                     <div style={{ flex: 1 }}>
