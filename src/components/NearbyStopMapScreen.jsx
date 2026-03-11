@@ -408,49 +408,58 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                 transition={{ delay: 0.15, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
                 style={{
                     background: '#fff',
-                    borderTopLeftRadius: '28px',
-                    borderTopRightRadius: '28px',
-                    padding: '22px 20px 36px',
-                    boxShadow: '0 -8px 30px rgba(0,0,0,0.08)',
+                    borderTopLeftRadius: '22px',
+                    borderTopRightRadius: '22px',
+                    padding: '16px 20px 36px',
+                    boxShadow: '0 -8px 20px rgba(0,0,0,0.08)',
                 }}
             >
+                {/* Drag Indicator */}
+                <div style={{
+                    width: '40px',
+                    height: '4px',
+                    borderRadius: '999px',
+                    background: '#D1D5DB',
+                    margin: '0 auto 16px',
+                }} />
+
                 {/* Stop Name + Icon */}
-                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '16px' }}>
                     <div style={{
-                        width: '44px',
-                        height: '44px',
-                        borderRadius: '14px',
-                        background: 'linear-gradient(135deg, #EA4335, #FF6D5A)',
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        background: '#F1F5F9',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                     }}>
-                        <Bus size={22} color="#fff" strokeWidth={1.8} />
+                        <MapPin size={18} color="#2563EB" strokeWidth={2} />
                     </div>
                     <div style={{ flex: 1 }}>
                         <h2 style={{
                             margin: 0,
-                            fontSize: '17px',
+                            fontSize: '20px',
                             fontWeight: 700,
-                            color: '#111',
+                            color: '#111827',
                             lineHeight: 1.3,
                         }}>
                             {stop.name}
                         </h2>
                         <p style={{
                             margin: '2px 0 0',
-                            fontSize: '12px',
-                            color: '#8E8E93',
+                            fontSize: '14px',
+                            color: '#6B7280',
                             fontWeight: 500,
-                        }}>Bus Stop</p>
+                        }}>{stop.type ? stop.type : 'Bus Stop'}</p>
                     </div>
                 </div>
 
                 {/* Stats Row */}
                 <div style={{
                     display: 'flex',
-                    gap: '12px',
+                    gap: '14px',
                     marginBottom: '18px',
                 }}>
                     <div style={{
@@ -458,23 +467,14 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '10px',
-                        background: '#F0F7FF',
+                        background: '#F8FAFC',
                         padding: '12px 14px',
-                        borderRadius: '14px',
+                        borderRadius: '12px',
                     }}>
-                        <div style={{
-                            width: '36px', height: '36px',
-                            borderRadius: '12px',
-                            background: '#1A73E8',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
-                            <MapPin size={18} color="#fff" />
-                        </div>
+                        <MapPin size={22} color="#6B7280" strokeWidth={1.8} />
                         <div>
-                            <span style={{ display: 'block', fontSize: '11px', color: '#5F6368', fontWeight: 600 }}>Distance</span>
-                            <span style={{ fontSize: '16px', fontWeight: 800, color: '#1A73E8' }}>
+                            <span style={{ display: 'block', fontSize: '13px', color: '#6B7280', fontWeight: 500, marginBottom: '2px' }}>Distance</span>
+                            <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
                                 {primaryDistance}
                             </span>
                         </div>
@@ -484,23 +484,14 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '10px',
-                        background: '#F0FFF4',
+                        background: '#F8FAFC',
                         padding: '12px 14px',
-                        borderRadius: '14px',
+                        borderRadius: '12px',
                     }}>
-                        <div style={{
-                            width: '36px', height: '36px',
-                            borderRadius: '12px',
-                            background: '#137333',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
-                            <Footprints size={18} color="#fff" />
-                        </div>
+                        <Footprints size={22} color="#6B7280" strokeWidth={1.8} />
                         <div>
-                            <span style={{ display: 'block', fontSize: '11px', color: '#5F6368', fontWeight: 600 }}>Walking</span>
-                            <span style={{ fontSize: '16px', fontWeight: 800, color: '#137333' }}>
+                            <span style={{ display: 'block', fontSize: '13px', color: '#6B7280', fontWeight: 500, marginBottom: '2px' }}>Walking</span>
+                            <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
                                 {primaryTime}
                             </span>
                         </div>
@@ -517,24 +508,24 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                     }}
                     style={{
                         width: '100%',
-                        padding: '16px',
-                        background: 'linear-gradient(135deg, #1A73E8, #4285F4)',
-                        color: '#fff',
+                        height: '48px',
+                        background: 'linear-gradient(90deg, #2563EB, #1D4ED8)',
+                        color: 'white',
                         border: 'none',
-                        borderRadius: '16px',
+                        borderRadius: '14px',
                         fontSize: '16px',
-                        fontWeight: 700,
+                        fontWeight: 600,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: '10px',
+                        gap: '8px',
                         cursor: 'pointer',
-                        boxShadow: '0 4px 20px rgba(26, 115, 232, 0.35)',
+                        boxShadow: '0 6px 14px rgba(37,99,235,0.25)',
                     }}
                 >
-                    <Navigation2 size={20} fill="white" strokeWidth={0} />
+                    <Navigation2 size={18} fill="white" strokeWidth={0} />
                     Navigate to Stop
-                </motion.button >
+                </motion.button>
             </motion.div >
         </motion.div >
     );
