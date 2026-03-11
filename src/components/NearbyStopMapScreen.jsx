@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useMemo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Map, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
-import { ArrowLeft, MapPin, Navigation2, Bus, Footprints, Loader2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Navigation2, Bus, Footprints, Loader2, Locate } from 'lucide-react';
 import haptics from '../utils/haptics';
 import { getDistance } from '../utils/locationUtils';
 
@@ -435,7 +435,7 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                         justifyContent: 'center',
                         flexShrink: 0,
                     }}>
-                        <MapPin size={18} color="#2563EB" strokeWidth={2} />
+                        <Locate size={18} color="#2563EB" strokeWidth={2} />
                     </div>
                     <div style={{ flex: 1 }}>
                         <h2 style={{
