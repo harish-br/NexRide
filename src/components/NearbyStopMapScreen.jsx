@@ -426,8 +426,8 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                 {/* Stop Name + Icon */}
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
                     <div style={{
-                        width: '36px',
-                        height: '36px',
+                        width: '44px',
+                        height: '44px',
                         borderRadius: '50%',
                         background: '#F1F5F9',
                         display: 'flex',
@@ -438,7 +438,7 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                         <img 
                             src="/icons/nearby_bus_stop_3d_new.png" 
                             alt="Nearby" 
-                            style={{ width: '24px', height: '24px', objectFit: 'contain' }} 
+                            style={{ width: '36px', height: '36px', objectFit: 'contain' }} 
                         />
                     </div>
                     <div style={{ flex: 1 }}>
