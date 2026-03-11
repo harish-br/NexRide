@@ -339,18 +339,6 @@ const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
 
                         ))}
 
-                        <p
-                            style={{
-                                textAlign: 'center',
-                                marginTop: '22px',
-                                marginBottom: 0,
-                                fontSize: '15px',
-                                color: '#9CA3AF'
-                            }}
-                        >
-                            Tap a stop to view on map
-                        </p>
-
                     </div>
 
                 )}
