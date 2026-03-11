@@ -424,7 +424,7 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                 }} />
 
                 {/* Stop Name + Icon */}
-                <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
                     <div style={{
                         width: '36px',
                         height: '36px',
@@ -435,12 +435,12 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                         justifyContent: 'center',
                         flexShrink: 0,
                     }}>
-                        <Locate size={18} color="#2563EB" strokeWidth={2} />
+                        <MapPin size={18} color="#2563EB" strokeWidth={2} />
                     </div>
                     <div style={{ flex: 1 }}>
                         <h2 style={{
                             margin: 0,
-                            fontSize: '20px',
+                            fontSize: '18px',
                             fontWeight: 700,
                             color: '#111827',
                             lineHeight: 1.3,
