@@ -41,105 +41,88 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                 boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
                 display: 'flex',
                 justifyContent: 'space-between',
-                position: 'relative',
+                alignItems: 'center',
                 cursor: 'pointer'
             }}
         >
             {/* Left Section (Stop Info) */}
-            <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
-
-                {/* Top row */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
+                
+                {/* Stop Name */}
                 <div style={{
                     fontSize: '22px',
                     fontWeight: 700,
+                    lineHeight: 1.2,
                     color: '#111827',
-                    letterSpacing: '-0.01em',
-                    marginBottom: '6px'
+                    wordBreak: 'break-word',
+                    letterSpacing: '-0.01em'
                 }}>
                     {stop.name}
                 </div>
 
-                {/* Second row */}
+                {/* Distance Row */}
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
-                    flexWrap: 'nowrap',
-                    whiteSpace: 'nowrap',
-                    marginTop: '4px',
-                    overflowX: 'auto',
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none'
+                    gap: '8px',
+                    flexWrap: 'wrap'
                 }}>
-                    <style>
-                        {`
-                        .no-scrollbar::-webkit-scrollbar {
-                            display: none;
-                        }
-                        `}
-                    </style>
-                    <div className="no-scrollbar" style={{ display: 'flex', alignItems: 'center' }}>
-                        <span style={{
-                            fontSize: '14px',
-                            fontWeight: 500,
-                            color: '#6B7280'
-                        }}>
-                            {formatDistance(stop.distance)}
-                        </span>
+                    <span style={{
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        color: '#6B7280'
+                    }}>
+                        {formatDistance(stop.distance)}
+                    </span>
 
-                        {stop.type === "Town Bus Stop" && (
-                            <>
-                                <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
-                                <span style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    background: '#ECFDF5',
-                                    color: '#047857',
-                                    padding: '3px 10px',
-                                    borderRadius: '999px',
-                                    fontSize: '12px',
-                                    fontWeight: 600
-                                }}>
-                                    Town Bus Stop
-                                </span>
-                            </>
-                        )}
+                    {stop.type === "Town Bus Stop" && (
+                        <>
+                            <span style={{ color: '#9CA3AF', fontSize: '14px' }}>&middot;</span>
+                            <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                background: '#ECFDF5',
+                                color: '#047857',
+                                padding: '3px 10px',
+                                borderRadius: '999px',
+                                fontSize: '12px',
+                                fontWeight: 600
+                            }}>
+                                Town Bus Stop
+                            </span>
+                        </>
+                    )}
 
-                        {isNearest && (
-                            <>
-                                <span style={{ color: '#9CA3AF', fontSize: '14px', margin: '0 6px' }}>&middot;</span>
-                                <span style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    background: '#ECFDF5',
-                                    color: '#047857',
-                                    padding: '3px 10px',
-                                    borderRadius: '999px',
-                                    fontSize: '12px',
-                                    fontWeight: 600
-                                }}>
-                                    Closest
-                                </span>
-                            </>
-                        )}
-
-                    </div>
+                    {isNearest && (
+                        <>
+                            <span style={{ color: '#9CA3AF', fontSize: '14px' }}>&middot;</span>
+                            <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                background: '#ECFDF5',
+                                color: '#047857',
+                                padding: '3px 10px',
+                                borderRadius: '999px',
+                                fontSize: '12px',
+                                fontWeight: 600
+                            }}>
+                                Closest
+                            </span>
+                        </>
+                    )}
                 </div>
-
             </div>
 
-            {/* Right Section (Walking ETA) */}
+            {/* Right Section (Walk Time + Icon) */}
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'flex-end',
-                paddingRight: '110px',
-                position: 'relative',
-                zIndex: 1,
-                flexShrink: 0,
-                minWidth: 'max-content'
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: '70px',
+                textAlign: 'center',
+                marginLeft: '16px'
             }}>
-
-                {/* Walking ETA */}
                 <div style={{
                     fontSize: '22px',
                     fontWeight: 700,
@@ -148,37 +131,23 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                     <FormatETA distance={stop.distance} />
                 </div>
                 <div style={{
-                    fontSize: '14px',
+                    fontSize: '15px',
                     fontWeight: 600,
                     color: '#16A34A'
                 }}>
                     Walk
                 </div>
-
-            </div>
-
-            {/* Icon - Absolutely positioned to vertically centered right */}
-            <div style={{
-                position: 'absolute',
-                right: '12px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                width: '100px',
-                height: 'auto',
-                opacity: 0.95,
-                zIndex: 0
-            }}>
+                {/* Bus Stop Illustration */}
                 <img
                     src="/icons/nearby_bus_stop_3d_new.png"
                     alt="Nearby"
                     style={{
-                        width: '100%',
-                        height: 'auto',
+                        width: '40px',
+                        marginTop: '6px',
                         objectFit: 'contain'
                     }}
                 />
             </div>
-
         </motion.div>
     );
 };
