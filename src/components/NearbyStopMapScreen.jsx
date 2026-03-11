@@ -456,76 +456,26 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                     </div>
                 </div>
 
-                {/* Stats Row */}
+                {/* Walk Card */}
                 <div style={{
+                    background: '#F8FAFC',
+                    borderRadius: '14px',
+                    padding: '14px',
+                    width: '110px',
                     display: 'flex',
-                    gap: '14px',
-                    marginBottom: '18px',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px'
                 }}>
-                    <div style={{
-                        flex: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        background: '#F8FAFC',
-                        padding: '12px 14px',
-                        borderRadius: '12px',
-                    }}>
-                        <MapPin size={22} color="#6B7280" strokeWidth={1.8} />
-                        <div>
-                            <span style={{ display: 'block', fontSize: '13px', color: '#6B7280', fontWeight: 500, marginBottom: '2px' }}>Distance</span>
-                            <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
-                                {primaryDistance}
-                            </span>
-                        </div>
-                    </div>
-                    <div style={{
-                        flex: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        background: '#F8FAFC',
-                        padding: '12px 14px',
-                        borderRadius: '12px',
-                    }}>
-                        <Footprints size={22} color="#6B7280" strokeWidth={1.8} />
-                        <div>
-                            <span style={{ display: 'block', fontSize: '13px', color: '#6B7280', fontWeight: 500, marginBottom: '2px' }}>Walking</span>
-                            <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
-                                {primaryTime}
-                            </span>
-                        </div>
-                    </div>
+                    <Footprints size={22} color="#111827" strokeWidth={2} />
+                    <span style={{ fontSize: '16px', fontWeight: 600, color: '#111827' }}>
+                        {primaryDistance}
+                    </span>
+                    <span style={{ fontSize: '13px', color: '#6B7280', fontWeight: 500 }}>
+                        {primaryTime}
+                    </span>
                 </div>
-
-                {/* Navigate Button */}
-                <motion.button
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => {
-                        haptics.medium();
-                        const url = `https://www.google.com/maps/dir/?api=1&destination=${stop.latitude},${stop.longitude}&travelmode=walking`;
-                        window.open(url, '_blank');
-                    }}
-                    style={{
-                        width: '100%',
-                        height: '48px',
-                        background: 'linear-gradient(90deg, #2563EB, #1D4ED8)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '14px',
-                        fontSize: '16px',
-                        fontWeight: 600,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '8px',
-                        cursor: 'pointer',
-                        boxShadow: '0 6px 14px rgba(37,99,235,0.25)',
-                    }}
-                >
-                    <Navigation2 size={18} fill="white" strokeWidth={0} />
-                    Navigate to Stop
-                </motion.button>
             </motion.div >
         </motion.div >
     );
