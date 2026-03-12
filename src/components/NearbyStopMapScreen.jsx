@@ -202,7 +202,36 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
             setIsLoadingRoute(false);
         };
 
-        drawDirectionsRoute();
+        const dist = getDistance(
+            userPosition.lat, userPosition.lng,
+            stop.latitude, stop.longitude
+        );
+
+        if (dist < 30) {
+            // ── Very close stop: skip Directions API ──
+            const simplePath = [
+                { lat: userPosition.lat, lng: userPosition.lng },
+                { lat: stop.latitude, lng: stop.longitude },
+            ];
+
+            polylineRef.current = new gm.Polyline({
+                path: simplePath,
+                geodesic: true,
+                strokeColor: '#2563EB',
+                strokeOpacity: 0.9,
+                strokeWeight: 5,
+                map,
+            });
+
+            map.setCenter({ lat: stop.latitude, lng: stop.longitude });
+            map.setZoom(18);
+
+            setIsLoadingRoute(false);
+            setRouteInfo(null); // fallback Haversine values used in UI
+        } else {
+            drawDirectionsRoute();
+        }
+
 
         return cleanup;
     }, [map, markerLibrary, userPosition.lat, userPosition.lng, stop.latitude, stop.longitude, cleanup, setRouteInfo, setIsLoadingRoute]);
