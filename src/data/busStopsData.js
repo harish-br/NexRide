@@ -25,14 +25,8 @@ const busStopsData = [
     {
         id: 4,
         name: "Erode Central Bus Stand",
-        latitude: 11.3410,
-        longitude: 77.7172
-    },
-    {
-        id: 5,
-        name: "Erode New Bus Stand (Perundurai Road)",
-        latitude: 11.3455,
-        longitude: 77.7280
+        latitude: 11.3469070,
+        longitude: 77.7194728
     },
     {
         id: 6,
@@ -160,6 +154,69 @@ const busStopsData = [
         type: "Town Bus Stop",
         latitude: 11.5311085,
         longitude: 77.7080057
+    },
+    {
+        id: "saveetha_bus_stop",
+        name: "Saveetha",
+        type: "Town Bus Stop",
+        latitude: 11.3404255,
+        longitude: 77.7193183
+    },
+    {
+        id: "periyar_govt_hospital_bus_stop",
+        name: "Thanthai Periyar Govt Hospital",
+        type: "Town Bus Stop",
+        latitude: 11.3405188,
+        longitude: 77.7168087
+    },
+    {
+        id: "collector_office_bus_stop",
+        name: "Collector Office",
+        type: "Town Bus Stop",
+        latitude: 11.3351046,
+        longitude: 77.7082391
+    },
+    {
+        id: "teachers_colony_bus_stop",
+        name: "Teachers Colony",
+        type: "Town Bus Stop",
+        latitude: 11.3343110,
+        longitude: 77.7070490
+    },
+    {
+        id: "thindal_bus_stop",
+        name: "Thindal",
+        type: "Town Bus Stop",
+        latitude: 11.3204692,
+        longitude: 77.6765441
+    },
+    {
+        id: "mettukadai_bus_stop",
+        name: "Mettukadai Roundabout",
+        type: "Town Bus Stop",
+        latitude: 11.2987888,
+        longitude: 77.6490511
+    },
+    {
+        id: "vaikkaal_meadu_bus_stop",
+        name: "Vaikkaal Meadu",
+        type: "Town Bus Stop",
+        latitude: 11.2907885,
+        longitude: 77.6176874
+    },
+    {
+        id: "perundurai_police_roundabout_bus_stop",
+        name: "Perundurai Police Station",
+        type: "Town Bus Stop",
+        latitude: 11.2771622,
+        longitude: 77.5869422
+    },
+    {
+        id: "perundurai_new_bus_stand",
+        name: "Perundurai New Bus Stand",
+        type: "Town Bus Stop",
+        latitude: 11.2736828,
+        longitude: 77.5800798
     }
 ];
 
