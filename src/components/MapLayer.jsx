@@ -116,7 +116,132 @@ const LiveLocationMarker = ({ position }) => {
 };
 
 // ------------------------------------------
-// Directions Handler (MANUAL RENDERING)
+// Transit Marker Component (Circle Markers)
+// ------------------------------------------
+const TransitMarker = ({ position, type }) => {
+    const map = useMap();
+    const markerRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            if (markerRef.current) { markerRef.current.setMap(null); markerRef.current = null; }
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!map || !window.google || !position) return;
+        const gMaps = window.google.maps;
+
+        let svgIcon;
+        let size;
+
+        if (type === 'walk-start') {
+            // White center, blue border circle
+            svgIcon = `
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="8" fill="white" stroke="#3B82F6" stroke-width="3"/>
+                    <circle cx="10" cy="10" r="3" fill="#3B82F6"/>
+                </svg>
+            `;
+            size = 20;
+        } else if (type === 'bus-stop') {
+            // Green filled circle with bus icon
+            svgIcon = `
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="14" cy="14" r="13" fill="#16A34A" stroke="white" stroke-width="2"/>
+                    <path d="M9 9.5C9 8.67 9.67 8 10.5 8H17.5C18.33 8 19 8.67 19 9.5V17H9V9.5Z" fill="white" opacity="0.9"/>
+                    <rect x="9" y="17" width="10" height="2" rx="0.5" fill="white" opacity="0.7"/>
+                    <rect x="10" y="18.5" width="2.5" height="2.5" rx="1" fill="#16A34A"/>
+                    <rect x="15.5" y="18.5" width="2.5" height="2.5" rx="1" fill="#16A34A"/>
+                    <line x1="9" y1="13" x2="19" y2="13" stroke="#16A34A" stroke-width="1"/>
+                </svg>
+            `;
+            size = 28;
+        } else if (type === 'walk-end') {
+            // Destination: blue square
+            svgIcon = `
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="16" height="16" rx="4" fill="#1569df" stroke="white" stroke-width="2.5"/>
+                    <rect x="9" y="9" width="6" height="6" rx="1" fill="white"/>
+                </svg>
+            `;
+            size = 24;
+        }
+
+        const icon = {
+            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgIcon),
+            scaledSize: new gMaps.Size(size, size),
+            anchor: new gMaps.Point(size / 2, size / 2),
+        };
+
+        if (!markerRef.current) {
+            markerRef.current = new gMaps.Marker({
+                map, position, icon,
+                zIndex: 200 + (type === 'bus-stop' ? 10 : 0),
+                optimized: false, clickable: false,
+            });
+        } else {
+            markerRef.current.setPosition(position);
+        }
+    }, [map, position, type]);
+
+    return null;
+};
+
+// ------------------------------------------
+// Animated Polyline with draw-on animation
+// ------------------------------------------
+const AnimatedPolyline = ({ path, options }) => {
+    const map = useMap();
+    const polylineRef = useRef(null);
+    const animFrameRef = useRef(null);
+
+    useEffect(() => {
+        if (!map || !path || path.length < 2) return;
+
+        // Cancel existing animation
+        if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+        if (polylineRef.current) { polylineRef.current.setMap(null); polylineRef.current = null; }
+
+        const line = new window.google.maps.Polyline({
+            path: [path[0]],
+            map,
+            ...options,
+        });
+        polylineRef.current = line;
+
+        // Animate drawing
+        const duration = 1000; // ms
+        const start = performance.now();
+
+        const animate = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const pointCount = Math.max(2, Math.floor(progress * path.length));
+            line.setPath(path.slice(0, pointCount));
+            if (progress < 1) {
+                animFrameRef.current = requestAnimationFrame(animate);
+            }
+        };
+        animFrameRef.current = requestAnimationFrame(animate);
+
+        return () => {
+            if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+            line.setMap(null);
+        };
+    }, [map, path]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        if (polylineRef.current) {
+            polylineRef.current.setOptions(options);
+        }
+    }, [options]);
+
+    return null;
+};
+
+// ------------------------------------------
+// Directions Handler (TRANSIT STYLE)
 // ------------------------------------------
 const Directions = ({ origin, destination, onRouteDetailsChange, selectedRouteIndex, onRouteIndexChange }) => {
     const map = useMap();
@@ -132,7 +257,7 @@ const Directions = ({ origin, destination, onRouteDetailsChange, selectedRouteIn
 
         if (!origin || !destination) return;
 
-        console.log("Directions: Fetching manual route...", { origin, destination });
+        console.log("Directions: Fetching transit route...", { origin, destination });
 
         // Helper to extract location
         const getRequestLocation = (loc) => {
@@ -177,7 +302,7 @@ const Directions = ({ origin, destination, onRouteDetailsChange, selectedRouteIn
         }
     }, [selectedRouteIndex, directionsResult, onRouteDetailsChange]);
 
-    // 3. Fit Bounds Logic
+    // 3. Fit Bounds
     useEffect(() => {
         if (map && directionsResult && directionsResult.routes[selectedRouteIndex]) {
             const route = directionsResult.routes[selectedRouteIndex];
@@ -189,77 +314,83 @@ const Directions = ({ origin, destination, onRouteDetailsChange, selectedRouteIn
         }
     }, [directionsResult, selectedRouteIndex, map]);
 
-    // Helpers
-    const getStartLocation = () => directionsResult?.routes[selectedRouteIndex]?.legs[0]?.start_location;
     const getEndLocation = () => directionsResult?.routes[selectedRouteIndex]?.legs[0]?.end_location;
+
+    // 4. Determine style based on distance
+    const getRouteOptions = (route) => {
+        const distanceValue = route.legs[0].distance.value; // in meters
+        
+        if (distanceValue <= 2000) {
+            // Short distance: Dotted blue walking path
+            return {
+                strokeColor: "#2563EB",
+                strokeWeight: 4,
+                strokeOpacity: 0,
+                icons: [{
+                    icon: {
+                        path: "M 0,-1 0,1",
+                        strokeOpacity: 1,
+                        strokeColor: "#2563EB",
+                        scale: 4
+                    },
+                    offset: "0",
+                    repeat: "10px"
+                }],
+                zIndex: 15,
+                geodesic: true
+            };
+        } else {
+            // Long distance: Solid green transit line
+            return {
+                strokeColor: "#16A34A",
+                strokeWeight: 6,
+                strokeOpacity: 1,
+                geodesic: true,
+                lineCap: "round",
+                zIndex: 15
+            };
+        }
+    };
+
+    // Inactive route style (grey, thin)
+    const inactiveOptions = {
+        strokeColor: '#9CA3AF',
+        strokeWeight: 3,
+        strokeOpacity: 0.35,
+        zIndex: 5,
+        geodesic: true,
+    };
 
     return (
         <>
-            {/* MANUAL POLYLINE RENDERING: Unified Ride Style */}
+            {/* INACTIVE ROUTES (grey background) */}
             {directionsResult && directionsResult.routes.map((route, index) => {
-                const isSelected = index === selectedRouteIndex;
-
-                // Style Config: Black for primary (Ride standard), grey for others
-                const color = isSelected ? '#111827' : '#9CA3AF';
-                const zIndex = isSelected ? 100 : 50;
-                const opacity = isSelected ? 1.0 : 0.4;
-                const weight = 4;
-
+                if (index === selectedRouteIndex) return null;
                 return (
                     <Polyline
-                        key={`route-${index}`}
+                        key={`inactive-${index}`}
                         path={route.overview_path}
                         onClick={() => onRouteIndexChange(index)}
-                        options={{
-                            strokeColor: color,
-                            strokeWeight: weight,
-                            strokeOpacity: opacity,
-                            zIndex: zIndex,
-                            geodesic: true,
-                            clickable: !isSelected
-                        }}
+                        options={inactiveOptions}
                     />
                 );
             })}
 
-            {/* MARKERS */}
-            {directionsResult && (
-                <>
-                    {/* START (PICKUP): Green Circle Style */}
-                    {/* START (PICKUP): Green Circle Style (HIDDEN as per user request) */}
-                    {/* <Marker
-                        position={getStartLocation()}
-                        zIndex={200}
-                        icon={{
-                            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                                <svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="16" cy="16" r="12" fill="black" />
-                                    <rect x="13" y="13" width="6" height="6" fill="white" />
-                                    <rect x="15" y="28" width="2" height="12" fill="black" />
-                                    <circle cx="16" cy="44" r="3" fill="black" />
-                                </svg>
-                            `),
-                            scaledSize: new window.google.maps.Size(32, 48),
-                            anchor: new window.google.maps.Point(16, 48),
-                        }}
-                    /> */}
+            {/* ACTIVE ROUTE: Distance-based Style */}
+            {directionsResult && directionsResult.routes[selectedRouteIndex] && (() => {
+                const route = directionsResult.routes[selectedRouteIndex];
+                const options = getRouteOptions(route);
+                
+                return (
+                    <>
+                        <AnimatedPolyline path={route.overview_path} options={options} />
 
-                    {/* END (DESTINATION): Blue Square Style */}
-                    <Marker
-                        position={getEndLocation()}
-                        zIndex={200}
-                        icon={{
-                            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="6" y="6" width="20" height="20" rx="4" fill="#1569df" stroke="white" stroke-width="3" />
-                                </svg>
-                            `),
-                            scaledSize: new window.google.maps.Size(32, 32),
-                            anchor: new window.google.maps.Point(16, 16),
-                        }}
-                    />
-                </>
-            )}
+                        {/* Start and End Markers */}
+                        <TransitMarker position={route.legs[0].start_location} type="walk-start" />
+                        <TransitMarker position={getEndLocation()} type="walk-end" />
+                    </>
+                );
+            })()}
         </>
     );
 };

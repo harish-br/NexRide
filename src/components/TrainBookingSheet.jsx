@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Navigation2, ArrowLeft, ArrowRight, Clock, AlertTriangle } from 'lucide-react'; // Using Lucide icons for consistency
+import { Search, MapPin, Navigation2, ArrowLeft, ArrowRight, Clock, AlertTriangle } from 'lucide-react';
 import { fetchTrainStatus, searchStations, fetchLiveStationData } from '../utils/trainApi';
 import TrainStatusDashboard from './TrainStatusDashboard';
 import GlobalLoader from './GlobalLoader';
@@ -25,6 +25,7 @@ const haptics = {
 };
 
 const trainIconImg = "/icons/train_new_square.jpg"; // Consistent asset
+
 
 // --- Helper Component: Train List Item (Premium Card Style) ---
 const TrainListItem = ({ train }) => {
@@ -516,6 +517,7 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
                                     </p>
                                 </div>
                             )}
+
 
                         </div>
                     </motion.div>

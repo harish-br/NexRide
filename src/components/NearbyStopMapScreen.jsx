@@ -128,14 +128,15 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
             polylineRef.current = new gm.Polyline({
                 path,
                 geodesic: true,
-                strokeColor: '#1A73E8',
+                strokeColor: '#3B82F6',
                 strokeOpacity: 0,
-                strokeWeight: 0,
+                strokeWeight: 4,
                 icons: [{
-                    icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, strokeColor: '#1A73E8', strokeWeight: 4, scale: 3 },
+                    icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.9, strokeColor: '#3B82F6', scale: 4 },
                     offset: '0',
-                    repeat: '16px',
+                    repeat: '14px',
                 }],
+                zIndex: 10,
                 map,
             });
 
@@ -185,9 +186,15 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
             polylineRef.current = new gm.Polyline({
                 path: route.overview_path,
                 geodesic: true,
-                strokeColor: '#2563EB',
-                strokeOpacity: 0.9,
+                strokeColor: '#3B82F6',
+                strokeOpacity: 0,
                 strokeWeight: 4,
+                icons: [{
+                    icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.9, strokeColor: '#3B82F6', scale: 4 },
+                    offset: '0',
+                    repeat: '14px',
+                }],
+                zIndex: 10,
                 map,
             });
 
@@ -217,9 +224,15 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
             polylineRef.current = new gm.Polyline({
                 path: simplePath,
                 geodesic: true,
-                strokeColor: '#2563EB',
-                strokeOpacity: 0.9,
-                strokeWeight: 5,
+                strokeColor: '#3B82F6',
+                strokeOpacity: 0,
+                strokeWeight: 4,
+                icons: [{
+                    icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.9, strokeColor: '#3B82F6', scale: 4 },
+                    offset: '0',
+                    repeat: '14px',
+                }],
+                zIndex: 10,
                 map,
             });
 

@@ -16,6 +16,7 @@ import SearchScreen from './components/SearchScreen';
 
 import BusBookingSheet from './components/BusBookingSheet';
 import TrainBookingSheet from './components/TrainBookingSheet';
+import SuburbanSheet from './components/SuburbanSheet';
 import BusStopDetailsSheet from './components/BusStopDetailsSheet';
 
 import BusResultsScreen from './components/BusResultsScreen';
@@ -87,6 +88,7 @@ export default function App() {
   const [activeScreen, setActiveScreen] = useState(getInitialScreen);
   const [showBusBooking, setShowBusBooking] = useState(false);
   const [showTrainBooking, setShowTrainBooking] = useState(false);
+  const [showSuburbanSheet, setShowSuburbanSheet] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [activeTab, setActiveTab] = useState('home'); // 'home', 'tickets', 'plan', 'profile'
 
@@ -715,6 +717,10 @@ export default function App() {
     setShowTrainBooking(true);
   };
 
+  const handleSuburbanClick = () => {
+    setShowSuburbanSheet(true);
+  };
+
   const handleBusSearch = (from, to) => {
     setBusSearchData({ from, to });
     setShowBusBooking(false);
@@ -992,6 +998,7 @@ export default function App() {
                       onStartSearch={handleStartSearch}
                       onBusClick={handleBusClick}
                       onTrainClick={handleTrainClick}
+                      onSuburbanClick={handleSuburbanClick}
                       onNearbyClick={handleNearbyClick}
                       routeData={routeData}
                       routeStats={routeStats}
@@ -1078,6 +1085,12 @@ export default function App() {
                   // Let's add a dedicated prop `activeTrainLocation` to MapLayer below.
                   setActiveTrainLocation(loc);
                 }}
+              />
+
+              {/* SUBURBAN SHEET (Overlay) */}
+              <SuburbanSheet
+                isOpen={showSuburbanSheet}
+                onClose={() => setShowSuburbanSheet(false)}
               />
 
               {/* IN-APP WEBVIEW (Overlay - Highest Priority) */}

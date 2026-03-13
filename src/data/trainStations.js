@@ -9,8 +9,10 @@ export const TRAIN_STATIONS = [
     { code: 'KRR', name: 'Karur Jn', aliases: ['karur'], lat: 10.9575, lng: 78.0848 },
     { code: 'MTP', name: 'Mettupalayam', aliases: ['mettupalayam'], lat: 11.3006, lng: 76.9405 },
     { code: 'ONR', name: 'Coonoor', aliases: ['coonoor'], lat: 11.3530, lng: 76.7959 },
-    { code: 'UAM', name: 'Udagamandalam', aliases: ['oty', 'ooty'], lat: 11.4064, lng: 76.6948 }
+    { code: 'UAM', name: 'Udagamandalam', aliases: ['oty', 'ooty'], lat: 11.4064, lng: 76.6948 },
+    { code: 'PGT', name: 'Palakkad Town', aliases: ['palakkad', 'palakad', 'pgt', 'palghad'], lat: 10.7867, lng: 76.6548 },
 ];
+
 
 export const searchStations = (query) => {
     if (!query) return [];

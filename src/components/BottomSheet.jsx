@@ -28,6 +28,7 @@ const BottomSheet = ({
     setSelectedRouteIndex,
     onBusClick,
     onTrainClick,
+    onSuburbanClick,
     onNearbyClick,
     userAddress,
     userPosition,
@@ -241,7 +242,7 @@ const BottomSheet = ({
                             <TransportModeRow
                                 onBusClick={onBusClick}
                                 onTrainClick={onTrainClick}
-                                onSuburbanClick={null}
+                                onSuburbanClick={onSuburbanClick}
                                 onNearbyClick={onNearbyClick}
                             />
                             <NextArrivals userAddress={userAddress} userPosition={userPosition} userDistrictInfo={userDistrictInfo} />
