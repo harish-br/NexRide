@@ -321,23 +321,14 @@ const Directions = ({ origin, destination, onRouteDetailsChange, selectedRouteIn
         const distanceValue = route.legs[0].distance.value; // in meters
         
         if (distanceValue <= 2000) {
-            // Short distance: Dotted blue walking path
+            // Short distance: Solid blue line
             return {
                 strokeColor: "#2563EB",
                 strokeWeight: 4,
-                strokeOpacity: 0,
-                icons: [{
-                    icon: {
-                        path: "M 0,-1 0,1",
-                        strokeOpacity: 1,
-                        strokeColor: "#2563EB",
-                        scale: 4
-                    },
-                    offset: "0",
-                    repeat: "10px"
-                }],
+                strokeOpacity: 1,
                 zIndex: 15,
-                geodesic: true
+                geodesic: true,
+                lineCap: "round"
             };
         } else {
             // Long distance: Solid green transit line

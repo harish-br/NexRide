@@ -129,13 +129,8 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
                 path,
                 geodesic: true,
                 strokeColor: '#3B82F6',
-                strokeOpacity: 0,
+                strokeOpacity: 1,
                 strokeWeight: 4,
-                icons: [{
-                    icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.9, strokeColor: '#3B82F6', scale: 4 },
-                    offset: '0',
-                    repeat: '14px',
-                }],
                 zIndex: 10,
                 map,
             });
@@ -187,13 +182,8 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
                 path: route.overview_path,
                 geodesic: true,
                 strokeColor: '#3B82F6',
-                strokeOpacity: 0,
+                strokeOpacity: 1,
                 strokeWeight: 4,
-                icons: [{
-                    icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.9, strokeColor: '#3B82F6', scale: 4 },
-                    offset: '0',
-                    repeat: '14px',
-                }],
                 zIndex: 10,
                 map,
             });
@@ -225,13 +215,8 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
                 path: simplePath,
                 geodesic: true,
                 strokeColor: '#3B82F6',
-                strokeOpacity: 0,
+                strokeOpacity: 1,
                 strokeWeight: 4,
-                icons: [{
-                    icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.9, strokeColor: '#3B82F6', scale: 4 },
-                    offset: '0',
-                    repeat: '14px',
-                }],
                 zIndex: 10,
                 map,
             });
