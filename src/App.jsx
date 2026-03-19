@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import NetworkStatusBanner from './components/NetworkStatusBanner';
 import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from './components/LanguageContext';
@@ -129,7 +130,36 @@ export default function App() {
   // --- INITIALIZATION ---
   useEffect(() => {
     console.log("Initializing App...");
+    
+    // iOS Safari PWA Input Focus Bug Workaround
+    document.addEventListener("touchstart", () => {}, true);
 
+    // 1. INSTANT LOCAL CACHE CHECK (Prioritize Offline Reality)
+    let hasLocalSession = false;
+    try {
+        const session = JSON.parse(localStorage.getItem('userSession') || '{}');
+        hasLocalSession = (session.isLoggedIn === true && session.sessionStatus === 'active');
+        if (!hasLocalSession) hasLocalSession = localStorage.getItem('isLoggedIn') === 'true';
+    } catch (e) {
+        hasLocalSession = localStorage.getItem('isLoggedIn') === 'true';
+    }
+
+    if (hasLocalSession) {
+        console.log("[Auth] Persistent session found locally. Bypassing network wall.");
+        setAuthStatus('authenticated'); // Pre-emptively grant access
+        setShowIntro(false);
+        setNeedsOnboarding(false);
+        setActiveScreen((prev) => prev === 'landing' ? 'home' : prev);
+    } else {
+        if (!navigator.onLine) {
+            console.warn("[Auth] Offline Guest detected. Strictly routing to login.");
+            setActiveScreen('login');
+            setShowIntro(false);
+            setNeedsOnboarding(false);
+        }
+    }
+
+    // 2. BACKGROUND VALIDATION / ONLINE SYNC
     const checkOnboarding = async (uid) => {
       try {
         const docSnap = await getDoc(doc(db, "users", uid));
@@ -147,8 +177,9 @@ export default function App() {
         }
       } catch (err) {
         console.error("Onboarding check failed:", err);
-        setNeedsOnboarding(false); // Was true (Fallback to home instead of blocking)
-        setShowIntro(false); // Was true
+        setNeedsOnboarding(false); // (Fallback to home instead of blocking)
+        setShowIntro(false); 
+        setActiveScreen('home'); // Explicitly allow offline/cached users into the app
       }
     };
 
@@ -158,10 +189,22 @@ export default function App() {
 
       if (currentUser) {
         setAuthStatus('authenticated');
+        localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: true, sessionStatus: 'active', lastLoginAt: Date.now() }));
+        localStorage.setItem('isLoggedIn', 'true'); // Maintain cache
         checkOnboarding(currentUser.uid);
       } else {
-        setAuthStatus('guest');
-        setNeedsOnboarding(false);
+        if (navigator.onLine) {
+            // Strictly online and truly logged out
+            setAuthStatus('guest');
+            localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: false, sessionStatus: 'logged_out' }));
+            localStorage.removeItem('isLoggedIn');
+            setNeedsOnboarding(false);
+        } else if (!hasLocalSession) {
+            // Offline and NO local session
+            setAuthStatus('guest');
+            setNeedsOnboarding(false);
+            setActiveScreen('login');
+        }
       }
     });
 
@@ -778,6 +821,8 @@ export default function App() {
       await signOut(auth);
 
       // Clear User Session Data
+      localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: false, sessionStatus: 'logged_out' }));
+      localStorage.removeItem("isLoggedIn"); // Explicitly drop offline entry bypass token
       localStorage.removeItem("introCompleted"); // Force Intro/Get Started on next load
       localStorage.removeItem("pendingTicket");
 
@@ -817,6 +862,8 @@ export default function App() {
         overflow: 'hidden',
         background: '#fff',
       }}>
+        
+        <NetworkStatusBanner />
 
         {/* Website Landing Page - SEO and Brand First (Only shown on '/') */}
         {activeScreen === 'landing' && (

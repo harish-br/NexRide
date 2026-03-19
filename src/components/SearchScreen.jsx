@@ -4,6 +4,9 @@ import emptyStateImg from '../assets/empty-state-search.png';
 import haptics from '../utils/haptics';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from './LanguageContext';
+import { useSavedPlaces } from '../hooks/useSavedPlaces';
+import SetLocationScreen from './SetLocationScreen';
+import SavedPlacesListModal from './SavedPlacesListModal';
 
 const API_KEY = "AIzaSyDlpxJyvl6FFHQGVO3_i-FsTO_-L9GlLO8";
 
@@ -35,6 +38,12 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
     const [activeInput, setActiveInput] = useState('source'); // Start focused on source if needed
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [offlineWarning, setOfflineWarning] = useState(false);
+
+    // Saved Places
+    const { savedPlaces, savePlace, removePlace, getPlace } = useSavedPlaces();
+    const [locationModalType, setLocationModalType] = useState(null); // 'home' | 'work' | 'custom'
+    const [showSavedPlacesModal, setShowSavedPlacesModal] = useState(false);
 
     // Live Location logic
     // isManualInput=true means user typed something or selected a result.
@@ -104,8 +113,29 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
         }
     }, []);
 
+    // Smart UI reset for Offline badge
+    useEffect(() => {
+        const handleOnline = () => setOfflineWarning(false);
+        const handleOffline = () => setOfflineWarning(true);
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+        window.addEventListener('app:manualRefresh', handleOnline);
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+            window.removeEventListener('app:manualRefresh', handleOnline);
+        };
+    }, []);
+
     // 2. Fetch Suggestions
     const fetchSuggestions = async (input) => {
+        if (!navigator.onLine) {
+            setOfflineWarning(true);
+            setSuggestions([]);
+            return;
+        }
+        setOfflineWarning(false);
+
         if (!input || input.length < 2) return;
         try {
             const response = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
@@ -269,9 +299,35 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
         }
     };
 
+    const handleSavedPlaceClick = (place) => {
+        haptics.light();
+        if (activeInput === 'source') {
+            setSourceQuery(place.name || place.type);
+            setIsManualInput(true);
+            setActiveInput('dest');
+            setShowSavedPlacesModal(false);
+        } else {
+            setDestQuery(place.name || place.type);
+            setShowSavedPlacesModal(false);
+
+            let originData = { name: sourceQuery, isLive: false };
+            if (!isManualInput && userPosition) originData = { ...userPosition, name: sourceQuery, isLive: true };
+            
+            onRouteFound({
+                origin: originData,
+                destination: { name: place.name || place.type, lat: place.lat, lng: place.lng },
+                multiRoutes: []
+            });
+        }
+    };
+
+    const homePlace = getPlace('home');
+    const workPlace = getPlace('work');
+    const customPlaces = savedPlaces.filter(p => p.type === 'custom');
+
     return (
         <div style={{
-            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
             background: '#F5F6FA',
             zIndex: 100, display: 'flex', flexDirection: 'column',
         }}>
@@ -342,6 +398,11 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                                     textOverflow: 'ellipsis'
                                 }}
                             />
+                            {offlineWarning && activeInput === 'source' && (
+                                <div style={{ position: 'absolute', right: '40px', top: '50%', transform: 'translateY(-50%)', color: '#EF4444', fontSize: '12px', fontWeight: '600' }}>
+                                    Offline
+                                </div>
+                            )}
 
                             {/* Live Location Button (Inside Input) */}
                             <button
@@ -387,8 +448,14 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                                     textAlign: isRTL ? 'right' : 'left'
                                 }}
                             />
+                            {offlineWarning && activeInput === 'dest' && (
+                                <div style={{ position: 'absolute', right: '30px', top: '50%', transform: 'translateY(-50%)', color: '#EF4444', fontSize: '12px', fontWeight: '600' }}>
+                                    Offline
+                                </div>
+                            )}
+
                             {destQuery && (
-                                <button onClick={() => { setDestQuery(""); setSuggestions([]); setShowSuggestions(false); }} style={{ background: 'none', border: 'none', padding: 0 }}>
+                                <button onClick={() => { setDestQuery(""); setSuggestions([]); setShowSuggestions(false); setOfflineWarning(false); }} style={{ background: 'none', border: 'none', padding: 0 }}>
                                     <X size={18} color="#9CA3AF" />
                                 </button>
                             )}
@@ -403,21 +470,56 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                 className="no-scrollbar"
                 style={{ display: 'flex', gap: '12px', padding: '0 20px', marginBottom: '10px', overflowX: 'auto' }}
             >
-                <button onClick={() => haptics.light()} style={{
-                    flex: 'none', background: 'white', border: '1px solid #E5E7EB', borderRadius: '50px', padding: '8px 16px',
-                    display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#111827', fontWeight: '600'
-                }}>
-                    <Home size={18} color="#1A73E8" style={{ transform: isRTL ? 'scaleX(-1)' : 'none' }} />
-                    {t('search.add_home')}
-                </button>
-                <button onClick={() => haptics.light()} style={{
-                    flex: 'none', background: 'white', border: '1px solid #E5E7EB', borderRadius: '50px', padding: '8px 16px',
-                    display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#111827', fontWeight: '600'
-                }}>
-                    <Briefcase size={18} color="#1A73E8" style={{ transform: isRTL ? 'scaleX(-1)' : 'none' }} />
-                    {t('search.add_work')}
-                </button>
-                <button onClick={() => haptics.light()} style={{
+                {/* HOME */}
+                {homePlace ? (
+                    <button onClick={() => handleSavedPlaceClick(homePlace)} style={{
+                        flex: 'none', background: 'white', border: '1px solid #E5E7EB', borderRadius: '50px', padding: '8px 16px',
+                        display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#111827', fontWeight: '600'
+                    }}>
+                        <Home size={18} color="#1A73E8" style={{ transform: isRTL ? 'scaleX(-1)' : 'none' }} />
+                        {homePlace.name || 'Home'}
+                    </button>
+                ) : (
+                    <button onClick={() => { haptics.light(); setLocationModalType('home'); }} style={{
+                        flex: 'none', background: 'white', border: '1px solid #E5E7EB', borderRadius: '50px', padding: '8px 16px',
+                        display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#111827', fontWeight: '600'
+                    }}>
+                        <Home size={18} color="#1A73E8" style={{ transform: isRTL ? 'scaleX(-1)' : 'none' }} />
+                        {t('search.add_home')}
+                    </button>
+                )}
+
+                {/* WORK */}
+                {workPlace ? (
+                    <button onClick={() => handleSavedPlaceClick(workPlace)} style={{
+                        flex: 'none', background: 'white', border: '1px solid #E5E7EB', borderRadius: '50px', padding: '8px 16px',
+                        display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#111827', fontWeight: '600'
+                    }}>
+                        <Briefcase size={18} color="#1A73E8" style={{ transform: isRTL ? 'scaleX(-1)' : 'none' }} />
+                        {workPlace.name || 'Work'}
+                    </button>
+                ) : (
+                    <button onClick={() => { haptics.light(); setLocationModalType('work'); }} style={{
+                        flex: 'none', background: 'white', border: '1px solid #E5E7EB', borderRadius: '50px', padding: '8px 16px',
+                        display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#111827', fontWeight: '600'
+                    }}>
+                        <Briefcase size={18} color="#1A73E8" style={{ transform: isRTL ? 'scaleX(-1)' : 'none' }} />
+                        {t('search.add_work')}
+                    </button>
+                )}
+
+                {/* MORE & CUSTOM PLACES */}
+                {customPlaces.map(place => (
+                    <button key={place.id} onClick={() => handleSavedPlaceClick(place)} style={{
+                        flex: 'none', background: 'white', border: '1px solid #E5E7EB', borderRadius: '50px', padding: '8px 16px',
+                        display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#111827', fontWeight: '600'
+                    }}>
+                        <MapPin size={18} color="#1A73E8" />
+                        {place.name}
+                    </button>
+                ))}
+
+                <button onClick={() => { haptics.light(); setShowSavedPlacesModal(true); }} style={{
                     flex: 'none', background: 'white', border: '1px solid #E5E7EB', borderRadius: '50px', padding: '8px 16px',
                     display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#111827', fontWeight: '600'
                 }}>
@@ -500,6 +602,51 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                     {t('search.map_view')}
                 </button>
             </div>
+
+            {/* MODALS */}
+            {locationModalType && (
+                <SetLocationScreen
+                    type={locationModalType}
+                    initialLocation={userPosition}
+                    onClose={() => setLocationModalType(null)}
+                    onSave={(location) => {
+                        let name = 'Custom ' + Math.floor(Math.random() * 100);
+                        let id = Date.now().toString();
+                        if (locationModalType === 'home') {
+                            name = 'Home';
+                            id = 'home';
+                        } else if (locationModalType === 'work') {
+                            name = 'Work';
+                            id = 'work';
+                        } else {
+                            name = location.address.split(',')[0]; // Use first part of address as short name
+                        }
+
+                        savePlace({
+                            id,
+                            type: locationModalType,
+                            name,
+                            lat: location.lat,
+                            lng: location.lng,
+                            address: location.address
+                        });
+                        setLocationModalType(null);
+                    }}
+                />
+            )}
+
+            <SavedPlacesListModal
+                isOpen={showSavedPlacesModal}
+                onClose={() => setShowSavedPlacesModal(false)}
+                savedPlaces={savedPlaces}
+                onSelectPlace={handleSavedPlaceClick}
+                onDeletePlace={removePlace}
+                onAddNewPlace={() => {
+                    setShowSavedPlacesModal(false);
+                    // Add delay to prevent unmount glitch
+                    setTimeout(() => setLocationModalType('custom'), 50); 
+                }}
+            />
 
             <style>{`
                 @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

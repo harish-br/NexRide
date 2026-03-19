@@ -178,7 +178,7 @@ const BottomSheet = ({
                 onDragStart={() => setIsDragging(true)}
                 onDragEnd={handleDragEnd}
                 style={{
-                    position: 'fixed',
+                    position: 'absolute',
                     left: 0,
                     right: 0,
                     bottom: 0,

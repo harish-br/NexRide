@@ -8,7 +8,7 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword
 } from 'firebase/auth';
-import { Github, Loader2, Code2, Mail, User, ArrowLeft, Eye, EyeOff } from 'lucide-react';
+import { Github, Loader2, Code2, Mail, User, ArrowLeft, Eye, EyeOff, WifiOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,19 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
     const [password, setPassword] = useState('');
     const [isSignUp, setIsSignUp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+    // Track network state manually inside login screen
+    useEffect(() => {
+        const handleOnline = () => setIsOffline(false);
+        const handleOffline = () => setIsOffline(true);
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
+    }, []);
 
     // Interval for Animations (every 3 seconds)
     useEffect(() => {
@@ -54,6 +67,8 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
             }
+            localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: true, sessionStatus: 'active', lastLoginAt: Date.now() }));
+            localStorage.setItem('isLoggedIn', 'true');
             haptics.success();
             if (onSuccess) {
                 onSuccess();
@@ -81,6 +96,8 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
             await setPersistence(auth, browserLocalPersistence);
             const result = await signInWithPopup(auth, provider);
             console.log("Social Login Success:", result.user);
+            localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: true, sessionStatus: 'active', lastLoginAt: Date.now() }));
+            localStorage.setItem('isLoggedIn', 'true');
             haptics.success();
             if (onSuccess) {
                 onSuccess();
@@ -107,7 +124,8 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
         try {
             await setPersistence(auth, browserLocalPersistence);
             await signInAnonymously(auth);
-            await signInAnonymously(auth);
+            localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: true, sessionStatus: 'active', lastLoginAt: Date.now() }));
+            localStorage.setItem('isLoggedIn', 'true');
             haptics.success();
             if (onSuccess) {
                 onSuccess();
@@ -131,7 +149,7 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
         backgroundColor: '#000',
         overflow: 'hidden' // Ensure it stays contained
     } : {
-        position: 'fixed', inset: 0,
+        position: 'absolute', inset: 0,
         zIndex: zIndex,
         backgroundColor: '#000',
     };
@@ -207,6 +225,25 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
                 overflowY: 'auto',
                 boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' // Soft shadow return
             }}>
+                
+                {isOffline && (
+                    <div style={{
+                        position: 'absolute', inset: 0, zIndex: 100,
+                        backgroundColor: 'rgba(255,255,255,0.7)',
+                        backdropFilter: 'blur(8px)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexDirection: 'column', gap: '12px',
+                        borderTopLeftRadius: '32px', borderTopRightRadius: '32px'
+                    }}>
+                        <div style={{ background: '#FEF2F2', padding: '16px', borderRadius: '50%' }}>
+                            <WifiOff size={32} color="#EF4444" />
+                        </div>
+                        <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#111827' }}>You are Offline</h3>
+                        <p style={{ margin: 0, fontSize: '14px', color: '#4B5563', textAlign: 'center', maxWidth: '240px' }}>
+                            No internet connection. Please connect to continue.
+                        </p>
+                    </div>
+                )}
 
                 {/* Error Message */}
                 {authError && (

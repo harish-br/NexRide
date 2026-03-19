@@ -140,6 +140,8 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
             const result = await confirmationResult.confirm(otp);
             const user = result.user;
 
+                localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: true, sessionStatus: 'active', lastLoginAt: Date.now() }));
+                localStorage.setItem('isLoggedIn', 'true');
             haptics.success();
             // Default to 'user' mode
             localStorage.setItem('appMode', 'user');
@@ -163,6 +165,8 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                 const result = await signInAnonymously(auth);
                 const user = result.user;
 
+                    localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: true, sessionStatus: 'active', lastLoginAt: Date.now() }));
+                localStorage.setItem('isLoggedIn', 'true');
                 haptics.success();
                 // Flag as developer by attaching property directly to the object 
                 // to preserve getters/prototype chain (Crucial for uid availability)
@@ -223,11 +227,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
             />
 
             {/* Sheet */}
-            <motion.div
-                initial={{ y: '100%' }}
-                animate={{ y: 0 }}
-                exit={{ y: '100%' }}
-                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            <div
                 style={{
                     width: '100%',
                     maxWidth: '480px',
@@ -261,12 +261,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                 {/* Content */}
                 <AnimatePresence mode='wait'>
                     {step === 'phone' && (
-                        <motion.div
-                            key="phone"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                        >
+                        <div key="phone">
                             <motion.h2
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -292,6 +287,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                 <span style={{ fontWeight: '800', fontSize: '18px', marginRight: '12px', paddingRight: '12px', borderRight: '1px solid #D1D5DB', color: '#374151' }}>+91</span>
                                 <input
                                     type="tel"
+                                    onPointerDown={(e) => { setTimeout(() => e.target.focus(), 50); }}
                                     value={phoneNumber}
                                     onChange={(e) => {
                                         const val = e.target.value.replace(/\D/g, '');
@@ -353,16 +349,11 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                     </button>
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     )}
 
                     {step === 'otp' && (
-                        <motion.div
-                            key="otp"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                        >
+                        <div key="otp">
                             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', marginBottom: '8px' }}>
                                 {t('auth_sheet.verify_mobile_title')}
                             </h2>
@@ -379,6 +370,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                 {[...Array(6)].map((_, index) => (
                                     <input
                                         key={index}
+                                        onPointerDown={(e) => { setTimeout(() => e.target.focus(), 50); }}
                                         ref={(el) => (inputRefs.current[index] = el)}
                                         type="text"
                                         inputMode="numeric"
@@ -490,18 +482,13 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                     {resendTimer > 0 ? t('auth_sheet.resend_in', { time: resendTimer }) : t('auth_sheet.resend_code')}
                                 </button>
                             </div>
-                        </motion.div>
+                        </div>
                     )}
 
 
 
                     {step === 'dev' && (
-                        <motion.div
-                            key="dev"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                        >
+                        <div key="dev">
                             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', marginBottom: '8px' }}>
                                 {t('auth_sheet.dev_access')}
                             </h2>
@@ -512,6 +499,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                             <div style={{ backgroundColor: '#F3F4F6', borderRadius: '16px', padding: '16px', marginBottom: '24px' }}>
                                 <input
                                     type="password"
+                                    onPointerDown={(e) => { setTimeout(() => e.target.focus(), 50); }}
                                     value={devCode}
                                     onChange={(e) => {
                                         const val = e.target.value.replace(/\D/g, '');
@@ -540,10 +528,10 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                             >
                                 {t('auth_sheet.verify_access')}
                             </button>
-                        </motion.div>
+                        </div>
                     )}
                 </AnimatePresence>
-            </motion.div>
+            </div>
         </div>
     );
 };
