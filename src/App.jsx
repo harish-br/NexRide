@@ -87,6 +87,33 @@ export default function App() {
   };
 
   const [activeScreen, setActiveScreen] = useState(getInitialScreen);
+
+  const navigateTo = React.useCallback((screen, sheetStateOverride = 'hidden', replace = false) => {
+    let path = '/';
+    if (screen === 'contact') path = '/contact';
+    if (screen === 'terms') path = '/terms';
+    if (screen === 'refund') path = '/refund-policy';
+    if (screen === 'privacy-policy') path = '/privacy-policy';
+    if (screen === 'login') path = '/login';
+    if (screen === 'home') path = '/app';
+    if (screen === 'landing') path = '/';
+
+    const newState = { screen, sheetState: sheetStateOverride };
+    if (replace) {
+      window.history.replaceState(newState, '', path);
+    } else {
+      window.history.pushState(newState, '', path);
+    }
+    setActiveScreen(screen);
+    if (sheetStateOverride && sheetStateOverride !== 'keep') {
+        setSheetState(sheetStateOverride);
+    }
+  }, []);
+
+  const goBack = React.useCallback(() => {
+    window.history.back();
+  }, []);
+
   const [showBusBooking, setShowBusBooking] = useState(false);
   const [showTrainBooking, setShowTrainBooking] = useState(false);
   const [showSuburbanSheet, setShowSuburbanSheet] = useState(false);
@@ -149,11 +176,11 @@ export default function App() {
         setAuthStatus('authenticated'); // Pre-emptively grant access
         setShowIntro(false);
         setNeedsOnboarding(false);
-        setActiveScreen((prev) => prev === 'landing' ? 'home' : prev);
+        if (activeScreen === 'landing') { navigateTo('home', 'collapsed', true); }
     } else {
         if (!navigator.onLine) {
             console.warn("[Auth] Offline Guest detected. Strictly routing to login.");
-            setActiveScreen('login');
+            navigateTo('login', 'hidden');
             setShowIntro(false);
             setNeedsOnboarding(false);
         }
@@ -168,18 +195,18 @@ export default function App() {
           setNeedsOnboarding(false); // Was true
           setShowIntro(false); // Was true
           localStorage.setItem("introCompleted", "true");
-          setActiveScreen('home');
+          navigateTo('home', 'collapsed');
         } else {
           setNeedsOnboarding(false);
           setShowIntro(false);
           localStorage.setItem("introCompleted", "true");
-          setActiveScreen('home'); // Ensure we are on home screen
+          navigateTo('home', 'collapsed'); // Ensure we are on home screen
         }
       } catch (err) {
         console.error("Onboarding check failed:", err);
         setNeedsOnboarding(false); // (Fallback to home instead of blocking)
         setShowIntro(false); 
-        setActiveScreen('home'); // Explicitly allow offline/cached users into the app
+        navigateTo('home', 'collapsed'); // Explicitly allow offline/cached users into the app
       }
     };
 
@@ -203,7 +230,7 @@ export default function App() {
             // Offline and NO local session
             setAuthStatus('guest');
             setNeedsOnboarding(false);
-            setActiveScreen('login');
+            navigateTo('login', 'hidden');
         }
       }
     });
@@ -216,7 +243,7 @@ export default function App() {
     if (authStatus === 'authenticated') {
       localStorage.setItem("introCompleted", "true");
       setShowIntro(false);
-      setActiveScreen('home'); // Skip landing page
+      navigateTo('home', 'collapsed'); // Skip landing page
     } else {
       setShowAuthSheet(true);
     }
@@ -245,7 +272,7 @@ export default function App() {
     setShowAuthSheet(false);
     localStorage.setItem("introCompleted", "true");
     setShowIntro(false);
-    setActiveScreen('home');
+    navigateTo('home', 'collapsed');
   };
 
   // Continuous Location Monitoring & Blocking Logic
@@ -322,7 +349,7 @@ export default function App() {
 
     // 3. Continue State Logic
     setIsManualLocationMode(false);
-    setActiveScreen('home');
+    navigateTo('home', 'collapsed');
     setActiveTab('home');
     setSheetState('collapsed');
     startLocationTracking();
@@ -607,7 +634,7 @@ export default function App() {
   // Handle Hardware Back Button & PopState
   useEffect(() => {
     if (!window.history.state) {
-      window.history.replaceState({ screen: 'home', sheetState: 'collapsed' }, '');
+      window.history.replaceState({ screen: activeScreen, sheetState: sheetState }, '');
     }
 
     const handlePopState = (event) => {
@@ -628,33 +655,10 @@ export default function App() {
   }, []);
 
   // Generic Navigate Function with Replace Support
-  const navigateTo = (screen, sheetStateOverride = 'hidden', replace = false) => {
-    // Map screen to URL path
-    let path = '/';
-    if (screen === 'contact') path = '/contact';
-    if (screen === 'terms') path = '/terms';
-    if (screen === 'refund') path = '/refund-policy';
-    if (screen === 'privacy-policy') path = '/privacy-policy';
-    if (screen === 'login') path = '/login';
-    if (screen === 'home') path = '/app';
-    if (screen === 'landing') path = '/';
-
-    // For other internal screens, we keep '/' (or you could map them too if you wanted deep links)
-
-    const newState = { screen, sheetState: sheetStateOverride };
-    if (replace) {
-      window.history.replaceState(newState, '', path);
-    } else {
-      window.history.pushState(newState, '', path);
-    }
-    setActiveScreen(screen);
-    setSheetState(sheetStateOverride);
-  };
+  // navigateTo hoisted
 
   // Generic Back Function
-  const goBack = () => {
-    window.history.back();
-  };
+  // goBack hoisted
 
   // Handlers
   const handleStartSearch = () => {
@@ -830,7 +834,7 @@ export default function App() {
       setUser(null);
       setAuthStatus('guest');
       setShowIntro(true); // RE-SHOW INTRO SCREEN
-      setActiveScreen('home'); // Reset screen stack
+      navigateTo('home', 'collapsed'); // Reset screen stack
       setActiveTab('home');
       setRouteData(null);
       setBusSearchData(null);

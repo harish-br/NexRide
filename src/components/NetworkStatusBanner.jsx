@@ -12,7 +12,7 @@ const NetworkStatusBanner = () => {
     useEffect(() => {
         const updateStatus = () => {
             const currentStatus = navigator.onLine;
-            
+
             if (!currentStatus) { // Went offline
                 setIsOnline(false);
                 setShowSuccess(false);
@@ -46,7 +46,7 @@ const NetworkStatusBanner = () => {
 
     const handleRefresh = async () => {
         haptics.light();
-        
+
         if (!navigator.onLine) {
             haptics.medium();
             setLocalError('Still no internet connection');
@@ -56,24 +56,24 @@ const NetworkStatusBanner = () => {
 
         setIsRefreshing(true);
         setLocalError('');
-        
+
         try {
             // Actual verification ping to catch lie-fi
             await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' });
-            
+
             // Dispatch manual refresh to listeners
             window.dispatchEvent(new Event('app:manualRefresh'));
-            
+
             setIsOnline(true);
             setVisible(true);
             setShowSuccess(true);
             haptics.success();
-            
+
             setTimeout(() => {
                 setVisible(false);
                 setTimeout(() => setShowSuccess(false), 400);
             }, 2500);
-            
+
         } catch (e) {
             haptics.medium();
             setLocalError('Failed to refresh data');
@@ -83,10 +83,23 @@ const NetworkStatusBanner = () => {
         }
     };
 
+    // Push content below the banner dynamically so back buttons are never covered
+    const BANNER_HEIGHT = 52; // px, approximate height of the banner
+    useEffect(() => {
+        const appRoot = document.getElementById('root');
+        if (!appRoot) return;
+        if (visible) {
+            appRoot.style.paddingTop = `${BANNER_HEIGHT}px`;
+        } else {
+            appRoot.style.paddingTop = '';
+        }
+        return () => { if (appRoot) appRoot.style.paddingTop = ''; };
+    }, [visible]);
+
     return (
         <div style={{
             position: 'fixed',
-            top: 0,
+            top: 'env(safe-area-inset-top, 0px)', // Respect iOS notch / Dynamic Island
             left: 0,
             right: 0,
             zIndex: 9999,
@@ -95,18 +108,18 @@ const NetworkStatusBanner = () => {
             padding: '12px 20px',
             borderBottomLeftRadius: '16px',
             borderBottomRightRadius: '16px',
-            // Backdrop blur to make it premium
             backdropFilter: 'blur(8px)',
             background: isOnline ? 'rgba(34, 197, 94, 0.95)' : 'rgba(244, 194, 107, 0.95)',
             color: isOnline ? 'white' : '#111827',
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
             transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, background 0.3s ease',
-            transform: visible ? 'translateY(0)' : 'translateY(-100%)',
-            opacity: visible ? 1 : 0
+            transform: visible ? 'translateY(0)' : 'translateY(-120%)',
+            opacity: visible ? 1 : 0,
+            pointerEvents: visible ? 'auto' : 'none'
         }}>
-            <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'space-between',
                 width: '100%',
                 maxWidth: '600px'
@@ -117,9 +130,9 @@ const NetworkStatusBanner = () => {
                         {isOnline ? 'Back Online' : (localError || 'No Internet Connection')}
                     </span>
                 </div>
-                
+
                 {!isOnline && (
-                    <button 
+                    <button
                         onClick={handleRefresh}
                         disabled={isRefreshing}
                         style={{
@@ -139,9 +152,9 @@ const NetworkStatusBanner = () => {
                         onMouseDown={(e) => { if (!isRefreshing) e.currentTarget.style.transform = 'scale(0.95)'; }}
                         onMouseUp={(e) => { if (!isRefreshing) e.currentTarget.style.transform = 'scale(1)'; }}
                     >
-                        <RefreshCw 
-                            size={14} 
-                            className={isRefreshing ? "animate-spin" : ""} 
+                        <RefreshCw
+                            size={14}
+                            className={isRefreshing ? "animate-spin" : ""}
                         />
                         Refresh
                     </button>
