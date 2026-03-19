@@ -3,6 +3,10 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { Cashfree } = require('cashfree-pg');
+const admin = require('firebase-admin');
+
+// Initialize Firebase Admin (uses default project credentials)
+admin.initializeApp();
 
 const app = express();
 
@@ -107,6 +111,24 @@ app.get('/api/verify-payment/:orderId', async (req, res) => {
             console.error("Cashfree API Verification Error:", JSON.stringify(error.response.data));
         }
         res.status(500).json({ error: error.response?.data?.message || error.message });
+    }
+});
+
+// 3. Subscribe to FCM Topic API
+app.post('/api/subscribe-topic', async (req, res) => {
+    try {
+        const { token, topic } = req.body;
+        if (!token || !topic) {
+            return res.status(400).json({ error: "Missing token or topic" });
+        }
+
+        console.log(`Subscribing token to topic: ${topic}`);
+        const response = await admin.messaging().subscribeToTopic(token, topic);
+        console.log("Successfully subscribed to topic:", response);
+        res.json({ success: true, message: `Subscribed to ${topic}`, response });
+    } catch (error) {
+        console.error("Error subscribing to topic:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 

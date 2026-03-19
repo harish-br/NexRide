@@ -6,12 +6,34 @@ import { useTranslation } from 'react-i18next';
 import { useLanguage } from './LanguageContext';
 import { auth, db } from '../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { requestNotificationPermissionAndSubscribe } from '../services/fcmService';
 
 const NotificationSettingsScreen = ({ onBack }) => {
     const { t } = useTranslation();
     const { isRTL } = useLanguage();
     const user = auth.currentUser;
     const isGuest = !user;
+
+    const [pushPermissionStatus, setPushPermissionStatus] = useState('default');
+    const [isPushLoading, setIsPushLoading] = useState(false);
+
+    useEffect(() => {
+        if ('Notification' in window) {
+            setPushPermissionStatus(Notification.permission);
+        }
+    }, []);
+
+    const handleEnableSystemPush = async () => {
+        setIsPushLoading(true);
+        const result = await requestNotificationPermissionAndSubscribe();
+        if (result.success) {
+            setPushPermissionStatus('granted');
+        } else {
+            setPushPermissionStatus(Notification.permission);
+            alert(result.error === 'Permission denied' ? "Push Permission Denied in browser settings." : "Failed to subscribe to push notifications.");
+        }
+        setIsPushLoading(false);
+    };
 
     // Default Preferences
     const defaultPreferences = {
@@ -153,6 +175,38 @@ const NotificationSettingsScreen = ({ onBack }) => {
 
             {/* Scrollable Content */}
             <div style={{ flex: 1, overflowY: 'auto', padding: '24px', paddingBottom: '120px' }}>
+                
+                {/* GLOBAL PUSH OPT-IN */}
+                {pushPermissionStatus !== 'granted' && !isGuest && (
+                    <div style={{
+                        backgroundColor: '#FEF2F2', border: '1px solid #FCA5A5',
+                        borderRadius: '16px', padding: '16px', marginBottom: '24px',
+                        display: 'flex', flexDirection: 'column', gap: '12px'
+                    }}>
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                            <div style={{ padding: '8px', backgroundColor: '#FEE2E2', borderRadius: '50%' }}>
+                                <Bell size={20} color="#EF4444" />
+                            </div>
+                            <div>
+                                <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#991B1B' }}>Device Push Disabled</h3>
+                                <p style={{ margin: 0, fontSize: '13px', color: '#B91C1C', marginTop: '2px' }}>Enable notifications to receive live broadcasts.</p>
+                            </div>
+                        </div>
+                        <button
+                            onClick={handleEnableSystemPush}
+                            disabled={isPushLoading}
+                            style={{
+                                width: '100%', padding: '12px', borderRadius: '10px',
+                                backgroundColor: '#DC2626', color: '#FFFFFF', fontWeight: '600',
+                                border: 'none', fontSize: '14px', cursor: 'pointer',
+                                opacity: isPushLoading ? 0.7 : 1
+                            }}
+                        >
+                            {isPushLoading ? 'Connecting...' : 'Enable Push Notifications'}
+                        </button>
+                    </div>
+                )}
+
                 <SectionHeader title={t('notifications.category_alerts')} />
 
                 <ToggleItem
