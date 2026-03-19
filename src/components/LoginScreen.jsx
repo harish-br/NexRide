@@ -11,12 +11,14 @@ import {
 import { Github, Loader2, Code2, Mail, User, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
+import { useTranslation } from 'react-i18next';
 import googleIconData from '../assets/google-icon.json';
 import githubIconData from '../assets/github-icon.json';
 import guestIconData from '../assets/guest-icon.json';
 import haptics from '../utils/haptics';
 
 const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => {
+    const { t } = useTranslation();
     const [authError, setAuthError] = useState(null);
     const googleLottieRef = React.useRef(null);
     const githubLottieRef = React.useRef(null);
@@ -61,9 +63,9 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
         } catch (error) {
             console.error("Email auth error", error);
             let msg = error.message;
-            if (error.code === 'auth/invalid-credential') msg = "Invalid email or password.";
-            if (error.code === 'auth/email-already-in-use') msg = "Email exists. Try signing in.";
-            if (error.code === 'auth/weak-password') msg = "Password too short (min 6 chars).";
+            if (error.code === 'auth/invalid-credential') msg = t('login.invalid_credentials');
+            if (error.code === 'auth/email-already-in-use') msg = t('login.email_exists');
+            if (error.code === 'auth/weak-password') msg = t('login.weak_password');
             setAuthError(msg);
             haptics.error();
             setIsLoading(false);
@@ -88,9 +90,9 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
         } catch (error) {
             console.error("Social login error", error);
             if (error.code === 'auth/popup-closed-by-user') {
-                setAuthError("Sign-in cancelled.");
+                setAuthError(t('login.signin_cancelled'));
             } else {
-                setAuthError("Login failed. Please try again.");
+                setAuthError(t('login.login_failed'));
             }
             haptics.error();
             setIsLoading(false);
@@ -226,7 +228,7 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
                     <div style={{ marginBottom: '16px' }}>
                         <input
                             type="email"
-                            placeholder="Email address"
+                            placeholder={t('login.email_placeholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="login-input"
@@ -236,7 +238,7 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
                     <div style={{ marginBottom: '24px', position: 'relative' }}>
                         <input
                             type={showPassword ? "text" : "password"}
-                            placeholder="Password"
+                            placeholder={t('login.password_placeholder')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="login-input"
@@ -274,7 +276,7 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
                             transition: 'background-color 0.2s'
                         }}
                     >
-                        {isLoading ? <Loader2 className="animate-spin" size={24} /> : (isSignUp ? "Create Account" : "Login")}
+                        {isLoading ? <Loader2 className="animate-spin" size={24} /> : (isSignUp ? t('login.create_account') : t('login.login_button'))}
                     </motion.button>
 
                     <div style={{ textAlign: 'center', marginTop: '16px' }}>
@@ -285,7 +287,7 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
                             }}
                             style={{ fontSize: '14px', color: '#2563EB', fontWeight: '600', cursor: 'pointer' }}
                         >
-                            {isSignUp ? "Already have an account? Login" : "New? Create an account"}
+                            {isSignUp ? t('login.already_have_account') : t('login.new_create_account')}
                         </span>
                     </div>
                 </form>
@@ -339,7 +341,7 @@ const LoginScreen = ({ onBack, zIndex = 40, isEmbedded = false, onSuccess }) => 
                 {/* --- C) LEGAL LINKS --- */}
                 <div style={{ textAlign: 'center' }}>
                     <p style={{ fontSize: '12px', color: '#6B7280', margin: '0 0 4px 0' }}>
-                        By continuing, you agree to our
+                        {t('login.by_continuing')}
                     </p>
                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', fontSize: '12px', fontWeight: '500' }}>
                         <a href="https://docs.google.com/document/d/11kPVyAsOHKo9TgJ1D0y2Mly6g_tegDOKWWMqtZ5C6uU/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" style={{ color: '#374151', textDecoration: 'underline' }}>Terms</a>

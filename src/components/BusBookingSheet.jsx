@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { ArrowLeft, ArrowUpDown, MapPin, Search, QrCode, ScanLine } from 'lucide-react';
+import { ArrowLeft, ArrowUpDown, MapPin, Search, QrCode, ScanLine, TrainFront, Bus, Plane, Landmark, Bed } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
+import { useTranslation } from 'react-i18next';
 import { normalizePlace } from '../utils/busSearchUtils';
 import haptics from '../utils/haptics';
 import { busSchedules } from '../data/busSchedules';
@@ -9,6 +10,7 @@ import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
 const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, userPosition }) => {
+    const { t } = useTranslation();
     // State
     const [source, setSource] = useState(userAddress || "");
     const [destination, setDestination] = useState("");
@@ -38,7 +40,8 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                 setSuggestions(data.suggestions.map(s => ({
                     id: s.placePrediction.placeId || s.placePrediction.place,
                     name: s.placePrediction.structuredFormat?.mainText?.text || s.placePrediction.text?.text,
-                    subtitle: s.placePrediction.structuredFormat?.secondaryText?.text || ''
+                    subtitle: s.placePrediction.structuredFormat?.secondaryText?.text || '',
+                    types: s.placePrediction.types || []
                 })));
             } else {
                 setSuggestions([]);
@@ -177,6 +180,26 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
     }, [source, destination, currentTime]);
 
 
+    const getCategoryIcon = (types) => {
+        const typeSet = new Set(types || []);
+        if (typeSet.has('train_station') || typeSet.has('subway_station') || typeSet.has('transit_station')) {
+            return { icon: <TrainFront size={18} color="#1A73E8" />, bg: 'rgba(26, 115, 232, 0.1)' };
+        }
+        if (typeSet.has('bus_station')) {
+            return { icon: <Bus size={18} color="#EAB308" />, bg: 'rgba(234, 179, 8, 0.1)' };
+        }
+        if (typeSet.has('airport')) {
+            return { icon: <Plane size={18} color="#1A73E8" />, bg: 'rgba(26, 115, 232, 0.1)' };
+        }
+        if (typeSet.has('lodging') || typeSet.has('hotel')) {
+            return { icon: <Bed size={18} color="#9333EA" />, bg: 'rgba(147, 51, 234, 0.1)' };
+        }
+        if (typeSet.has('tourist_attraction') || typeSet.has('museum') || typeSet.has('landmark')) {
+            return { icon: <Landmark size={18} color="#9333EA" />, bg: 'rgba(147, 51, 234, 0.1)' };
+        }
+        return { icon: <MapPin size={18} color="#EAB308" />, bg: 'rgba(234, 179, 8, 0.1)' };
+    };
+
     // ------------------------------------------------------------
     // HANDLERS
     // ------------------------------------------------------------
@@ -277,7 +300,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                     <ArrowLeft size={22} color="#1F2937" />
                                 </button>
                                 <h1 style={{ fontSize: '18px', fontWeight: 600, color: '#111', margin: 0 }}>
-                                    Find Buses
+                                    {t('bus_booking.find_buses')}
                                 </h1>
                             </div>
 
@@ -319,7 +342,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                                             setIsManualInput(true);
                                                         }
                                                     }}
-                                                    placeholder="Start location"
+                                                    placeholder={t('bus_booking.start_location')}
                                                     style={{
                                                         flex: 1, background: 'transparent', border: 'none', outline: 'none',
                                                         fontSize: '16px',
@@ -353,7 +376,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                                     value={destination}
                                                     onChange={(e) => handleInputChange(e.target.value, 'destination')}
                                                     onFocus={() => setActiveInput('destination')}
-                                                    placeholder="Where are you going?"
+                                                    placeholder={t('bus_booking.where_to')}
                                                     style={{
                                                         flex: 1, background: 'transparent', border: 'none', outline: 'none',
                                                         fontSize: '16px', fontWeight: '500', color: '#111827', padding: 0, margin: 0
@@ -374,26 +397,49 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                                 boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
                                                 zIndex: 60
                                             }}>
-                                                {bgSuggestions.map(s => (
-                                                    <div key={s.id} onClick={() => {
-                                                        if (activeInput === 'source') {
-                                                            setSource(s.name);
-                                                            setIsManualInput(true);
-                                                        } else {
-                                                            setDestination(s.name);
-                                                        }
-                                                        setBgSuggestions([]);
-                                                    }}
-                                                        style={{ padding: '16px', borderBottom: '1px solid #F9FAFB', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                        <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                            <MapPin size={16} color="#9CA3AF" />
+                                                {bgSuggestions.map(s => {
+                                                    const { icon, bg } = getCategoryIcon(s.types);
+                                                    return (
+                                                        <div key={s.id} onClick={() => {
+                                                            if (activeInput === 'source') {
+                                                                setSource(s.name);
+                                                                setIsManualInput(true);
+                                                            } else {
+                                                                setDestination(s.name);
+                                                            }
+                                                            setBgSuggestions([]);
+                                                        }}
+                                                            style={{ 
+                                                                padding: '12px 16px', 
+                                                                borderBottom: '1px solid #F9FAFB', 
+                                                                cursor: 'pointer', 
+                                                                display: 'flex', 
+                                                                alignItems: 'center', 
+                                                                gap: '16px',
+                                                                transition: 'background 0.2s'
+                                                            }}
+                                                            onMouseEnter={(e) => e.currentTarget.style.background = '#F9FAFB'}
+                                                            onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                                                        >
+                                                            <div style={{ 
+                                                                width: '40px', 
+                                                                height: '40px', 
+                                                                borderRadius: '50%', 
+                                                                background: bg, 
+                                                                display: 'flex', 
+                                                                alignItems: 'center', 
+                                                                justifyContent: 'center',
+                                                                flexShrink: 0 
+                                                            }}>
+                                                                {icon}
+                                                            </div>
+                                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                                <div style={{ fontSize: '15px', fontWeight: '600', color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.name}</div>
+                                                                {s.subtitle && <div style={{ fontSize: '12px', color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.subtitle}</div>}
+                                                            </div>
                                                         </div>
-                                                        <div style={{ flex: 1 }}>
-                                                            <div style={{ fontSize: '15px', fontWeight: '600', color: '#1F2937' }}>{s.name}</div>
-                                                            {s.subtitle && <div style={{ fontSize: '12px', color: '#9CA3AF' }}>{s.subtitle}</div>}
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                                    );
+                                                })}
                                             </div>
                                         )}
                                     </div>
@@ -404,7 +450,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                     {routeStatus === 'FOUND' && (
                                         <div style={{ marginTop: '24px' }}>
                                             <div style={{ fontSize: '13px', color: '#6B7280', marginBottom: '16px', fontWeight: '600' }}>
-                                                Results from {source} to {destination}
+                                                {t('bus_booking.results_from_to', { source, destination })}
                                             </div>
                                             {upcomingBuses.map((bus, i) => {
                                                 const isTrain = bus.operatorName.toLowerCase().includes('train');
@@ -421,12 +467,12 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                                 const busTotal = h * 60 + m;
 
                                                 const diff = busTotal - currentMinutes;
-                                                let statusLabel = 'ON TIME';
+                                                let statusLabel = t('bus_booking.on_time');
                                                 let statusColor = '#E0F2FE';
                                                 let statusText = '#0369A1';
 
                                                 if (diff <= 15) {
-                                                    statusLabel = 'ARRIVING';
+                                                    statusLabel = t('bus_booking.arriving');
                                                     statusColor = '#DCFCE7';
                                                     statusText = '#166534';
                                                 }
@@ -554,12 +600,10 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                                 <Search size={32} color="#9CA3AF" />
                                             </div>
                                             <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#111827', marginBottom: '8px' }}>
-                                                {routeStatus === 'NO_ROUTE' ? 'Buses not available for this route' : 'No more buses available today'}
+                                                {routeStatus === 'NO_ROUTE' ? t('bus_booking.no_route') : t('bus_booking.no_future_buses')}
                                             </h2>
                                             <p style={{ fontSize: '14px', color: '#6B7280' }}>
-                                                {routeStatus === 'NO_ROUTE' ?
-                                                    'Check your spelling or try a nearby city.' :
-                                                    'Services have ended for the day. Please check back tomorrow.'}
+                                                {routeStatus === 'NO_ROUTE' ? t('bus_booking.no_route_desc') : t('bus_booking.no_future_buses_desc')}
                                             </p>
                                         </div>
                                     )}
@@ -588,10 +632,10 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                     }}
                                 >
                                     <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E' }} />
-                                    <span style={{ fontSize: '13px', fontWeight: 600 }}>Active Ride</span>
+                                    <span style={{ fontSize: '13px', fontWeight: 600 }}>{t('bus_booking.active_ride')}</span>
                                     <span style={{ opacity: 0.5, fontSize: '12px' }}>|</span>
                                     <QrCode size={14} color="white" />
-                                    <span style={{ fontSize: '12px', fontWeight: '600' }}>QR Code</span>
+                                    <span style={{ fontSize: '12px', fontWeight: '600' }}>{t('bus_booking.qr_code')}</span>
                                 </motion.button>
                             </div>
 

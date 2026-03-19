@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Locate, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import haptics from '../utils/haptics';
 import { getDistance } from '../utils/locationUtils';
 import busStopsData from '../data/busStopsData';
@@ -26,6 +27,7 @@ const FormatETA = ({ distance }) => {
 /* ───────────────── Stop Card ───────────────── */
 
 const StopCard = ({ stop, isNearest, onViewMap }) => {
+    const { t } = useTranslation();
     return (
         <motion.div
             whileTap={{ scale: 0.97 }}
@@ -87,7 +89,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                                 fontSize: '12px',
                                 fontWeight: 600
                             }}>
-                                Town Bus Stop
+                                {t('nearby.town_bus_stop')}
                             </span>
                         </>
                     )}
@@ -105,7 +107,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                                 fontSize: '12px',
                                 fontWeight: 600
                             }}>
-                                Closest
+                                {t('nearby.closest')}
                             </span>
                         </>
                     )}
@@ -134,7 +136,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
                     fontWeight: 600,
                     color: '#16A34A'
                 }}>
-                    Walk
+                    {t('nearby.walk')}
                 </div>
                 {/* Bus Stop Illustration */}
                 <img
@@ -154,6 +156,7 @@ const StopCard = ({ stop, isNearest, onViewMap }) => {
 /* ───────────────── Main Screen ───────────────── */
 
 const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
+    const { t } = useTranslation();
 
     const nearbyStops = useMemo(() => {
 
@@ -237,7 +240,7 @@ const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
                             color: '#111'
                         }}
                     >
-                        Nearby Stops
+                        {t('nearby.title')}
                     </h1>
                     <p
                         style={{
@@ -248,8 +251,8 @@ const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
                         }}
                     >
                         {userPosition
-                            ? `Within 2 km • ${nearbyStops.length} stop${nearbyStops.length !== 1 ? 's' : ''}`
-                            : 'Detecting your location'}
+                            ? t('nearby.stops_count', { count: nearbyStops.length, suffix: nearbyStops.length !== 1 ? 's' : '' })
+                            : t('nearby.detecting_location')}
                     </p>
                 </div>
             </div>
@@ -273,7 +276,7 @@ const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
                         }}
                     >
                         <Locate size={36} color="#2563EB" />
-                        <p style={{ fontWeight: 700 }}>Detecting your location</p>
+                        <p style={{ fontWeight: 700 }}>{t('nearby.detecting_location')}</p>
                     </div>
 
                 )}
@@ -287,7 +290,7 @@ const NearbyBusStopsScreen = ({ userPosition, onBack, onViewStopOnMap }) => {
                         }}
                     >
                         <AlertCircle size={36} color="#F59E0B" />
-                        <p style={{ fontWeight: 700 }}>No nearby stops</p>
+                        <p style={{ fontWeight: 700 }}>{t('nearby.no_stops')}</p>
                     </div>
 
                 )}

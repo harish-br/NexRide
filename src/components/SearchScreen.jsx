@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, X, Navigation, LocateFixed, MapPin, ArrowDown, Plus, Home, Briefcase, Loader2, Crosshair, ArrowLeft } from 'lucide-react';
+import { ChevronLeft, X, Navigation, LocateFixed, MapPin, ArrowDown, Plus, Home, Briefcase, Loader2, Crosshair, ArrowLeft, TrainFront, Bus, Plane, Landmark, Bed } from 'lucide-react';
 import emptyStateImg from '../assets/empty-state-search.png';
 import haptics from '../utils/haptics';
 import { useTranslation } from 'react-i18next';
@@ -129,6 +129,7 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                         name: placePrediction.structuredFormat?.mainText?.text || placePrediction.text?.text,
                         subtitle: placePrediction.structuredFormat?.secondaryText?.text || '',
                         distance: (Math.random() * 10 + 1).toFixed(1) + " " + t('common.km'),
+                        types: placePrediction.types || [],
                         original: placePrediction
                     };
                 });
@@ -186,6 +187,26 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
         setSourceQuery(t('common.fetching_location'));
         setActiveInput('dest');
         // Force re-evaluation of useEffect by ensuring state change (already tackled by setIsManualInput(false))
+    };
+
+    const getCategoryIcon = (types) => {
+        const typeSet = new Set(types || []);
+        if (typeSet.has('train_station') || typeSet.has('subway_station') || typeSet.has('transit_station')) {
+            return { icon: <TrainFront size={22} color="#1A73E8" />, bg: 'rgba(26, 115, 232, 0.1)' };
+        }
+        if (typeSet.has('bus_station')) {
+            return { icon: <Bus size={22} color="#EAB308" />, bg: 'rgba(234, 179, 8, 0.1)' };
+        }
+        if (typeSet.has('airport')) {
+            return { icon: <Plane size={22} color="#1A73E8" />, bg: 'rgba(26, 115, 232, 0.1)' };
+        }
+        if (typeSet.has('lodging') || typeSet.has('hotel')) {
+            return { icon: <Bed size={22} color="#9333EA" />, bg: 'rgba(147, 51, 234, 0.1)' };
+        }
+        if (typeSet.has('tourist_attraction') || typeSet.has('museum') || typeSet.has('landmark')) {
+            return { icon: <Landmark size={22} color="#9333EA" />, bg: 'rgba(147, 51, 234, 0.1)' };
+        }
+        return { icon: <MapPin size={22} color="#EAB308" />, bg: 'rgba(234, 179, 8, 0.1)' };
     };
 
     const handleSelect = async (item) => {
@@ -415,18 +436,56 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                     </div>
                 )}
                 {showSuggestions && (
-                    <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '12px', animation: 'fadeInUp 0.3s ease-out' }}>
-                        {suggestions.map((item) => (
-                            <div key={item.id} onClick={() => handleSelect(item)} style={{ background: 'white', borderRadius: '16px', padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
-                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                    <MapPin size={20} color="#6B7280" />
+                    <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '8px', animation: 'fadeInUp 0.3s ease-out' }}>
+                        {suggestions.map((item) => {
+                            const { icon, bg } = getCategoryIcon(item.types);
+                            return (
+                                <div 
+                                    key={item.id} 
+                                    onClick={() => handleSelect(item)} 
+                                    style={{ 
+                                        background: 'white', 
+                                        borderRadius: '16px', 
+                                        padding: '12px 16px', 
+                                        display: 'flex', 
+                                        alignItems: 'center', 
+                                        gap: '16px', 
+                                        cursor: 'pointer', 
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+                                        border: '1px solid #F3F4F6',
+                                        transition: 'transform 0.1s active'
+                                    }}
+                                    onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.98)'}
+                                    onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                >
+                                    <div style={{ 
+                                        width: '44px', 
+                                        height: '44px', 
+                                        borderRadius: '50%', 
+                                        background: bg, 
+                                        display: 'flex', 
+                                        alignItems: 'center', 
+                                        justifyContent: 'center', 
+                                        flexShrink: 0 
+                                    }}>
+                                        {icon}
+                                    </div>
+                                    <div style={{ flex: 1, minWidth: 0 }}>
+                                        <div style={{ fontSize: '16px', fontWeight: 600, color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {item.name}
+                                        </div>
+                                        <div style={{ fontSize: '13px', color: '#6B7280', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {item.subtitle}
+                                        </div>
+                                    </div>
+                                    {item.distance && (
+                                        <div style={{ fontSize: '12px', fontWeight: 600, color: '#9CA3AF', flexShrink: 0 }}>
+                                            {item.distance}
+                                        </div>
+                                    )}
                                 </div>
-                                <div style={{ flex: 1, minWidth: 0 }}>
-                                    <div style={{ fontSize: '16px', fontWeight: 600, color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
-                                    <div style={{ fontSize: '13px', color: '#6B7280', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.subtitle}</div>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
             </div>

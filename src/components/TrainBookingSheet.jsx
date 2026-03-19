@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Navigation2, ArrowLeft, ArrowRight, Clock, AlertTriangle } from 'lucide-react';
+import { Search, MapPin, Navigation2, ArrowLeft, ArrowRight, Clock, AlertTriangle, TrainFront } from 'lucide-react';
 import { fetchTrainStatus, searchStations, fetchLiveStationData } from '../utils/trainApi';
+import { useTranslation } from 'react-i18next';
 import TrainStatusDashboard from './TrainStatusDashboard';
 import GlobalLoader from './GlobalLoader';
 
@@ -98,6 +99,7 @@ const TrainListItem = ({ train }) => {
 };
 
 const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
+    const { t } = useTranslation();
     // 1. Unified Input State
     const [query, setQuery] = useState("");
 
@@ -399,35 +401,37 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
                                             onClick={() => handleStationSelect(station)}
                                             style={{
                                                 background: 'white',
-                                                padding: '16px',
+                                                padding: '12px 16px',
                                                 borderRadius: '16px',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                                                boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+                                                boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
                                                 border: '1px solid #F3F4F6',
-                                                cursor: 'pointer'
+                                                cursor: 'pointer',
+                                                marginBottom: '8px'
                                             }}
                                             whileTap={{ scale: 0.98, backgroundColor: '#F9FAFB' }}
                                         >
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                                                 <div style={{
-                                                    width: '40px', height: '40px', borderRadius: '10px',
-                                                    background: '#EFF6FF', color: '#3B82F6',
-                                                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                                    width: '44px', height: '44px', borderRadius: '50%',
+                                                    background: 'rgba(26, 115, 232, 0.1)', color: '#1A73E8',
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                    flexShrink: 0
                                                 }}>
-                                                    <MapPin size={20} />
+                                                    <TrainFront size={22} />
                                                 </div>
                                                 <div>
-                                                    <div style={{ fontSize: '16px', fontWeight: 600, color: '#1F2937' }}>
+                                                    <div style={{ fontSize: '15px', fontWeight: 600, color: '#111827' }}>
                                                         {station.name}
                                                     </div>
-                                                    <div style={{ fontSize: '13px', color: '#6B7280', fontWeight: '500' }}>
-                                                        {station.aliases?.[0] || "Railway Station"}
+                                                    <div style={{ fontSize: '12px', color: '#6B7280', fontWeight: '500' }}>
+                                                        {station.aliases?.[0] || t('train.railway_station') || "Railway Station"}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div style={{
                                                 padding: '6px 10px', background: '#F3F4F6', borderRadius: '8px',
-                                                fontSize: '13px', fontWeight: 600, color: '#374151', letterSpacing: '0.5px'
+                                                fontSize: '12px', fontWeight: 600, color: '#4B5563', letterSpacing: '0.5px'
                                             }}>
                                                 {station.code}
                                             </div>

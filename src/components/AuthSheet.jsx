@@ -3,9 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RecaptchaVerifier, signInWithPhoneNumber, signInAnonymously } from 'firebase/auth';
 import { auth } from '../firebase';
 import { X, ChevronLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import haptics from '../utils/haptics';
 
 const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
+    const { t } = useTranslation();
     const [step, setStep] = useState('phone'); // phone, otp, driver-code, mode-selection
     const [phoneNumber, setPhoneNumber] = useState('');
     const [otp, setOtp] = useState('');
@@ -79,7 +81,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                         console.log("Recaptcha Solved");
                     },
                     'expired-callback': () => {
-                        setError("Recaptcha expired. Please try again.");
+                        setError(t('auth_sheet.recaptcha_expired'));
                     }
                 });
             } catch (err) {
@@ -90,7 +92,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
 
     const handleSendOtp = async () => {
         if (phoneNumber.length !== 10) {
-            setError("Please enter a valid 10-digit number.");
+            setError(t('auth_sheet.valid_number_required'));
             return;
         }
 
@@ -100,7 +102,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
 
         try {
             if (!window.recaptchaVerifier) {
-                throw new Error("Recaptcha not initialized. Re-opening sheet might help.");
+                throw new Error(t('auth_sheet.recaptcha_init_error'));
             }
             const appVerifier = window.recaptchaVerifier;
             const confirmation = await signInWithPhoneNumber(auth, fullNumber, appVerifier);
@@ -109,13 +111,13 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
         } catch (err) {
             console.error("OTP Error Full:", err);
             if (err.code === 'auth/invalid-phone-number') {
-                setError("Invalid phone number.");
+                setError(t('auth_sheet.invalid_number'));
             } else if (err.code === 'auth/too-many-requests') {
-                setError("Too many attempts. Try again later.");
+                setError(t('auth_sheet.too_many_attempts'));
             } else if (err.code === 'auth/captcha-check-failed') {
-                setError("Captcha failed. Please try again.");
+                setError(t('auth_sheet.captcha_failed'));
             } else {
-                setError(`Failed to send OTP. ${err.message}`);
+                setError(`${t('auth_sheet.failed_send_otp')} ${err.message}`);
             }
 
             // Reset captcha if needed
@@ -145,7 +147,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
         } catch (err) {
             console.error("Verify Error:", err);
             haptics.error();
-            setError("Incorrect OTP. Please try again.");
+            setError(t('auth_sheet.incorrect_otp'));
         } finally {
             setLoading(false);
         }
@@ -177,13 +179,13 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                 onSuccess(enhancedUser);
             } catch (err) {
                 console.error("Dev Auth Error:", err);
-                setError("Failed to create anonymous session.");
+                setError(t('auth_sheet.dev_session_failed'));
             } finally {
                 setLoading(false);
             }
         } else {
             haptics.error();
-            setError("Invalid Developer Code");
+            setError(t('auth_sheet.invalid_dev_code'));
         }
     };
 
@@ -270,14 +272,14 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
                                 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', marginBottom: '8px' }}>
-                                {'Let’s get you moving'}
+                                {t('auth_sheet.title_moving')}
                             </motion.h2>
                             <motion.p
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3 }}
                                 style={{ fontSize: '15px', color: '#000000', marginBottom: '24px' }}>
-                                We’ll send a one-time code to get you started
+                                {t('auth_sheet.subtitle_code')}
                             </motion.p>
 
                             {/* Recaptcha was here */}
@@ -295,7 +297,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                         const val = e.target.value.replace(/\D/g, '');
                                         if (val.length <= 10) setPhoneNumber(val);
                                     }}
-                                    placeholder="Mobile Number"
+                                    placeholder={t('auth_sheet.mobile_number')}
                                     autoFocus
                                     style={{
                                         flex: 1, background: 'transparent', border: 'none',
@@ -318,7 +320,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px'
                                 }}
                             >
-                                Continue
+                                {t('auth_sheet.continue')}
                                 {loading && (
                                     <motion.div
                                         animate={{ rotate: 360 }}
@@ -336,7 +338,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
 
                             <div style={{ marginTop: '16px', textAlign: 'center' }}>
                                 <p style={{ fontSize: '13px', color: '#000000', marginBottom: '8px' }}>
-                                    By clicking continue you agree to our <a href="https://docs.google.com/document/d/11kPVyAsOHKo9TgJ1D0y2Mly6g_tegDOKWWMqtZ5C6uU/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none' }}>T&C's</a>
+                                    {t('auth_sheet.agree_terms')} <a href="https://docs.google.com/document/d/11kPVyAsOHKo9TgJ1D0y2Mly6g_tegDOKWWMqtZ5C6uU/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none' }}>{t('auth_sheet.tnc')}</a>
                                 </p>
                                 <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
                                     <button
@@ -347,7 +349,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                             cursor: 'pointer', padding: '4px'
                                         }}
                                     >
-                                        Developer Access
+                                        {t('auth_sheet.dev_access')}
                                     </button>
                                 </div>
                             </div>
@@ -362,10 +364,10 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                             exit={{ opacity: 0, x: -20 }}
                         >
                             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', marginBottom: '8px' }}>
-                                Verify your mobile number
+                                {t('auth_sheet.verify_mobile_title')}
                             </h2>
                             <p style={{ fontSize: '15px', color: '#000000', marginBottom: '24px' }}>
-                                Enter code sent to +91 {phoneNumber}
+                                {t('auth_sheet.enter_code_sent', { number: phoneNumber })}
                             </p>
 
                             <div style={{
@@ -453,7 +455,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px'
                                 }}
                             >
-                                Verify & Continue
+                                {t('auth_sheet.verify_continue')}
                                 {loading && (
                                     <motion.div
                                         animate={{ rotate: 360 }}
@@ -485,7 +487,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                         cursor: resendTimer > 0 ? 'not-allowed' : 'pointer',
                                     }}
                                 >
-                                    {resendTimer > 0 ? `Resend Code in ${resendTimer}s` : 'Resend Verification Code'}
+                                    {resendTimer > 0 ? t('auth_sheet.resend_in', { time: resendTimer }) : t('auth_sheet.resend_code')}
                                 </button>
                             </div>
                         </motion.div>
@@ -501,10 +503,10 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                             exit={{ opacity: 0, x: -20 }}
                         >
                             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', marginBottom: '8px' }}>
-                                Developer Access
+                                {t('auth_sheet.dev_access')}
                             </h2>
                             <p style={{ fontSize: '15px', color: '#6B7280', marginBottom: '24px' }}>
-                                Enter authorization code
+                                {t('auth_sheet.enter_auth_code')}
                             </p>
 
                             <div style={{ backgroundColor: '#F3F4F6', borderRadius: '16px', padding: '16px', marginBottom: '24px' }}>
@@ -515,7 +517,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                         const val = e.target.value.replace(/\D/g, '');
                                         if (val.length <= 4) setDevCode(val);
                                     }}
-                                    placeholder="Auth Code"
+                                    placeholder={t('auth_sheet.auth_code')}
                                     autoFocus
                                     style={{
                                         width: '100%', background: 'transparent', border: 'none',
@@ -536,7 +538,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                     fontWeight: '600', fontSize: '16px', cursor: devCode.length >= 4 ? 'pointer' : 'not-allowed'
                                 }}
                             >
-                                Verify Access
+                                {t('auth_sheet.verify_access')}
                             </button>
                         </motion.div>
                     )}

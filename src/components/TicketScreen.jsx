@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Clock, Bus, Train, CreditCard } from 'lucide-react';
+import { X, MapPin, Clock, Bus, Train, CreditCard, AlertCircle } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import busIconNew from '../assets/bus_option_new.png';
+import { useTranslation } from 'react-i18next';
 import haptics from '../utils/haptics';
 import GlobalLoader from './GlobalLoader';
 
@@ -17,6 +18,7 @@ const TicketScreen = ({
     isLoading = false,
     paymentStatus = 'idle'
 }) => {
+    const { t } = useTranslation();
     const [fare, setFare] = useState(null);
 
     // Calculate fare when route data changes
@@ -115,7 +117,7 @@ const TicketScreen = ({
                     {/* Header */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                         <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111', margin: 0 }}>
-                            Your Ticket
+                            {t('ticket.your_ticket')}
                         </h2>
                         <motion.button
                             whileTap={{ scale: 0.9 }}
@@ -152,21 +154,21 @@ const TicketScreen = ({
                         <div style={{ padding: '24px', borderBottom: '2px dashed #E5E7EB' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
                                 <div>
-                                    <div style={{ fontSize: '12px', color: '#6B7280', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>From</div>
+                                    <div style={{ fontSize: '12px', color: '#6B7280', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('ticket.from')}</div>
                                     <div style={{ fontSize: '18px', fontWeight: 600, color: '#111', marginTop: '4px' }}>
-                                        {routeData?.origin?.name?.split(',')[0] || 'Origin'}
+                                        {routeData?.origin?.name?.split(',')[0] || t('ticket.origin')}
                                     </div>
                                 </div>
                                 <div style={{ textAlign: 'right' }}>
-                                    <div style={{ fontSize: '12px', color: '#6B7280', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>To</div>
+                                    <div style={{ fontSize: '12px', color: '#6B7280', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('ticket.to')}</div>
                                     <div style={{ fontSize: '18px', fontWeight: 600, color: '#111', marginTop: '4px' }}>
                                         {(() => {
                                             const dest = routeData?.destination;
-                                            if (!dest) return 'Destination';
+                                            if (!dest) return t('ticket.destination');
                                             // If dest is a string (e.g. "Coimbatore"), use it directly
                                             if (typeof dest === 'string') return dest.split(',')[0];
                                             // If dest is an object (e.g. { name: "Coimbatore" }), use .name
-                                            return dest.name?.split(',')[0] || 'Destination';
+                                            return dest.name?.split(',')[0] || t('ticket.destination');
                                         })()}
                                     </div>
                                 </div>
@@ -204,7 +206,7 @@ const TicketScreen = ({
                                         textTransform: 'capitalize',
                                         lineHeight: '1.1'
                                     }}>
-                                        {selectedRoute?.type || 'Transport'}
+                                        {selectedRoute?.type || t('ticket.transport')}
                                     </div>
                                     <div style={{
                                         fontSize: '15px',
@@ -212,7 +214,7 @@ const TicketScreen = ({
                                         color: '#6B7280',
                                         marginTop: '4px'
                                     }}>
-                                        {selectedRoute?.routeNumber || 'Route'}
+                                        {selectedRoute?.routeNumber || t('ticket.route')}
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +225,7 @@ const TicketScreen = ({
                             <div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
                                     <Clock size={16} color="#6B7280" />
-                                    <span style={{ fontSize: '13px', color: '#6B7280', fontWeight: '500' }}>ETA</span>
+                                    <span style={{ fontSize: '13px', color: '#6B7280', fontWeight: '500' }}>{t('ticket.eta')}</span>
                                 </div>
                                 <div style={{ fontSize: '20px', fontWeight: 600, color: '#111' }}>
                                     {routeData?.duration || '--'}
@@ -231,7 +233,7 @@ const TicketScreen = ({
                             </div>
 
                             <div style={{ textAlign: 'right' }}>
-                                <div style={{ fontSize: '13px', color: '#6B7280', fontWeight: '500', marginBottom: '4px' }}>Total Fare</div>
+                                <div style={{ fontSize: '13px', color: '#6B7280', fontWeight: '500', marginBottom: '4px' }}>{t('ticket.total_fare')}</div>
                                 <div style={{ fontSize: '28px', fontWeight: 600, color: '#111' }}>
                                     ₹{fare || '--'}
                                 </div>
@@ -275,8 +277,8 @@ const TicketScreen = ({
                         }}>
                             <AlertCircle size={20} color="#EF4444" />
                             <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '14px', fontWeight: 600, color: '#991B1B' }}>Payment Failed</div>
-                                <div style={{ fontSize: '12px', color: '#B91C1C' }}>Please try again.</div>
+                                <div style={{ fontSize: '14px', fontWeight: 600, color: '#991B1B' }}>{t('ticket.payment_failed')}</div>
+                                <div style={{ fontSize: '12px', color: '#B91C1C' }}>{t('ticket.please_try_again')}</div>
                             </div>
                         </div>
                     )}
@@ -313,7 +315,7 @@ const TicketScreen = ({
                             }}
                         >
                             {!isLoading && <CreditCard size={20} color="#fff" />}
-                            {isLoading || paymentStatus === 'processing' ? 'Processing Payment...' : (paymentStatus === 'failure' ? 'Retry Payment' : 'Proceed to Payment')}
+                            {isLoading || paymentStatus === 'processing' ? t('ticket.processing_payment') : (paymentStatus === 'failure' ? t('ticket.retry_payment') : t('ticket.proceed_payment'))}
                         </motion.button>
                     )}
 

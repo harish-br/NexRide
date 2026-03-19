@@ -30,7 +30,11 @@
         "current_location": "ప్రస్తుత స్థానం",
         "centering_location": "మీ స్థానాన్ని కేంద్రీకరిస్తోంది...",
         "verifying_payment": "చెల్లింపును ధృవీకరిస్తోంది...",
-        "payment_success": "చెల్లింపు ధృవీకరించబడింది: విజయం"
+        "payment_success": "చెల్లింపు ధృవీకరించబడింది: విజయం",
+        "km": "km",
+        "min": "min",
+        "made_with_love": "NexRide • Made with ❤️ in Erode, Tamil Nadu",
+        "copyright": "© {{year}} NexRide. All rights reserved."
     },
     "nav": {
         "home": "హోమ్",
@@ -76,7 +80,10 @@
             "prefer_not_to_say": "చెప్పడానికి ఇష్టపడలేదు"
         },
         "alerts": {
-            "file_too_large": "ఫైల్ చాలా పెద్దది. దయచేసి 1MB కంటే తక్కువ ఉన్న చిత్రాన్ని ఎంచుకోండి."
+            "file_too_large": "ఫైల్ చాలా పెద్దది. దయచేసి 1MB కంటే తక్కువ ఉన్న చిత్రాన్ని ఎంచుకోండి.",
+            "name_required": "Name is required",
+            "invalid_email": "Please enter a valid email address",
+            "email_in_use": "This email is already associated with another account."
         }
     },
     "trips": {
@@ -98,7 +105,11 @@
         "total_paid": "మొత్తం చెల్లించారు",
         "ticket_id": "టికెట్ ఐడి",
         "route": "మార్గం",
-        "close": "మూసివేయి"
+        "close": "మూసివేయి",
+        "active_empty_sub": "Your completed journeys will appear in History",
+        "active_cta": "Book a Ride",
+        "no_history": "No past trips yet",
+        "history_empty_sub": "Your completed journeys will appear here"
     },
     "notifications": {
         "title": "నోటిఫికేషన్లు",
@@ -153,6 +164,218 @@
         "select_contact": "పరిచయాన్ని ఎంచుకోండి",
         "loading_contacts": "పరిచయాలను లోడ్ చేస్తోంది...",
         "no_contacts_found": "పరిచయాలు కనుగొనబడలేదు.",
-        "confirm_contact": "విశ్వసనీయ పరిచయాన్ని ధృవీకరించండి"
+        "confirm_contact": "విశ్వసనీయ పరిచయాన్ని ధృవీకరించండి",
+        "call_confirm": "Call {{name}} ({{number}})?",
+        "relations": {
+            "parent": "Parent",
+            "spouse": "Spouse",
+            "sibling": "Sibling",
+            "friend": "Friend",
+            "relative": "Relative",
+            "other": "Other"
+        },
+        "emergency": {
+            "police": "Police",
+            "medical": "Medical help",
+            "women_helpline": "Women Helpline"
+        },
+        "info": {
+            "privacy_desc": "NexRide is committed to protecting your privacy and personal information.",
+            "privacy_list": {
+                "0": "Your location is used only during active trips to provide navigation and safety features.",
+                "1": "Contact access is requested only to allow you to choose trusted contacts.",
+                "2": "Trusted contacts are never notified without your explicit action or consent.",
+                "3": "NexRide does not sell, rent, or share personal data with third parties.",
+                "4": "All user data is handled securely in accordance with applicable data protection laws."
+            },
+            "account_desc": "NexRide uses industry-standard security practices to protect your account.",
+            "account_list": {
+                "0": "Secure login with encrypted credentials",
+                "1": "Option to change your password at any time",
+                "2": "Support for device-level security (PIN, Face ID, Touch ID)",
+                "3": "Ability to log out from all active devices",
+                "4": "Monitoring of suspicious or unauthorized activity"
+            },
+            "guidelines_desc": "NexRide is built on trust, respect, and safety.",
+            "guidelines_list": {
+                "0": "Treat fellow passengers and drivers with respect",
+                "1": "Harassment, abuse, or threatening behavior is not tolerated",
+                "2": "Use Safety and Emergency features responsibly and only when needed",
+                "3": "False misuse of emergency services may result in account suspension",
+                "4": "Follow local laws and public safety rules during travel"
+            }
+        },
+        "women_safety_banner_title": "Smart protection during your journey",
+        "women_safety_banner_desc": "Silent monitoring features designed to keep you safe without causing panic.",
+        "guardian_title": "Smart Journey Guardian",
+        "guardian_desc": "Silent background monitoring. We detect unexpected stops or route deviations and gently check if you're okay.",
+        "delayed_title": "Delayed Arrival Protection",
+        "delayed_desc": "If you don't reach your destination on time, we'll ask for confirmation before alerting your contacts.",
+        "awareness_title": "Area Awareness",
+        "awareness_desc": "\"This area is quieter at night. Stay alert and keep your phone accessible.\"",
+        "reached_safely": "I've Reached Safely",
+        "reached_safely_desc": "Sends a non-emergency update to your trusted contacts.",
+        "auto_checkin_title": "Auto Safety Check-ins",
+        "auto_checkin_desc": "Receive periodic prompts ('Are you safe?') during long trips or late-night rides.",
+        "customize": "Customize Preferences",
+        "edit": "Edit",
+        "privacy_note": "Women Safety features work only during active journeys and only with your permission. Your location and safety data are never shared without your action."
+    },
+    "search": {
+        "where_to": "Where are you going?",
+        "start_location": "Start location",
+        "add_home": "Add Home",
+        "add_work": "Add Work",
+        "more": "More",
+        "empty_title": "Let's go somewhere",
+        "empty_subtitle": "Start typing to find stops, stations, or places",
+        "map_view": "Map View"
+    },
+    "ride": {
+        "title": "Book a Ride",
+        "subtitle": "Choose your preferred way to travel",
+        "adjust_pickup": "Adjust Pickup",
+        "choose_trip": "Choose a trip",
+        "seats": "{{count}} seats",
+        "standard": "Standard",
+        "confirm_vehicle": "Confirm {{name}}",
+        "confirm_pickup_spot": "Confirm Pickup Spot",
+        "drag_map": "Drag the map to adjust location",
+        "finalizing": "Finalizing...",
+        "confirm_pickup": "Confirm Pickup",
+        "finding_drivers": "Finding drivers...",
+        "cancel": "Cancel",
+        "driver_on_way": "Driver is on the way",
+        "arriving_in": "Arriving in {{eta}}",
+        "otp": "OTP: {{otp}}",
+        "driver": "Driver",
+        "cancel_ride": "Cancel Ride",
+        "no_drivers_found": "No Drivers Found",
+        "retry_later": "Please try again in a few minutes.",
+        "retry": "Retry",
+        "login_required": "Please log in to book a ride.",
+        "driver_cancelled": "Driver cancelled the ride",
+        "trip_distance": "{{distance}}km Trip",
+        "starting_in": "Starting in {{minutes}} mins",
+        "labels": {
+            "earliest": "Earliest",
+            "affordable": "Affordable",
+            "hybrid": "Hybrid"
+        }
+    },
+    "vehicles": {
+        "mini": "Nex Mini",
+        "sedan": "Nex Sedan",
+        "xl": "Nex XL"
+    },
+    "home": {
+        "plan_journey": "Plan your journey",
+        "where_to_go": "Where would you\nlike to go?",
+        "start_search": "Start Search",
+        "modes": {
+            "bus": "Bus",
+            "train": "Train",
+            "suburban": "Suburban",
+            "nearby": "Nearby"
+        }
+    },
+    "next_arrivals": {
+        "title": "Next Arrivals",
+        "for_district": "For {{district}} District",
+        "from_city": "From {{city}}",
+        "outside_range": "Next arrivals are currently available within Erode district.",
+        "no_buses": "No active buses from this location right now",
+        "departed": "Departed",
+        "departing": "Departing",
+        "on_time": "On Time",
+        "govt": "Govt",
+        "private": "Private",
+        "non_stop": "Non-Stop",
+        "min": "min",
+        "hr": "hr"
+    },
+    "login": {
+        "invalid_credentials": "Invalid email or password.",
+        "email_exists": "Email exists. Try signing in.",
+        "weak_password": "Password too short (min 6 chars).",
+        "signin_cancelled": "Sign-in cancelled.",
+        "login_failed": "Login failed. Please try again.",
+        "email_placeholder": "Email address",
+        "password_placeholder": "Password",
+        "create_account": "Create Account",
+        "login_button": "Login",
+        "already_have_account": "Already have an account? Login",
+        "new_create_account": "New? Create an account",
+        "by_continuing": "By continuing, you agree to our"
+    },
+    "bus_booking": {
+        "find_buses": "Find Buses",
+        "start_location": "Start location",
+        "where_to": "Where are you going?",
+        "results_from_to": "Results from {{source}} to {{destination}}",
+        "on_time": "ON TIME",
+        "arriving": "ARRIVING",
+        "no_route": "Buses not available for this route",
+        "no_future_buses": "No more buses available today",
+        "no_route_desc": "Check your spelling or try a nearby city.",
+        "no_future_buses_desc": "Services have ended for the day. Please check back tomorrow.",
+        "active_ride": "Active Ride",
+        "qr_code": "QR Code"
+    },
+    "nearby": {
+        "title": "Nearby Stops",
+        "town_bus_stop": "Town Bus Stop",
+        "closest": "Closest",
+        "walk": "Walk",
+        "stops_count": "Within 2 km • {{count}} stop{{suffix}}",
+        "detecting_location": "Detecting your location",
+        "no_stops": "No nearby stops"
+    },
+    "nearby_map": {
+        "finding_route": "Finding walking route...",
+        "bus_stop": "Bus Stop"
+    },
+    "auth_sheet": {
+        "recaptcha_expired": "Recaptcha expired. Please try again.",
+        "valid_number_required": "Please enter a valid 10-digit number.",
+        "recaptcha_init_error": "Recaptcha not initialized. Re-opening sheet might help.",
+        "invalid_number": "Invalid phone number.",
+        "too_many_attempts": "Too many attempts. Try again later.",
+        "captcha_failed": "Captcha failed. Please try again.",
+        "failed_send_otp": "Failed to send OTP.",
+        "incorrect_otp": "Incorrect OTP. Please try again.",
+        "dev_session_failed": "Failed to create anonymous session.",
+        "invalid_dev_code": "Invalid Developer Code",
+        "title_moving": "Let’s get you moving",
+        "subtitle_code": "We’ll send a one-time code to get you started",
+        "mobile_number": "Mobile Number",
+        "continue": "Continue",
+        "agree_terms": "By clicking continue you agree to our",
+        "tnc": "T&C's",
+        "dev_access": "Developer Access",
+        "verify_mobile_title": "Verify your mobile number",
+        "enter_code_sent": "Enter code sent to +91 {{number}}",
+        "verify_continue": "Verify & Continue",
+        "resend_in": "Resend Code in {{time}}s",
+        "resend_code": "Resend Verification Code",
+        "enter_auth_code": "Enter authorization code",
+        "auth_code": "Auth Code",
+        "verify_access": "Verify Access"
+    },
+    "ticket": {
+        "your_ticket": "Your Ticket",
+        "from": "From",
+        "origin": "Origin",
+        "to": "To",
+        "destination": "Destination",
+        "transport": "Transport",
+        "route": "Route",
+        "eta": "ETA",
+        "total_fare": "Total Fare",
+        "payment_failed": "Payment Failed",
+        "please_try_again": "Please try again.",
+        "processing_payment": "Processing Payment...",
+        "retry_payment": "Retry Payment",
+        "proceed_payment": "Proceed to Payment"
     }
 }

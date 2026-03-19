@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Info, ArrowDown, Navigation, LocateFixed, X, Loader2, ArrowLeft, Banknote, ChevronRight, User, Star, Plus, Minus, Phone } from 'lucide-react';
+import { Search, MapPin, Info, ArrowDown, Navigation, LocateFixed, X, Loader2, ArrowLeft, Banknote, ChevronRight, User, Star, Plus, Minus, Phone, TrainFront, Bus, Plane, Landmark, Bed } from 'lucide-react';
 import { Map, useMap, useMapsLibrary, AdvancedMarker, Marker } from '@vis.gl/react-google-maps';
 import haptics from '../utils/haptics';
 import { rideService } from '../services/rideService';
@@ -294,6 +294,7 @@ const RideScreen = ({ onBookRide, userPosition, userAddress }) => {
                         id: placePrediction.placeId || placePrediction.place,
                         name: placePrediction.structuredFormat?.mainText?.text || placePrediction.text?.text,
                         subtitle: placePrediction.structuredFormat?.secondaryText?.text || '',
+                        types: placePrediction.types || [],
                         original: placePrediction
                     };
                 });
@@ -334,6 +335,26 @@ const RideScreen = ({ onBookRide, userPosition, userAddress }) => {
         const data = await response.json();
         return data.location; // {latitude, longitude}
     }
+
+    const getCategoryIcon = (types) => {
+        const typeSet = new Set(types || []);
+        if (typeSet.has('train_station') || typeSet.has('subway_station') || typeSet.has('transit_station')) {
+            return { icon: <TrainFront size={18} color="#1A73E8" />, bg: 'rgba(26, 115, 232, 0.1)' };
+        }
+        if (typeSet.has('bus_station')) {
+            return { icon: <Bus size={18} color="#EAB308" />, bg: 'rgba(234, 179, 8, 0.1)' };
+        }
+        if (typeSet.has('airport')) {
+            return { icon: <Plane size={18} color="#1A73E8" />, bg: 'rgba(26, 115, 232, 0.1)' };
+        }
+        if (typeSet.has('lodging') || typeSet.has('hotel')) {
+            return { icon: <Bed size={18} color="#9333EA" />, bg: 'rgba(147, 51, 234, 0.1)' };
+        }
+        if (typeSet.has('tourist_attraction') || typeSet.has('museum') || typeSet.has('landmark')) {
+            return { icon: <Landmark size={18} color="#9333EA" />, bg: 'rgba(147, 51, 234, 0.1)' };
+        }
+        return { icon: <MapPin size={18} color="#EAB308" />, bg: 'rgba(234, 179, 8, 0.1)' };
+    };
 
     const handleSelect = async (item) => {
         haptics.light();
@@ -996,15 +1017,43 @@ const RideScreen = ({ onBookRide, userPosition, userAddress }) => {
                                     boxShadow: '0 4px 20px rgba(0,0,0,0.06)'
                                 }}
                             >
-                                {suggestions.map((item) => (
-                                    <div key={item.id} onClick={() => handleSelect(item)} style={{ padding: '16px', display: 'flex', gap: '12px', borderBottom: '1px solid #F3F4F6' }}>
-                                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><MapPin size={16} color="#4B5563" /></div>
-                                        <div style={{ flex: 1, overflow: 'hidden' }}>
-                                            <div style={{ fontSize: '15px', fontWeight: '600', color: '#111827' }}>{item.name}</div>
-                                            <div style={{ fontSize: '13px', color: '#6B7280' }}>{item.subtitle}</div>
+                                {suggestions.map((item) => {
+                                    const { icon, bg } = getCategoryIcon(item.types);
+                                    return (
+                                        <div
+                                            key={item.id}
+                                            onClick={() => handleSelect(item)}
+                                            style={{
+                                                padding: '12px 16px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '16px',
+                                                borderBottom: '1px solid #F3F4F6',
+                                                cursor: 'pointer',
+                                                transition: 'background 0.2s'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.background = '#F9FAFB'}
+                                            onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                                        >
+                                            <div style={{
+                                                width: '40px',
+                                                height: '40px',
+                                                borderRadius: '50%',
+                                                background: bg,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                flexShrink: 0
+                                            }}>
+                                                {icon}
+                                            </div>
+                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                <div style={{ fontSize: '15px', fontWeight: '600', color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                                                <div style={{ fontSize: '12px', color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.subtitle}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </motion.div>
                         )}
                     </AnimatePresence>

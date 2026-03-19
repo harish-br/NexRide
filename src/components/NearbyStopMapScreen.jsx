@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useMemo, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { Map, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { ArrowLeft, MapPin, Navigation2, Bus, Footprints, Loader2, Locate } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import haptics from '../utils/haptics';
 import { getDistance } from '../utils/locationUtils';
 
@@ -267,6 +268,7 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
 
 // ─── Main Map Screen ─────────────────────────────────────────
 const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
+    const { t } = useTranslation();
     const [mapReady, setMapReady] = useState(false);
     const [isLoadingRoute, setIsLoadingRoute] = useState(true);
     const [routeInfo, setRouteInfo] = useState(null);
@@ -369,7 +371,7 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                                 <Loader2 size={18} color="#2563EB" />
                             </motion.div>
                             <span style={{ fontSize: '14px', fontWeight: 600, color: '#333' }}>
-                                Finding walking route...
+                                {t('nearby_map.finding_route')}
                             </span>
                         </motion.div>
                     )}
@@ -484,7 +486,7 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                             fontSize: '14px',
                             color: '#6B7280',
                             fontWeight: 500,
-                        }}>{stop.type ? stop.type : 'Bus Stop'}</p>
+                        }}>{stop.type ? stop.type : t('nearby_map.bus_stop')}</p>
                     </div>
                 </div>
 
