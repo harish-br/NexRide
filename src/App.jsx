@@ -106,7 +106,7 @@ export default function App() {
     }
     setActiveScreen(screen);
     if (sheetStateOverride && sheetStateOverride !== 'keep') {
-        setSheetState(sheetStateOverride);
+      setSheetState(sheetStateOverride);
     }
   }, []);
 
@@ -157,33 +157,33 @@ export default function App() {
   // --- INITIALIZATION ---
   useEffect(() => {
     console.log("Initializing App...");
-    
+
     // iOS Safari PWA Input Focus Bug Workaround
-    document.addEventListener("touchstart", () => {}, true);
+    document.addEventListener("touchstart", () => { }, true);
 
     // 1. INSTANT LOCAL CACHE CHECK (Prioritize Offline Reality)
     let hasLocalSession = false;
     try {
-        const session = JSON.parse(localStorage.getItem('userSession') || '{}');
-        hasLocalSession = (session.isLoggedIn === true && session.sessionStatus === 'active');
-        if (!hasLocalSession) hasLocalSession = localStorage.getItem('isLoggedIn') === 'true';
+      const session = JSON.parse(localStorage.getItem('userSession') || '{}');
+      hasLocalSession = (session.isLoggedIn === true && session.sessionStatus === 'active');
+      if (!hasLocalSession) hasLocalSession = localStorage.getItem('isLoggedIn') === 'true';
     } catch (e) {
-        hasLocalSession = localStorage.getItem('isLoggedIn') === 'true';
+      hasLocalSession = localStorage.getItem('isLoggedIn') === 'true';
     }
 
     if (hasLocalSession) {
-        console.log("[Auth] Persistent session found locally. Bypassing network wall.");
-        setAuthStatus('authenticated'); // Pre-emptively grant access
+      console.log("[Auth] Persistent session found locally. Bypassing network wall.");
+      setAuthStatus('authenticated'); // Pre-emptively grant access
+      setShowIntro(false);
+      setNeedsOnboarding(false);
+      if (activeScreen === 'landing') { navigateTo('home', 'collapsed', true); }
+    } else {
+      if (!navigator.onLine) {
+        console.warn("[Auth] Offline Guest detected. Strictly routing to login.");
+        navigateTo('login', 'hidden');
         setShowIntro(false);
         setNeedsOnboarding(false);
-        if (activeScreen === 'landing') { navigateTo('home', 'collapsed', true); }
-    } else {
-        if (!navigator.onLine) {
-            console.warn("[Auth] Offline Guest detected. Strictly routing to login.");
-            navigateTo('login', 'hidden');
-            setShowIntro(false);
-            setNeedsOnboarding(false);
-        }
+      }
     }
 
     // 2. BACKGROUND VALIDATION / ONLINE SYNC
@@ -205,7 +205,7 @@ export default function App() {
       } catch (err) {
         console.error("Onboarding check failed:", err);
         setNeedsOnboarding(false); // (Fallback to home instead of blocking)
-        setShowIntro(false); 
+        setShowIntro(false);
         navigateTo('home', 'collapsed'); // Explicitly allow offline/cached users into the app
       }
     };
@@ -221,16 +221,16 @@ export default function App() {
         checkOnboarding(currentUser.uid);
       } else {
         if (navigator.onLine) {
-            // Strictly online and truly logged out
-            setAuthStatus('guest');
-            localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: false, sessionStatus: 'logged_out' }));
-            localStorage.removeItem('isLoggedIn');
-            setNeedsOnboarding(false);
+          // Strictly online and truly logged out
+          setAuthStatus('guest');
+          localStorage.setItem('userSession', JSON.stringify({ isLoggedIn: false, sessionStatus: 'logged_out' }));
+          localStorage.removeItem('isLoggedIn');
+          setNeedsOnboarding(false);
         } else if (!hasLocalSession) {
-            // Offline and NO local session
-            setAuthStatus('guest');
-            setNeedsOnboarding(false);
-            navigateTo('login', 'hidden');
+          // Offline and NO local session
+          setAuthStatus('guest');
+          setNeedsOnboarding(false);
+          navigateTo('login', 'hidden');
         }
       }
     });
@@ -866,7 +866,7 @@ export default function App() {
         overflow: 'hidden',
         background: '#fff',
       }}>
-        
+
         <NetworkStatusBanner />
 
         {/* Website Landing Page - SEO and Brand First (Only shown on '/') */}

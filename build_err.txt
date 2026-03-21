@@ -1,0 +1,62 @@
+
+> nexride-agt-new@0.0.0 build
+> vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 2279 modules transformed.
+x Build failed in 8.28s
+error during build:
+src/components/TicketAccessControl.jsx (3:27): "Keypad" is not exported by "node_modules/lucide-react/dist/esm/lucide-react.js", imported by "src/components/TicketAccessControl.jsx".
+file: /Users/harishbr/Downloads/NexRide-main-2/src/components/TicketAccessControl.jsx:3:27
+
+1: import React, { useState, useEffect } from 'react';
+2: import { motion, useTransform, AnimatePresence } from 'framer-motion';
+3: import { BusFront, QrCode, Keypad } from 'lucide-react';
+                              ^
+4: import haptics from '../utils/haptics';
+
+    at getRollupError (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at Module.error (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:17022:16)
+    at Module.traceVariable (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:17478:29)
+    at ModuleScope.findVariable (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:15141:39)
+    at ReturnValueScope.findVariable (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at FunctionBodyScope.findVariable (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at Identifier.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:5462:40)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:12172:15)
+    at ConditionalExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at ArrayExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at Property.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at ObjectExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:12172:15)
+    at Property.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at ObjectExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:12172:15)
+    at LogicalExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at Property.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at ObjectExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:12172:15)
+    at ArrayExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at Property.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at ObjectExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:12172:15)
+    at ReturnStatement.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at BlockStatement.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at ArrowFunctionExpression.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at VariableDeclarator.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at VariableDeclaration.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at Program.bind (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at Module.bindReferences (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:17001:18)
+    at Graph.sortModules (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:22817:20)
+    at Graph.build (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:22715:14)
+    at async file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:23406:13
+    at async catchUnfinishedHookActions (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:22876:16)
+    at async rollupInternal (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/rollup/dist/es/shared/node-entry.js:23401:5)
+    at async build (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:65709:14)
+    at async CAC.<anonymous> (file:///Users/harishbr/Downloads/NexRide-main-2/node_modules/vite/dist/node/cli.js:829:5)
