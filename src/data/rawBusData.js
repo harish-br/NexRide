@@ -1,0 +1,60 @@
+export const rawBusData = [
+  // COIMBATORE
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "18:55", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3297" },
+  { busName: "MSM", route: "Erode → Coimbatore", time: "18:59", type: "Private", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "19:10", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3242" },
+  { busName: "SCP", route: "Erode → Coimbatore", time: "19:14", type: "Private", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "19:24", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N0969" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "19:35", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3292" },
+  { busName: "BALAJ", route: "Erode → Coimbatore", time: "19:40", type: "Private", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "19:50", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3283" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "20:05", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3488" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "20:15", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3139" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "20:20", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3642" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "20:26", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3154" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "20:40", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3385" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "20:50", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3163" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "21:00", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3416" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "21:10", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3335" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "21:20", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3783" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "21:30", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3364" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "21:45", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3517" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "22:15", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3164" },
+  { busName: "TSTCS", route: "Erode → Coimbatore", time: "22:30", type: "Private", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "22:20", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3489" },
+  { busName: "SCP", route: "Erode → Coimbatore", time: "22:40", type: "Private", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "22:45", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3281" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "23:00", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3117" },
+  { busName: "TNSTC", route: "Erode → Coimbatore", time: "23:45", type: "Govt", serviceType: "Non-Stop", vehicleNumber: "N3489" },
+  { busName: "TSTCD", route: "Erode → Coimbatore", time: "23:50", type: "Private", serviceType: "" },
+
+  // PALANI (PRIVATE + TNSTC)
+  { busName: "PSG", route: "Erode → Palani", time: "18:30", type: "Private", serviceType: "" },
+  { busName: "BSBS", route: "Erode → Palani", time: "18:40", type: "Private", serviceType: "" },
+  { busName: "SRRBS", route: "Erode → Palani", time: "18:55", type: "Private", serviceType: "" },
+  { busName: "TSTCM", route: "Erode → Palani", time: "18:30", type: "Private", serviceType: "" },
+
+  { busName: "TNSTC", route: "Erode → Palani", time: "19:10", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "19:20", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "19:30", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "20:30", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "20:45", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "21:00", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "21:30", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "22:00", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "22:30", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "22:50", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "23:00", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Palani", time: "23:55", type: "Govt", serviceType: "" },
+
+  // DHARAPURAM
+  { busName: "TNSTC", route: "Erode → Dharapuram", time: "19:40", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Dharapuram", time: "21:15", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Dharapuram", time: "21:40", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Dharapuram", time: "23:30", type: "Govt", serviceType: "" },
+
+  // KANGAYAM
+  { busName: "TNSTC", route: "Erode → Kangayam", time: "20:55", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Kangayam", time: "22:20", type: "Govt", serviceType: "" },
+  { busName: "TNSTC", route: "Erode → Kangayam", time: "23:45", type: "Govt", serviceType: "" }
+];

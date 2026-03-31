@@ -141,7 +141,7 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
         if (currentCity === 'Anthiyur') {
             filtered = busData.filter(r => r.origin === 'Anthiyur' && r.destination === 'Erode');
         } else if (currentCity === 'Erode') {
-            filtered = busData.filter(r => r.origin === 'Erode' && (r.destination === 'Coimbatore' || r.destination === 'Mettur' || r.destination === 'Sathyamangalam' || r.destination === 'Bengaluru'));
+            filtered = busData.filter(r => r.origin === 'Erode' && ['Coimbatore', 'Mettur', 'Sathyamangalam', 'Bengaluru', 'Palani', 'Dharapuram', 'Kangayam'].includes(r.destination));
         } else if (currentCity === 'Coimbatore') {
             filtered = busData.filter(r => r.origin === 'Coimbatore' && r.destination === 'Erode');
         } else if (currentCity === 'Mettur') {
