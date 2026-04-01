@@ -16,30 +16,6 @@ export const PLACES = [
         name: 'Mettur',
         aliases: ['mtr', 'mettur dam', 'mettur bus stand'],
         subtitle: 'Tamil Nadu'
-    },
-    {
-        id: 'palani',
-        name: 'Palani',
-        aliases: ['plni', 'palani bus stand'],
-        subtitle: 'Tamil Nadu'
-    },
-    {
-        id: 'dharapuram',
-        name: 'Dharapuram',
-        aliases: ['dpm', 'dharapuram bus stand'],
-        subtitle: 'Tamil Nadu'
-    },
-    {
-        id: 'kangayam',
-        name: 'Kangayam',
-        aliases: ['kgm', 'kangayam bus stand'],
-        subtitle: 'Tamil Nadu'
-    },
-    {
-        id: 'anthiyur',
-        name: 'Anthiyur',
-        aliases: ['ant', 'anthiyur bus stand'],
-        subtitle: 'Tamil Nadu'
     }
 ];
 
