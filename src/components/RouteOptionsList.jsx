@@ -8,7 +8,7 @@ import { useLanguage } from './LanguageContext';
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
-const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, selectedRouteIndex, setSelectedRouteIndex }) => {
+const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, selectedRouteIndex, setSelectedRouteIndex, onBookAsm }) => {
     const { t } = useTranslation();
     const { isRTL } = useLanguage();
     // ------------------------------------------------------------
@@ -37,6 +37,7 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
         if (text.includes('erode') || text.includes('erd')) return 'ERD';
         if (text.includes('coimbatore') || text.includes('cbe')) return 'CBE';
         if (text.includes('mettur') || text.includes('mett ur') || text.includes('mtr')) return 'MTR';
+        if (text.includes('anthiyur') || text.includes('ant')) return 'ANT';
 
         return null;
     };
@@ -57,7 +58,7 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
     // RAW SCHEDULE DATA (FULL SET)
     const SCHEDULES = {
         'ERD-CBE': [
-            { time: "4:45 AM", name: "Raja" }, { time: "5:20 AM", name: "Raja" }, { time: "6:00 AM", name: "TNSTC (Non-Stop)" },
+            { time: "4:45 AM", name: "Raja" }, { time: "5:20 AM", name: "A.S.M" }, { time: "6:00 AM", name: "TNSTC (Non-Stop)" },
             { time: "6:00 AM", name: "KKC" }, { time: "6:15 AM", name: "TNSTC (Non-Stop)" }, { time: "6:25 AM", name: "BBS" },
             { time: "6:30 AM", name: "TNSTC (Non-Stop)" }, { time: "6:40 AM", name: "MSM" }, { time: "6:50 AM", name: "LNT" },
             { time: "7:00 AM", name: "TNSTC (Non-Stop)" }, { time: "7:12 AM", name: "SCP" }, { time: "7:28 AM", name: "Nataraja" },
@@ -72,7 +73,7 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
             { time: "6:40 PM", name: "TNSTC (Non-Stop)" }, { time: "8:20 PM", name: "TNSTC (Non-Stop)" }
         ],
         'CBE-ERD': [
-            { time: "6:25 AM", name: "TNSTC NON-STOP" }, { time: "7:25 AM", name: "TNSTC NON-STOP" }, { time: "8:15 AM", name: "TNSTC NON-STOP" },
+            { time: "6:25 AM", name: "TNSTC NON-STOP" }, { time: "7:25 AM", name: "A.S.M" }, { time: "8:15 AM", name: "TNSTC NON-STOP" },
             { time: "8:40 AM", name: "TNSTC NON-STOP" }, { time: "9:30 AM", name: "TNSTC NON-STOP" }, { time: "10:20 AM", name: "TNSTC NON-STOP" },
             { time: "11:25 AM", name: "TNSTC NON-STOP" }, { time: "12:05 PM", name: "TNSTC NON-STOP" }, { time: "12:35 PM", name: "SCP" },
             { time: "12:45 PM", name: "TNSTC NON-STOP" }, { time: "1:00 PM", name: "TNSTC NON-STOP" }, { time: "1:18 PM", name: "MSM" },
@@ -147,6 +148,15 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
             { time: "7:55 pm", name: "Govt" }, { time: "8:00 pm", name: "Private" }, { time: "8:11 pm", name: "Govt" },
             { time: "8:25 pm", name: "Govt" }, { time: "8:35 pm", name: "Govt" }, { time: "9:15 pm", name: "Govt" },
             { time: "9:25 pm", name: "Govt" }, { time: "10:50 pm", name: "Govt" }
+        ],
+        'ANT-ERD': [
+            { time: "5:00 AM", name: "A.S.M" },
+            { time: "6:30 AM", name: "GOVT" },
+            { time: "8:00 AM", name: "A.S.M" },
+            { time: "10:00 AM", name: "GOVT" },
+            { time: "1:00 PM", name: "A.S.M" },
+            { time: "3:30 PM", name: "A.S.M" },
+            { time: "5:45 PM", name: "A.S.M" }
         ]
     };
 
@@ -188,13 +198,26 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
             baseDuration = '1h 30m';
             defaultStops = 'Multiple';
         }
+        // 5. ANTHIYUR (ANT) -> ERODE (ERD)
+        else if (originCode === 'ANT' && destCode === 'ERD') {
+            routeKey = 'ANT-ERD';
+            baseDuration = '1h 15m';
+            defaultStops = 'Multiple';
+        }
 
-        if (!routeKey) return { routes: [], message: "No routes available for this journey" };
+        if (!routeKey) return [];
 
         const rawList = SCHEDULES[routeKey];
         // Use the state currentTime for consistent rendering
         const now = currentTime;
         let foundNext = false; // Flag to identify the 'NEXT' bus after NOW/Departing
+        
+        // Strict normalization for booking lock
+        const normalize = (text) => typeof text === 'string' ? text.trim().toLowerCase() : text?.name?.trim().toLowerCase() || '';
+        const fromInput = normalize(pOrigin);
+        const toInput = normalize(pDest);
+        // relaxed from strict === to includes() to handle Google Maps Place formatting
+        const isAnthiyurToErode = fromInput.includes("anthiyur") && (toInput.includes("erode") || toInput.includes("erd"));
 
         // Time Filter & Labeling
         const futureList = rawList.map((item, idx) => {
@@ -217,6 +240,8 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
             let finalName = item.name;
             let finalType = 'bus';
             let isGovt = false;
+            let isAsm = item.name === "A.S.M";
+            let isBookable = isAnthiyurToErode && isAsm;
 
             // MTR-ERD specific mapping
             if (routeKey === 'MTR-ERD') {
@@ -295,6 +320,8 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
                 id: `${routeKey}-${item.originalIdx}`,
                 type: finalType,
                 isGovt: isGovt,
+                isAsm: isAsm,
+                isBookable: isBookable,
                 tag: tag,
                 tagColor: tagColor,
                 tagTextColor: tagTextColor,
@@ -426,8 +453,20 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
                                     </motion.div>
 
                                     {/* Title & Subtext */}
-                                    <div style={{ fontSize: '16px', fontWeight: 600, color: '#111', marginBottom: '2px' }}>
+                                    <div style={{ fontSize: '16px', fontWeight: 600, color: '#111', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                         {option.routeNumber}
+                                        {option.isBookable && (
+                                            <span style={{
+                                                fontSize: '10px',
+                                                background: '#10B981',
+                                                color: 'white',
+                                                padding: '2px 6px',
+                                                borderRadius: '8px',
+                                                textTransform: 'uppercase'
+                                            }}>
+                                                BOOKING AVAILABLE
+                                            </span>
+                                        )}
                                     </div>
                                     <div style={{ fontSize: '13px', color: '#6B7280', marginBottom: '10px' }}>
                                         {option.subtext}
@@ -446,6 +485,38 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
                                             {option.frequency.replace(t('route_list.every', 'Every') + ' ', '')}
                                         </span>
                                     </div>
+
+                                    {/* A.S.M Call to Action */}
+                                    {option.isBookable && (
+                                        <button 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                
+                                                // HARD BLOCK
+                                                if (!isAnthiyurToErode || !option.isAsm) {
+                                                    alert("Booking available only for A.S.M buses from Anthiyur to Erode");
+                                                    return;
+                                                }
+                                                
+                                                haptics.light();
+                                                if (onBookAsm) onBookAsm(option);
+                                            }}
+                                            style={{
+                                                marginTop: '12px',
+                                                padding: '8px 16px',
+                                                borderRadius: '8px',
+                                                background: '#10B981',
+                                                color: 'white',
+                                                fontSize: '13px',
+                                                fontWeight: '600',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                boxShadow: '0 2px 4px rgba(16, 185, 129, 0.2)'
+                                            }}
+                                        >
+                                            Book Seat
+                                        </button>
+                                    )}
                                 </div>
                             </motion.div>
                         );

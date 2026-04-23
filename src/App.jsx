@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguage } from './components/LanguageContext';
 import MapLayer from './components/MapLayer';
 import LocationFab from './components/LocationFab';
+import ParcelFab from './components/ParcelFab';
 import BottomSheet from './components/BottomSheet';
 import './App.css';
 import { getDistance } from './utils/locationUtils';
@@ -19,6 +20,7 @@ import BusBookingSheet from './components/BusBookingSheet';
 import TrainBookingSheet from './components/TrainBookingSheet';
 import SuburbanSheet from './components/SuburbanSheet';
 import BusStopDetailsSheet from './components/BusStopDetailsSheet';
+import ParcelBookingSheet from './components/ParcelBookingSheet';
 
 import BusResultsScreen from './components/BusResultsScreen';
 import ActiveRideScanner from './components/ActiveRideScanner';
@@ -138,6 +140,7 @@ export default function App() {
   const [showAuthSheet, setShowAuthSheet] = useState(false); // NEW: Auth Sheet State
   const [needsOnboarding, setNeedsOnboarding] = useState(false); // NEW: Onboarding State
   const [showLocationModal, setShowLocationModal] = useState(false); // NEW: Location Modal State
+  const [showParcelBooking, setShowParcelBooking] = useState(false); // NEW: Parcel Booking State
   const [isManualLocationMode, setIsManualLocationMode] = useState(false); // NEW: Manual choice flag
   const [showActiveRideScanner, setShowActiveRideScanner] = useState(false); // NEW: Active Ride Scanner State
   const [selectedNearbyStop, setSelectedNearbyStop] = useState(null); // Nearby Bus Stop Map View
@@ -1153,6 +1156,14 @@ export default function App() {
                 />
               )}
 
+              {/* PARCEL BOOKING SHEET (Overlay) */}
+              <ParcelBookingSheet
+                isOpen={showParcelBooking}
+                onClose={() => setShowParcelBooking(false)}
+                userAddress={userAddress}
+                userPosition={userPosition}
+              />
+
               {/* BUS STOP DETAILS SHEET (Overlay) */}
               <BusStopDetailsSheet
                 stop={selectedBusStop}
@@ -1167,6 +1178,14 @@ export default function App() {
                     isLocating={isLocating}
                     sheetY={sheetY}
                     show={activeTab === 'home' && !showBusBooking && !showTrainBooking}
+                  />
+                  <ParcelFab
+                    onClick={() => {
+                      haptics.medium();
+                      setShowParcelBooking(true);
+                    }}
+                    sheetY={sheetY}
+                    show={activeTab === 'home' && !showBusBooking && !showTrainBooking && !showParcelBooking}
                   />
                   <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
                 </>

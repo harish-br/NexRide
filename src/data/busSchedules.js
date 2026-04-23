@@ -14,7 +14,8 @@ export const busSchedules = [
         to: 'Coimbatore',
         departureTime: bus.time,
         operatorName: bus.operator,
-        serviceType: bus.serviceType || (bus.operator === 'TNSTC' ? 'TNSTC (Non-Stop)' : 'Private')
+        serviceType: bus.serviceType || (bus.operator === 'TNSTC' ? 'TNSTC (Non-Stop)' : 'Private'),
+        bus_type: bus.operator === 'A.S.M' ? 'A.S.M' : 'Standard'
     })),
     ...cbe_erd.map(bus => ({
         routeCode: 'CBE-ERD',
@@ -22,7 +23,8 @@ export const busSchedules = [
         to: 'Erode',
         departureTime: bus.time,
         operatorName: bus.operator,
-        serviceType: bus.serviceType || (bus.operator === 'TNSTC' ? 'TNSTC (Non-Stop)' : 'Private')
+        serviceType: bus.serviceType || (bus.operator === 'TNSTC' ? 'TNSTC (Non-Stop)' : 'Private'),
+        bus_type: bus.operator === 'A.S.M' ? 'A.S.M' : 'Standard'
     })),
     ...erd_mtr.map(bus => ({
         routeCode: 'ERD-MTR',
@@ -70,8 +72,40 @@ export const busSchedules = [
         to: 'Kangayam',
         departureTime: bus.time,
         operatorName: bus.operator,
-        serviceType: bus.operator === 'TNSTC' ? 'Govt' : 'Private'
-    }))
+        serviceType: bus.serviceType || (bus.operator === 'TNSTC' ? 'Govt' : 'Private'),
+        bus_type: bus.operator === 'A.S.M' ? 'A.S.M' : 'Standard'
+    })),
+    // --- Mock A.S.M Buses For Demo ---
+    {
+        routeCode: 'ANT-CBE',
+        from: 'Anthiyur',
+        to: 'Coimbatore',
+        via: 'Gobichettipalayam',
+        departureTime: '06:00 AM', // Close to common time for testing
+        operatorName: 'A.S.M Bus Travel',
+        serviceType: 'Private AC Seater',
+        bus_type: 'A.S.M'
+    },
+    {
+        routeCode: 'ANT-CBE',
+        from: 'Anthiyur',
+        to: 'Coimbatore',
+        via: 'Gobichettipalayam',
+        departureTime: '08:30 AM', // A bit later
+        operatorName: 'A.S.M Bus Travel',
+        serviceType: 'Private Non-AC Sleeper',
+        bus_type: 'A.S.M'
+    },
+    {
+        routeCode: 'ANT-CBE',
+        from: 'Anthiyur',
+        to: 'Coimbatore',
+        via: 'Gobichettipalayam',
+        departureTime: '06:00 PM', // Evening
+        operatorName: 'A.S.M Bus Travel',
+        serviceType: 'Private AC Sleeper',
+        bus_type: 'A.S.M'
+    }
 ];
 
 export const busStops = [

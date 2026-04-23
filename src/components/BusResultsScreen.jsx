@@ -5,6 +5,7 @@ import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
 import { normalizePlace } from '../utils/busSearchUtils';
+import ASMBookingModal from './ASMBookingModal';
 
 const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) => {
     // searchData: { from, to }
@@ -25,6 +26,7 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
     };
 
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [selectedAsmBus, setSelectedAsmBus] = useState(null);
     const listRef = React.useRef(null);
 
     // RESTORE SCROLL POSITION Logic
@@ -104,6 +106,8 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                 results = results.filter(bus =>
                     bus.serviceType.toLowerCase().includes('non-stop')
                 );
+            } else if (filterType === 'A.S.M') {
+                results = results.filter(bus => bus.bus_type === 'A.S.M');
             }
         }
 
@@ -200,7 +204,7 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                 <div style={{ width: '1px', height: '24px', background: '#E5E7EB', margin: '0 4px' }} />
 
                 {/* Filter Chips */}
-                {['All', 'Govt', 'Private', 'Non-Stop'].map(type => (
+                {['All', 'Govt', 'Private', 'Non-Stop', 'A.S.M'].map(type => (
                     <button
                         key={type}
                         onClick={() => setFilterType(type)}
@@ -255,10 +259,10 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                                 <div
                                     key={index}
                                     style={{
-                                        background: 'white',
+                                        background: bus.bus_type === 'A.S.M' ? '#FFFBEB' : 'white',
                                         borderRadius: '16px',
                                         padding: '16px',
-                                        border: '1px solid #F3F4F6',
+                                        border: bus.bus_type === 'A.S.M' ? '1px solid #FCD34D' : '1px solid #F3F4F6',
                                         boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
                                         display: 'flex',
                                         alignItems: 'center',
@@ -268,6 +272,18 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                                         minHeight: '80px'
                                     }}
                                 >
+                                    {/* A.S.M Special Badge */}
+                                    {bus.bus_type === 'A.S.M' && (
+                                        <div style={{
+                                            position: 'absolute', top: 0, left: '16px',
+                                            background: '#F59E0B', color: 'white',
+                                            padding: '2px 8px', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px',
+                                            fontSize: '10px', fontWeight: 'bold', zIndex: 5, letterSpacing: '0.02em', textTransform: 'uppercase'
+                                        }}>
+                                            A.S.M Special
+                                        </div>
+                                    )}
+
                                     {/* 3D Icon - Absolute Right */}
                                     <div style={{
                                         position: 'absolute',
@@ -435,6 +451,22 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                                                     </span>
                                                 );
                                             })()}
+                                            {bus.bus_type === 'A.S.M' && (
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setSelectedAsmBus(bus);
+                                                    }}
+                                                    style={{
+                                                        background: '#F59E0B', color: 'white',
+                                                        border: 'none', borderRadius: '100px',
+                                                        padding: '4px 12px', fontSize: '12px', fontWeight: '600',
+                                                        cursor: 'pointer', zIndex: 10, position: 'relative'
+                                                    }}
+                                                >
+                                                    Book Now
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
 
@@ -455,6 +487,13 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                     )}
                 </div>
             </div>
+
+            {/* A.S.M Booking Modal */}
+            <ASMBookingModal 
+                isOpen={!!selectedAsmBus} 
+                onClose={() => setSelectedAsmBus(null)} 
+                bus={selectedAsmBus} 
+            />
         </div >
     );
 };

@@ -10,6 +10,7 @@ import GuestSelectionScreen from './GuestSelectionScreen';
 import TicketScreen from './TicketScreen';
 import RouteCard from './RouteCard';
 import UnderDevelopmentRoutes from './UnderDevelopmentRoutes';
+import AsmBookingPanel from './AsmBookingPanel';
 import paymentService from '../services/paymentService';
 import haptics from '../utils/haptics';
 import { useTranslation } from 'react-i18next';
@@ -50,6 +51,10 @@ const BottomSheet = ({
     // Guest Selection State
     const [isGuestSelectionVisible, setIsGuestSelectionVisible] = useState(false);
     const [ticketMeta, setTicketMeta] = useState({ count: 1, totalFare: null });
+
+    // A.S.M Booking State
+    const [isAsmBookingVisible, setIsAsmBookingVisible] = useState(false);
+    const [selectedAsmRoute, setSelectedAsmRoute] = useState(null);
 
     const contentRef = useRef(null);
 
@@ -232,7 +237,34 @@ const BottomSheet = ({
                     }}
                 >
                     {routeData ? (
-                        <UnderDevelopmentRoutes onBack={onClearRoute} />
+                        isAsmBookingVisible ? (
+                            <AsmBookingPanel 
+                                route={selectedAsmRoute} 
+                                onClose={() => setIsAsmBookingVisible(false)} 
+                            />
+                        ) : (
+                            <RouteOptionsList 
+                                routeStats={routeStats} 
+                                origin={routeData.origin} 
+                                destination={routeData.destination} 
+                                onStartNavigation={() => { console.log('Navigation coming soon') }}
+                                selectedRouteIndex={selectedRouteIndex}
+                                setSelectedRouteIndex={setSelectedRouteIndex}
+                                onBookAsm={(route) => {
+                                    setSelectedAsmRoute({
+                                        ...route,
+                                        origin: routeData.origin?.name?.split(',')[0] || routeData.origin,
+                                        destination: routeData.destination?.name?.split(',')[0] || routeData.destination
+                                    });
+                                    setIsAsmBookingVisible(true);
+                                    // Expand sheet to show form well
+                                    if (sheetState !== 'expanded') {
+                                        setSheetState('expanded');
+                                        controls.start({ y: snapPoints.expanded });
+                                    }
+                                }}
+                            />
+                        )
                     ) : (
                         <>
                             <div style={{ padding: '0 4px', marginBottom: '16px' }}>
