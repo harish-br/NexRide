@@ -78,12 +78,12 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
             const sIdx = parseInt(sourceStop.id.replace(/\D/g, '')) || 0;
             const dIdx = parseInt(destinationStop.id.replace(/\D/g, '')) || 0;
             const diff = Math.abs(sIdx - dIdx);
-            
+
             // Formula: Base 50, Max 200, scales with distance
             const baseFare = 50;
-            const distanceRate = diff * 5; 
+            const distanceRate = diff * 5;
             const total = baseFare + distanceRate;
-            
+
             return Math.min(200, Math.max(50, total));
         }
         return 0;
@@ -236,19 +236,19 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
 
     const ReviewParcelOverlay = ({ onClose, onConfirm }) => {
         const dividerStyle = { height: '1px', background: '#E5E7EB', margin: '20px 0' };
-        const sectionTitleStyle = { 
-            fontSize: '18px', fontWeight: 600, color: '#111827', 
-            marginTop: '24px', marginBottom: '12px' 
+        const sectionTitleStyle = {
+            fontSize: '18px', fontWeight: 600, color: '#111827',
+            marginTop: '24px', marginBottom: '12px'
         };
-        const bodyTextStyle = { 
-            fontSize: '16px', fontWeight: 400, color: '#374151', 
-            lineHeight: '1.6' 
+        const bodyTextStyle = {
+            fontSize: '16px', fontWeight: 400, color: '#374151',
+            lineHeight: '1.6'
         };
-        const secondaryTextStyle = { 
-            fontSize: '14px', color: '#6B7280', 
-            lineHeight: '1.5' 
+        const secondaryTextStyle = {
+            fontSize: '14px', color: '#6B7280',
+            lineHeight: '1.5'
         };
-        
+
         return (
             <motion.div
                 initial={{ y: '100%' }}
@@ -261,8 +261,8 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                 }}
             >
                 {/* Header */}
-                <div style={{ 
-                    padding: '16px 20px', display: 'flex', alignItems: 'center', 
+                <div style={{
+                    padding: '16px 20px', display: 'flex', alignItems: 'center',
                     background: '#FFFFFF', position: 'sticky', top: 0, zIndex: 10,
                     borderBottom: '1px solid #E5E7EB'
                 }}>
@@ -277,7 +277,7 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
 
                 <div style={{ flex: 1, overflowY: 'auto' }}>
                     <div style={{ padding: '16px 20px 40px 20px' }}>
-                        
+
                         {/* Section 1: Guidelines */}
                         <div style={{ marginBottom: '28px' }}>
                             <h3 style={sectionTitleStyle}>Review package guidelines</h3>
@@ -332,8 +332,8 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                 </div>
 
                 {/* Fixed CTA Footer */}
-                <div style={{ 
-                    padding: '20px', paddingBottom: 'env(safe-area-inset-bottom, 24px)', 
+                <div style={{
+                    padding: '20px', paddingBottom: 'env(safe-area-inset-bottom, 24px)',
                     background: '#FFFFFF', borderTop: '1px solid #E5E7EB'
                 }}>
                     <motion.button
@@ -390,8 +390,8 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                                 <SelectionOverlay type={activeDropdown} onClose={() => setActiveDropdown(null)} />
                             )}
                             {showReview && (
-                                <ReviewParcelOverlay 
-                                    onClose={() => setShowReview(false)} 
+                                <ReviewParcelOverlay
+                                    onClose={() => setShowReview(false)}
                                     onConfirm={handleConfirm}
                                 />
                             )}
@@ -493,9 +493,9 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                             </div>
 
                             {/* SECTION 2: ROUTE SELECTION (Simplified for Overlay Trigger) */}
-                            <div style={{ 
-                                marginBottom: '28px', 
-                                opacity: selectedOperator ? 1 : 0.6, 
+                            <div style={{
+                                marginBottom: '28px',
+                                opacity: selectedOperator ? 1 : 0.6,
                                 pointerEvents: selectedOperator ? 'auto' : 'none',
                                 filter: selectedOperator ? 'none' : 'grayscale(0.5)',
                                 transition: '0.3s'
@@ -503,11 +503,11 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                                 <label style={{ fontSize: '13px', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', marginBottom: '10px', display: 'block', letterSpacing: '0.8px' }}>
                                     Route Selection {!selectedOperator && <span style={{ fontSize: '10px', textTransform: 'none', color: '#94A3B8', fontWeight: 500 }}>(Select operator first)</span>}
                                 </label>
-                                
+
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                     {/* Trigger From */}
-                                    <div 
-                                        onClick={() => { if(selectedOperator) { setActiveDropdown('from'); setIsOperatorListOpen(false); } }}
+                                    <div
+                                        onClick={() => { if (selectedOperator) { setActiveDropdown('from'); setIsOperatorListOpen(false); } }}
                                         style={{
                                             background: '#F8FAFC', padding: '20px', borderRadius: '16px', border: '1px solid #E5E7EB',
                                             textAlign: 'center', cursor: selectedOperator ? 'pointer' : 'not-allowed'
@@ -521,9 +521,9 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
 
                                     {/* Swap Action */}
                                     <div style={{ display: 'flex', justifyContent: 'center', height: '0', position: 'relative', zIndex: 10 }}>
-                                        <button 
+                                        <button
                                             onClick={handleSwap}
-                                            style={{ 
+                                            style={{
                                                 width: '40px', height: '40px', borderRadius: '50%', background: 'white', border: '1px solid #E5E7EB',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                                                 cursor: 'pointer', transform: 'translateY(-50%)'
@@ -534,8 +534,8 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                                     </div>
 
                                     {/* Trigger To */}
-                                    <div 
-                                        onClick={() => { if(selectedOperator) { setActiveDropdown('to'); setIsOperatorListOpen(false); } }}
+                                    <div
+                                        onClick={() => { if (selectedOperator) { setActiveDropdown('to'); setIsOperatorListOpen(false); } }}
                                         style={{
                                             background: '#F8FAFC', padding: '20px', borderRadius: '16px', border: '1px solid #E5E7EB',
                                             textAlign: 'center', cursor: selectedOperator ? 'pointer' : 'not-allowed'
@@ -567,9 +567,21 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                                             <div style={{ fontSize: '32px', fontWeight: 800, color: '#1E40AF' }}>₹ {fare}</div>
                                             <div style={{ fontSize: '11px', color: '#60A5FA', marginTop: '2px' }}>Includes weight & size handling</div>
                                         </div>
-                                        <div style={{ width: '100px', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        <motion.div 
+                                            animate={{ 
+                                                y: [0, -10, 0],
+                                                scale: [1, 1.05, 1],
+                                                rotate: [0, 2, 0, -2, 0]
+                                            }}
+                                            transition={{ 
+                                                duration: 4, 
+                                                repeat: Infinity, 
+                                                ease: "easeInOut" 
+                                            }}
+                                            style={{ width: '100px', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                        >
                                             <img src={parcelIcon} alt="parcel" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                                        </div>
+                                        </motion.div>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
