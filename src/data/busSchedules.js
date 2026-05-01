@@ -75,37 +75,27 @@ export const busSchedules = [
         serviceType: bus.serviceType || (bus.operator === 'TNSTC' ? 'Govt' : 'Private'),
         bus_type: bus.operator === 'A.S.M' ? 'A.S.M' : 'Standard'
     })),
-    // --- Mock A.S.M Buses For Demo ---
-    {
+    // --- A.S.M Buses ---
+    ...["05:00 AM", "06:00 AM", "07:45 AM", "12:10 PM", "02:20 PM"].map(time => ({
         routeCode: 'ANT-CBE',
         from: 'Anthiyur',
         to: 'Coimbatore',
         via: 'Gobichettipalayam',
-        departureTime: '06:00 AM', // Close to common time for testing
+        departureTime: time,
         operatorName: 'A.S.M Bus Travel',
         serviceType: 'Private AC Seater',
         bus_type: 'A.S.M'
-    },
-    {
-        routeCode: 'ANT-CBE',
-        from: 'Anthiyur',
-        to: 'Coimbatore',
+    })),
+    ...["05:00 AM", "06:00 AM", "07:45 AM", "12:10 PM", "02:20 PM"].map(time => ({
+        routeCode: 'CBE-ANT',
+        from: 'Coimbatore',
+        to: 'Anthiyur',
         via: 'Gobichettipalayam',
-        departureTime: '08:30 AM', // A bit later
+        departureTime: time,
         operatorName: 'A.S.M Bus Travel',
-        serviceType: 'Private Non-AC Sleeper',
+        serviceType: 'Private AC Seater',
         bus_type: 'A.S.M'
-    },
-    {
-        routeCode: 'ANT-CBE',
-        from: 'Anthiyur',
-        to: 'Coimbatore',
-        via: 'Gobichettipalayam',
-        departureTime: '06:00 PM', // Evening
-        operatorName: 'A.S.M Bus Travel',
-        serviceType: 'Private AC Sleeper',
-        bus_type: 'A.S.M'
-    }
+    }))
 ];
 
 export const busStops = [

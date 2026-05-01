@@ -18,9 +18,9 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://nexrideapi-23bslmk2wa-uc.a.run.app',
         changeOrigin: true,
-        secure: false
+        secure: true
       }
     }
   }

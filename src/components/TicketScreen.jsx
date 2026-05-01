@@ -1,11 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Clock, Bus, Train, CreditCard, AlertCircle } from 'lucide-react';
-import { QRCodeSVG } from 'qrcode.react';
-import busIconNew from '../assets/bus_option_new.png';
+import { X, AlertCircle, Bus, Train, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import haptics from '../utils/haptics';
-import GlobalLoader from './GlobalLoader';
 
 const TicketScreen = ({
     isVisible,
@@ -19,327 +16,321 @@ const TicketScreen = ({
     paymentStatus = 'idle'
 }) => {
     const { t } = useTranslation();
-    const [fare, setFare] = useState(null);
+    const [baseFare, setBaseFare] = useState(null);
+    const [passengers, setPassengers] = useState(1);
+    const [isExpanded, setIsExpanded] = useState(false);
 
-    // Calculate fare when route data changes
+    // Calculate base fare when route data changes
     useEffect(() => {
         if (isVisible) {
-            // Priority: Use passed override fare (total for all guests)
             if (overrideFare) {
-                setFare(overrideFare);
+                // Important: calculate individual base fare if total is provided
+                setBaseFare(overrideFare / (passengerCount || 1));
                 return;
             }
-
-            // Fallback: Calculate for single passenger
             if (routeData) {
-                // Extract distance number from string "16 km" -> 16
                 const distanceStr = routeData.distance || '0 km';
                 const distance = parseFloat(distanceStr.replace(/[^0-9.]/g, ''));
-
-                // Basic Fare Logic (Modular)
-                let ratePerKm = 1.5; // Default for Bus
-                if (selectedRoute?.type === 'train') {
-                    ratePerKm = 0.8; // Cheaper for Train
-                }
-
-                // Minimum fare logic
+                let ratePerKm = 1.5;
+                if (selectedRoute?.type === 'train') ratePerKm = 0.8;
                 let calculatedFare = Math.round(distance * ratePerKm);
-                if (calculatedFare < 10) calculatedFare = 10; // Min fare ₹10
-
-                setFare(calculatedFare);
+                if (calculatedFare < 10) calculatedFare = 10;
+                setBaseFare(calculatedFare);
             }
         }
     }, [isVisible, routeData, selectedRoute, overrideFare]);
 
+    // Reset state when sheet opens
+    useEffect(() => {
+        if (isVisible) {
+            setPassengers(passengerCount || 1);
+            setIsExpanded(false);
+        }
+    }, [isVisible, passengerCount]);
+
+    const totalFare = baseFare ? baseFare * passengers : null;
+
     if (!isVisible) return null;
 
+    const originName = routeData?.origin?.name?.split(',')[0] || t('ticket.origin');
+    const destName = (() => {
+        const dest = routeData?.destination;
+        if (!dest) return t('ticket.destination');
+        if (typeof dest === 'string') return dest.split(',')[0];
+        return dest.name?.split(',')[0] || t('ticket.destination');
+    })();
+
     return (
-        <motion.div
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 5000,
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'center',
-                pointerEvents: 'none' // Allow clicks to pass through to backdrop if we had one
-            }}
-        >
-            {/* Backdrop Area (Clicking here closes) */}
-            <div
+        <AnimatePresence>
+            <motion.div
+                key="ticket-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
                 style={{
-                    position: 'absolute',
+                    position: 'fixed',
                     inset: 0,
-                    backgroundColor: 'rgba(0,0,0,0.4)',
-                    pointerEvents: 'auto'
+                    zIndex: 5000,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
                 }}
-                onClick={() => {
-                    haptics.light();
-                    onClose();
-                }}
-            />
+            >
+                {/* Backdrop */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundColor: 'rgba(0,0,0,0.45)',
+                    }}
+                    onClick={() => { haptics.light(); onClose(); }}
+                />
 
-            {/* Ticket Card */}
-            <div style={{
-                width: '100%',
-                maxWidth: '450px',
-                backgroundColor: '#F3F4F6',
-                borderTopLeftRadius: '32px',
-                borderTopRightRadius: '32px',
-                padding: '24px',
-                paddingBottom: '40px',
-                position: 'relative',
-                pointerEvents: 'auto',
-                boxShadow: '0 -10px 40px rgba(0,0,0,0.1)',
-                minHeight: '600px', // Ensure height for animation
-                display: 'flex',
-                flexDirection: 'column'
-            }}>
-                {/* ANIMATION LAYER */}
-                {/* CONTENT LAYER */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    {/* Drag Handle */}
-                    <div style={{
-                        width: '40px',
-                        height: '5px',
-                        backgroundColor: '#D1D5DB',
-                        borderRadius: '10px',
-                        margin: '0 auto 20px auto'
-                    }} />
-
-                    {/* Header */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                        <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111', margin: 0 }}>
-                            {t('ticket.your_ticket')}
-                        </h2>
-                        <motion.button
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => {
-                                haptics.light();
-                                onClose();
-                            }}
+                {/* Card — slides in from bottom, NO layout animation */}
+                <motion.div
+                    key="ticket-card"
+                    initial={{ y: '100%' }}
+                    animate={{ y: 0 }}
+                    exit={{ y: '100%' }}
+                    transition={{ type: 'spring', damping: 32, stiffness: 260, mass: 0.85 }}
+                    style={{
+                        position: 'relative',
+                        width: '100%',
+                        maxWidth: '450px',
+                        backgroundColor: '#FFFFFF',
+                        borderTopLeftRadius: '24px',
+                        borderTopRightRadius: '24px',
+                        padding: '20px 24px 40px',
+                        pointerEvents: 'auto',
+                        boxShadow: '0 -4px 24px rgba(0,0,0,0.12)',
+                        overflow: 'hidden',
+                        cursor: isExpanded ? 'default' : 'pointer',
+                    }}
+                    onClick={() => {
+                        if (!isExpanded) { setIsExpanded(true); haptics.light(); }
+                    }}
+                >
+                    {/* Drag handle + Close button */}
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px', position: 'relative' }}>
+                        <div
+                            onClick={(e) => { e.stopPropagation(); if (isExpanded) setIsExpanded(false); }}
                             style={{
-                                background: '#E5E7EB',
-                                border: 'none',
-                                borderRadius: '50%',
-                                width: '36px',
-                                height: '36px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                cursor: 'pointer'
+                                width: '40px', height: '5px',
+                                backgroundColor: '#E5E7EB', borderRadius: '99px',
+                                cursor: isExpanded ? 'pointer' : 'default',
+                            }}
+                        />
+                        <button
+                            onClick={(e) => { e.stopPropagation(); haptics.light(); onClose(); }}
+                            style={{
+                                position: 'absolute', right: 0, top: '-8px',
+                                background: '#F3F4F6', border: 'none',
+                                borderRadius: '50%', width: '32px', height: '32px',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                cursor: 'pointer',
                             }}
                         >
-                            <X size={20} color="#374151" />
-                        </motion.button>
+                            <X size={16} color="#6B7280" />
+                        </button>
                     </div>
 
-                    {/* TICKET VISUAL */}
+                    {/* ── Route Info (always visible, never reflowing) ── */}
+                    <div style={{ marginBottom: '20px', padding: '0 2px' }}>
+                        <div style={{
+                            fontWeight: 700, fontSize: '17px', color: '#111',
+                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                            lineHeight: '1.4',
+                        }}>
+                            {originName}
+                            <span style={{ margin: '0 8px', color: '#9CA3AF', fontWeight: 400 }}>→</span>
+                            {destName}
+                        </div>
+                        <div style={{
+                            fontSize: '14px', color: '#6B7280', fontWeight: 600,
+                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                            marginTop: '3px',
+                        }}>
+                            {selectedRoute?.name || 'A.S.M Bus'}
+                        </div>
+                        <div style={{
+                            fontSize: '13px', color: '#9CA3AF', fontWeight: 500,
+                            whiteSpace: 'nowrap', marginTop: '2px',
+                        }}>
+                            {selectedRoute?.departureTime ? `Departs at ${selectedRoute.departureTime}` : 'Departs at --'}
+                        </div>
+                    </div>
+
+                    {/* ── Passenger row (always visible) ── */}
                     <div style={{
-                        backgroundColor: '#fff',
-                        borderRadius: '24px',
-                        overflow: 'hidden',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                        marginBottom: '24px',
-                        position: 'relative'
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        height: '36px', // fixed — prevents layout shift
+                        marginBottom: '20px',
                     }}>
-                        {/* Ticket Top: Route Info */}
-                        <div style={{ padding: '24px', borderBottom: '2px dashed #E5E7EB' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                <div>
-                                    <div style={{ fontSize: '12px', color: '#6B7280', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('ticket.from')}</div>
-                                    <div style={{ fontSize: '18px', fontWeight: 600, color: '#111', marginTop: '4px' }}>
-                                        {routeData?.origin?.name?.split(',')[0] || t('ticket.origin')}
-                                    </div>
-                                </div>
-                                <div style={{ textAlign: 'right' }}>
-                                    <div style={{ fontSize: '12px', color: '#6B7280', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('ticket.to')}</div>
-                                    <div style={{ fontSize: '18px', fontWeight: 600, color: '#111', marginTop: '4px' }}>
-                                        {(() => {
-                                            const dest = routeData?.destination;
-                                            if (!dest) return t('ticket.destination');
-                                            // If dest is a string (e.g. "Coimbatore"), use it directly
-                                            if (typeof dest === 'string') return dest.split(',')[0];
-                                            // If dest is an object (e.g. { name: "Coimbatore" }), use .name
-                                            return dest.name?.split(',')[0] || t('ticket.destination');
-                                        })()}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Transport Info */}
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '16px',
-                                marginTop: '20px',
-                                marginLeft: '-24px' // Flush with the left edge of the card
-                            }}>
-                                {(() => {
-                                    const transportType = selectedRoute?.type || 'bus';
-                                    const isBus = transportType === 'bus';
-                                    const transportLabel = isBus ? 'Bus' : 'Train';
-
-                                    return (
-                                        <>
-                                            {isBus ? (
-                                                <img
-                                                    src={busIconNew}
-                                                    alt="Bus"
-                                                    style={{
-                                                        width: '80px',
-                                                        height: '80px',
-                                                        objectFit: 'contain',
-                                                        display: 'block'
-                                                    }}
-                                                />
-                                            ) : (
-                                                <div style={{ width: '80px', display: 'flex', justifyContent: 'center' }}>
-                                                    <Train size={56} color="#16A34A" />
-                                                </div>
-                                            )}
-                                            <div>
-                                                <div style={{
-                                                    fontSize: '20px',
-                                                    fontWeight: 600,
-                                                    color: '#111',
-                                                    lineHeight: '1.1'
-                                                }}>
-                                                    {transportLabel}
-                                                </div>
-                                                <div style={{
-                                                    fontSize: '15px',
-                                                    fontWeight: '600',
-                                                    color: '#374151',
-                                                    marginTop: '4px'
-                                                }}>
-                                                    {selectedRoute?.name || 'A.S.M Bus'}
-                                                </div>
-                                                <div style={{
-                                                    fontSize: '13px',
-                                                    fontWeight: '500',
-                                                    color: '#6B7280',
-                                                    marginTop: '2px'
-                                                }}>
-                                                    Dep: {selectedRoute?.time || '--:--'}
-                                                </div>
-                                            </div>
-                                        </>
-                                    );
-                                })()}
-                            </div>
+                        {/* Label */}
+                        <div style={{
+                            fontSize: '15px', fontWeight: 600, color: '#374151',
+                            flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                        }}>
+                            {isExpanded ? `Adult (₹${baseFare})` : 'Ticket payment information'}
                         </div>
 
-                        {/* Ticket Bottom: Fare & ETA */}
-                        <div style={{ padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                                    <Clock size={16} color="#6B7280" />
-                                    <span style={{ fontSize: '13px', color: '#6B7280', fontWeight: '500' }}>{t('ticket.eta')}</span>
-                                </div>
-                                <div style={{ fontSize: '20px', fontWeight: 600, color: '#111' }}>
-                                    {routeData?.duration || '--'}
-                                </div>
-                            </div>
+                        {/* Passenger selector pill */}
+                        <div style={{
+                            display: 'flex', alignItems: 'center',
+                            background: '#F3F4F6', borderRadius: '20px',
+                            padding: '5px 10px', gap: '6px',
+                            flexShrink: 0,
+                        }}>
+                            {/* Minus — visible in expanded mode */}
+                            {isExpanded && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (passengers > 1) { setPassengers(p => p - 1); haptics.light(); }
+                                    }}
+                                    style={{
+                                        background: 'transparent', border: 'none',
+                                        fontSize: '18px', fontWeight: 600,
+                                        color: passengers === 1 ? '#D1D5DB' : '#374151',
+                                        cursor: passengers === 1 ? 'not-allowed' : 'pointer',
+                                        padding: '0', lineHeight: 1,
+                                    }}
+                                >−</button>
+                            )}
 
-                            <div style={{ textAlign: 'right' }}>
-                                <div style={{ fontSize: '13px', color: '#6B7280', fontWeight: '500', marginBottom: '4px' }}>{t('ticket.total_fare')}</div>
-                                <div style={{ fontSize: '28px', fontWeight: 600, color: '#111' }}>
-                                    ₹{fare || '--'}
-                                </div>
-                            </div>
+                            {/* Count */}
+                            <span style={{ fontSize: '15px', fontWeight: 700, color: '#111', minWidth: '22px', textAlign: 'center' }}>
+                                {passengers.toString().padStart(2, '0')}
+                            </span>
+
+                            {/* Person icon in collapsed */}
+                            {!isExpanded && <span style={{ fontSize: '14px' }}>👤</span>}
+
+                            {/* Divider */}
+                            <div style={{ width: '1px', height: '14px', background: '#D1D5DB' }} />
+
+                            {/* Plus */}
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (passengers < 4) { setPassengers(p => p + 1); haptics.light(); }
+                                }}
+                                style={{
+                                    background: 'transparent', border: 'none',
+                                    fontSize: '18px', fontWeight: 600,
+                                    color: passengers === 4 ? '#D1D5DB' : '#374151',
+                                    cursor: passengers === 4 ? 'not-allowed' : 'pointer',
+                                    padding: '0', lineHeight: 1,
+                                }}
+                            >+</button>
                         </div>
-
-                        {/* Decorative Cutouts for "Ticket" Look */}
-                        <div style={{
-                            position: 'absolute',
-                            top: '50%', // Approximate position of dashed line
-                            marginTop: '-42px', // Adjust based on top section height
-                            left: '-12px',
-                            width: '24px',
-                            height: '24px',
-                            backgroundColor: '#F3F4F6',
-                            borderRadius: '50%'
-                        }} />
-                        <div style={{
-                            position: 'absolute',
-                            top: '50%',
-                            marginTop: '-42px',
-                            right: '-12px',
-                            width: '24px',
-                            height: '24px',
-                            backgroundColor: '#F3F4F6',
-                            borderRadius: '50%'
-                        }} />
                     </div>
 
-                    {/* Payment Failure Message */}
+                    {/* ── Expanded details — CSS max-height, NO layout animation ── */}
+                    <div style={{
+                        overflow: 'hidden',
+                        maxHeight: isExpanded ? '300px' : '0px',
+                        transition: 'max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                    }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '4px' }}>
+                            {/* Info note */}
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: '8px',
+                                background: '#F9FAFB', padding: '11px 14px', borderRadius: '12px',
+                            }}>
+                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#D1D5DB', flexShrink: 0 }} />
+                                <div style={{ fontSize: '13px', color: '#6B7280' }}>
+                                    No ticket required for children below 5 years.
+                                </div>
+                            </div>
+
+                            {/* Fare breakdown */}
+                            <div style={{ border: '1px solid #F3F4F6', borderRadius: '14px', overflow: 'hidden' }}>
+                                <div
+                                    onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
+                                    style={{
+                                        padding: '13px 16px', borderBottom: '1px solid #F3F4F6',
+                                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    <span style={{ fontSize: '14px', fontWeight: 600, color: '#111' }}>Ticket Details</span>
+                                    <span style={{ fontSize: '12px', color: '#9CA3AF' }}>▲ collapse</span>
+                                </div>
+                                <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#6B7280' }}>
+                                        <span>Base fare × {passengers}</span>
+                                        <span>₹{baseFare} × {passengers}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '15px', fontWeight: 700, color: '#111' }}>
+                                        <span>Total</span>
+                                        <span>₹{totalFare}</span>
+                                    </div>
+                                    <div style={{ fontSize: '11px', color: '#9CA3AF' }}>Inc. all taxes and charges</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Payment failure banner */}
                     {paymentStatus === 'failure' && (
                         <div style={{
-                            marginTop: '16px',
-                            padding: '12px',
-                            backgroundColor: '#FEF2F2',
-                            borderRadius: '16px',
-                            border: '1px solid #FECACA',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px'
+                            marginBottom: '12px', marginTop: '8px', padding: '12px',
+                            backgroundColor: '#FEF2F2', borderRadius: '12px',
+                            display: 'flex', alignItems: 'center', gap: '10px',
                         }}>
-                            <AlertCircle size={20} color="#EF4444" />
-                            <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '14px', fontWeight: 600, color: '#991B1B' }}>{t('ticket.payment_failed')}</div>
-                                <div style={{ fontSize: '12px', color: '#B91C1C' }}>{t('ticket.please_try_again')}</div>
+                            <AlertCircle size={16} color="#EF4444" />
+                            <div style={{ fontSize: '13px', color: '#991B1B', fontWeight: 500 }}>
+                                {t('ticket.payment_failed', 'Payment failed. Please try again.')}
                             </div>
                         </div>
                     )}
 
-                    {/* Payment Button - Only show if onProceedPayment is provided */}
+                    {/* ── CTA Button ── */}
                     {onProceedPayment && (
-                        <motion.button
-                            whileTap={{ scale: 0.96 }}
-                            onClick={() => {
-                                if (!isLoading && paymentStatus !== 'processing') {
-                                    haptics.medium();
-                                    onProceedPayment(fare);
+                        <div style={{ marginTop: isExpanded ? '20px' : '4px', transition: 'margin-top 0.3s ease' }}>
+                            <motion.button
+                                whileTap={{ scale: 0.97 }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (!isLoading && paymentStatus !== 'processing') {
+                                        haptics.medium();
+                                        onProceedPayment(totalFare);
+                                    }
+                                }}
+                                disabled={!totalFare || isLoading || paymentStatus === 'processing'}
+                                style={{
+                                    width: '100%',
+                                    height: '54px',
+                                    borderRadius: '27px',
+                                    border: 'none',
+                                    backgroundColor: '#2563EB',
+                                    color: '#FFFFFF',
+                                    fontSize: '16px',
+                                    fontWeight: 600,
+                                    cursor: (totalFare && !isLoading) ? 'pointer' : 'not-allowed',
+                                    opacity: (totalFare && !isLoading) ? 1 : 0.7,
+                                    boxShadow: '0 4px 14px rgba(37,99,235,0.28)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px',
+                                    flexShrink: 0,
+                                }}
+                            >
+                                {isLoading || paymentStatus === 'processing'
+                                    ? t('ticket.processing_payment', 'Processing…')
+                                    : paymentStatus === 'failure'
+                                        ? t('ticket.retry_payment', 'Retry Payment')
+                                        : `Book Bus @ ₹${totalFare || '--'}`
                                 }
-                            }}
-                            disabled={!fare || isLoading || paymentStatus === 'processing'}
-                            style={{
-                                width: '100%',
-                                backgroundColor: paymentStatus === 'failure' ? '#DC2626' : '#22C55E', // Green primary CTA
-                                color: '#fff',
-                                border: 'none',
-                                padding: '18px',
-                                borderRadius: '20px',
-                                fontSize: '16px',
-                                fontWeight: 600,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: '10px',
-                                cursor: (fare && !isLoading) ? 'pointer' : 'not-allowed',
-                                opacity: (fare && !isLoading) ? 1 : 0.7,
-                                boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                                transition: 'all 0.2s ease',
-                                marginTop: '16px'
-                            }}
-                        >
-                            {!isLoading && <CreditCard size={20} color="#fff" />}
-                            {isLoading || paymentStatus === 'processing' ? t('ticket.processing_payment') : (paymentStatus === 'failure' ? t('ticket.retry_payment') : t('ticket.proceed_payment'))}
-                        </motion.button>
+                            </motion.button>
+                        </div>
                     )}
-
-                </div> {/* End Content Layer */}
-
-            </div>
-        </motion.div >
+                </motion.div>
+            </motion.div>
+        </AnimatePresence>
     );
 };
 

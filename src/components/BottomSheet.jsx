@@ -69,14 +69,15 @@ const BottomSheet = ({
 
     const handleStartCashfreeBooking = (index) => {
         setSelectedRouteIndex(index);
-        setIsGuestSelectionVisible(true);
-        setSheetState('collapsed');
+        // Bypass Guest Selection, default to 1 passenger
+        setTicketMeta({ count: 1, totalFare: null });
+        setIsTicketVisible(true);
     };
 
     const handleStartJourney = () => {
-        // Open Guest Selection First
-        setIsGuestSelectionVisible(true);
-        setSheetState('collapsed');
+        // Bypass Guest Selection, default to 1 passenger
+        setTicketMeta({ count: 1, totalFare: null });
+        setIsTicketVisible(true);
     };
 
     const handleGuestContinue = (count, totalFare) => {
@@ -258,7 +259,7 @@ const BottomSheet = ({
                                 onStartNavigation={handleStartJourney}
                                 selectedRouteIndex={selectedRouteIndex}
                                 setSelectedRouteIndex={setSelectedRouteIndex}
-                                onRouteDetailsChange={(details) => setSelectedRouteDetails(details)}
+                                onRouteDetailsChange={React.useCallback((details) => setSelectedRouteDetails(details), [])}
                             />
                         )
                     ) : (
@@ -297,17 +298,7 @@ const BottomSheet = ({
                 </div>
             </motion.div>
 
-            <GuestSelectionScreen
-                isVisible={isGuestSelectionVisible}
-                onClose={() => setIsGuestSelectionVisible(false)}
-                onContinue={handleGuestContinue}
-                routeData={routeData ? { ...routeData, ...routeStats } : null}
-                selectedRoute={selectedRouteDetails || {
-                    type: 'bus',
-                    routeNumber: 'Bus',
-                    isGovt: false
-                }}
-            />
+
 
             <TicketScreen
                 isVisible={isTicketVisible}

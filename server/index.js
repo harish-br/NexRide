@@ -5,7 +5,11 @@ import { Cashfree } from 'cashfree-pg';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-dotenv.config({ path: path.resolve(fileURLToPath(import.meta.url), '../../.env') });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env from project root (one level up from /server/)
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 const PORT = 3000; // Using 3000 as backend, Vite usually on 5173
@@ -42,8 +46,7 @@ app.post('/api/create-cashfree-order', async (req, res) => {
                 customer_email: customer_email || 'guest@example.com'
             },
             order_meta: {
-                return_url: `http://localhost:5173/payment-status?order_id=${orderId}`
-                // Note: Frontend should handle this return_url route or parameter
+                return_url: (req.body.return_url || `http://localhost:5173`) + (req.body.return_url?.includes('?') ? '&' : '?') + `order_id=${orderId}`
             },
             order_note: "NexRide Ticket Booking"
         };

@@ -55,26 +55,11 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
     // RAW SCHEDULE DATA (FULL SET)
     const SCHEDULES = {
         'ANT-CBE': [
+            { time: "05:00 AM", name: "A.S.M" },
             { time: "06:00 AM", name: "A.S.M" },
-            { time: "08:30 AM", name: "A.S.M" },
-            { time: "10:00 AM", name: "A.S.M" },
-            { time: "01:00 PM", name: "A.S.M" },
-            { time: "04:30 PM", name: "A.S.M" },
-            { time: "06:00 PM", name: "A.S.M" },
-            { time: "09:30 PM", name: "A.S.M" },
-            { time: "10:45 PM", name: "A.S.M" },
-            { time: "11:30 PM", name: "A.S.M" }
-        ],
-        'CBE-ANT': [
-            { time: "07:00 AM", name: "A.S.M" },
-            { time: "09:30 AM", name: "A.S.M" },
-            { time: "11:30 AM", name: "A.S.M" },
-            { time: "02:30 PM", name: "A.S.M" },
-            { time: "05:00 PM", name: "A.S.M" },
-            { time: "08:00 PM", name: "A.S.M" },
-            { time: "09:45 PM", name: "A.S.M" },
-            { time: "10:30 PM", name: "A.S.M" },
-            { time: "11:45 PM", name: "A.S.M" }
+            { time: "07:45 AM", name: "A.S.M" },
+            { time: "12:10 PM", name: "A.S.M" },
+            { time: "08:20 PM", name: "A.S.M" }
         ]
     };
 
@@ -105,9 +90,10 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
             defaultStops = 'Multiple';
         }
 
-        if (!routeKey) return [];
+        if (!routeKey) return { options: [], isValidRoute: false, firstTripTime: null };
 
         const rawList = SCHEDULES[routeKey];
+        const firstTripTime = rawList.length > 0 ? rawList[0].time : null;
         // Use the state currentTime for consistent rendering
         const now = currentTime;
         let foundNext = false; // Flag to identify the 'NEXT' bus after NOW/Departing
@@ -133,7 +119,7 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
         // Sort (should already be sorted but good to ensure)
         futureList.sort((a, b) => a.parsedDate - b.parsedDate);
 
-        return futureList.map((item, idx) => {
+        const mappedOptions = futureList.map((item, idx) => {
             // "Name / Type" logic
             let finalName = item.name;
             let finalType = 'bus';
@@ -228,22 +214,29 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
                 routeNumber: finalName,
                 duration: baseDuration,
                 stops: defaultStops,
+                departureTime: item.time,
                 frequency: `${t('route_list.dep', 'Dep')}: ${item.time}`,
                 subtext: isGovt ? t('route_list.state_transport', 'State Transport') : t('route_list.private_operator', 'Private Operator')
             };
         });
+
+        return { options: mappedOptions, isValidRoute: true, firstTripTime };
     };
 
-    const options = getRoutes(origin, destination);
+    const { options, isValidRoute, firstTripTime } = React.useMemo(
+        () => getRoutes(origin, destination),
+        [origin, destination, currentTime, t]
+    );
 
     // Sync selected route details up to parent whenever options or selected index changes
     React.useEffect(() => {
         if (options.length > 0 && selectedRouteIndex >= 0 && selectedRouteIndex < options.length) {
+            const selectedOption = options[selectedRouteIndex];
             if (onRouteDetailsChange) {
-                onRouteDetailsChange(options[selectedRouteIndex]);
+                onRouteDetailsChange(selectedOption);
             }
         }
-    }, [selectedRouteIndex, options.length, onRouteDetailsChange]);
+    }, [selectedRouteIndex, options, onRouteDetailsChange]);
 
     return (
         <div style={{
@@ -265,8 +258,8 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
                         {routeStats?.distance || '107 km'} • {routeStats?.duration || '2h 21m'}
                     </div>
                     <div style={{ textAlign: 'right', fontSize: '12px', color: '#9CA3AF', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 500 }}>
-                        {origin?.name?.split(',')[0] || origin || 'Origin'} 
-                        <ArrowRight size={10} color="#9CA3AF" /> 
+                        {origin?.name?.split(',')[0] || origin || 'Origin'}
+                        <ArrowRight size={10} color="#9CA3AF" />
                         {destination?.name?.split(',')[0] || destination || 'Destination'}
                     </div>
                 </div>
@@ -433,6 +426,49 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
                         {/* <ArrowRight size={18} /> */}
                     </motion.button>
                 </>
+            ) : isValidRoute ? (
+                <div style={{
+                    padding: '40px 20px',
+                    textAlign: 'center',
+                    background: '#F9FAFB',
+                    borderRadius: '24px',
+                    color: '#6B7280',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '12px'
+                }}>
+                    <div style={{
+                        width: '64px',
+                        height: '64px',
+                        background: '#F3F4F6',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '8px'
+                    }}>
+                        <Clock size={28} color="#9CA3AF" />
+                    </div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', margin: 0 }}>
+                        Trip Completed
+                    </h3>
+                    <p style={{ fontSize: '14px', margin: 0, color: '#4B5563', fontWeight: 500 }}>
+                        All buses for today have departed.
+                    </p>
+                    <div style={{
+                        marginTop: '8px',
+                        background: '#EFF6FF',
+                        color: '#1D4ED8',
+                        padding: '8px 16px',
+                        borderRadius: '100px',
+                        fontSize: '13px',
+                        fontWeight: 600,
+                        display: 'inline-block'
+                    }}>
+                        Next trip tomorrow at {firstTripTime}
+                    </div>
+                </div>
             ) : (
                 <div style={{
                     padding: '40px 20px',

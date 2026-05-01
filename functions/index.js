@@ -5,141 +5,132 @@ const cors = require('cors');
 const { Cashfree } = require('cashfree-pg');
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin (uses default project credentials)
+// Initialize Firebase Admin
 admin.initializeApp();
 
 const app = express();
 
-// Automatically allow cross-origin requests
+// Enable CORS and JSON parsing
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-// CONFIGURATION - Load from environment variables
+// CONFIGURATION
 const APP_ID = process.env.CASHFREE_APP_ID;
 const SECRET_KEY = process.env.CASHFREE_SECRET_KEY;
 const ENVIRONMENT = process.env.CASHFREE_ENV || 'SANDBOX';
 
-// Initialize Cashfree
+// Initialize Cashfree SDK
 Cashfree.XClientId = APP_ID;
 Cashfree.XClientSecret = SECRET_KEY;
-Cashfree.Environment = ENVIRONMENT === 'PRODUCTION'
+
+// Auto-detect environment from key type
+const isProdKey = SECRET_KEY && SECRET_KEY.startsWith('cfsk_ma_prod');
+const FINAL_ENV = (ENVIRONMENT.toUpperCase() === 'PRODUCTION' || isProdKey) ? 'PRODUCTION' : 'SANDBOX';
+
+Cashfree.Environment = FINAL_ENV === 'PRODUCTION'
     ? Cashfree.Environment.PRODUCTION
     : Cashfree.Environment.SANDBOX;
 
-console.log(`Initializing Cashfree in ${ENVIRONMENT} mode`);
-console.log("Cashfree Config Check:", { appIdPresent: !!APP_ID, secretPresent: !!SECRET_KEY });
+console.log(`[Backend] Cashfree initialized in ${FINAL_ENV} mode (Key: ${isProdKey ? 'PROD' : 'TEST'})`);
 
-// 1. Create Order API
-app.post('/api/create-cashfree-order', async (req, res) => {
+// Middleware to log requests
+app.use((req, res, next) => {
+    console.log(`[Backend] Request: ${req.method} ${req.url}`);
+    next();
+});
+
+/**
+ * 1. Create Order API
+ */
+const createOrderHandler = async (req, res) => {
     try {
         const { amount, customer_id, customer_phone, customer_name, customer_email } = req.body;
 
         if (!APP_ID || !SECRET_KEY) {
-            console.error("Cashfree Creds Missing");
-            return res.status(500).json({ error: "Server misconfigured: Missing Payment Credentials" });
+            return res.status(500).json({ error: "Missing Cashfree Credentials in backend" });
         }
 
-        if (!amount || isNaN(amount)) {
-            return res.status(400).json({ error: "Invalid amount provided" });
-        }
-
-        const orderId = `ORDER_${Date.now()}`;
-        const returnUrlBase = req.body.return_url || `${req.protocol}://${req.get('host')}`;
-        // Robust check for existing query params
-        const separator = returnUrlBase.includes('?') ? '&' : '?';
-        const returnUrl = `${returnUrlBase}${separator}order_id=${orderId}`;
+        const orderId = "order_" + Date.now();
+        
+        // Construct return URL
+        const returnUrl = req.body.return_url || "https://nexridein.web.app";
+        const separator = returnUrl.includes('?') ? '&' : '?';
 
         const request = {
-            order_amount: Number(amount),
-            order_currency: 'INR',
             order_id: orderId,
+            order_amount: Number(amount),
+            order_currency: "INR",
             customer_details: {
-                customer_id: customer_id || 'guest_' + Date.now(),
-                customer_phone: customer_phone || '9999999999',
-                customer_name: customer_name || 'Guest User',
-                customer_email: customer_email || 'guest@nexride.co.in'
+                customer_id: customer_id || "user_" + Date.now(),
+                customer_phone: customer_phone || "9999999999",
+                customer_name: customer_name || "Guest User",
+                customer_email: customer_email || "guest@nexride.co.in"
             },
             order_meta: {
-                return_url: returnUrl
+                return_url: `${returnUrl}${separator}order_id=${orderId}`
             },
             order_note: "NexRide Ticket Booking"
         };
 
-        console.log("Creating Cashfree order:", { orderId, amount: request.order_amount });
+        console.log(`[Backend] Creating order: ${orderId} for amount: ${amount}`);
+        
         const response = await Cashfree.PGCreateOrder("2023-08-01", request);
-        console.log("Order Created:", response.data);
-        res.json(response.data);
+        
+        res.json({
+            order_id: orderId,
+            payment_session_id: response.data.payment_session_id
+        });
 
     } catch (error) {
-        console.error("Error creating order:", error.response?.data?.message || error.message);
-        if (error.response?.data) {
-            console.error("Cashfree API Validation Error:", JSON.stringify(error.response.data));
-        }
-        res.status(500).json({ error: error.response?.data?.message || error.message });
+        const errMsg = error.response?.data?.message || error.message;
+        console.error("[Backend] Order creation failed:", errMsg);
+        res.status(500).json({ error: "Order creation failed", message: errMsg });
     }
-});
+};
 
-// 2. Verify Payment API
-app.get('/api/verify-payment/:orderId', async (req, res) => {
+app.post('/api/create-cashfree-order', createOrderHandler);
+app.post('/create-cashfree-order', createOrderHandler); // Fallback
+
+/**
+ * 2. Verify Payment API
+ */
+const verifyPaymentHandler = async (req, res) => {
     try {
         const { orderId } = req.params;
-
-        console.log("Verifying payment for order:", orderId);
         const response = await Cashfree.PGOrderFetchPayments("2023-08-01", orderId);
-        console.log("Payment Verification:", response.data);
-
-        // Check if any payment is SUCCESS
+        
         const successfulPayment = Array.isArray(response.data)
-            ? response.data.find(payment => payment.payment_status === 'SUCCESS')
+            ? response.data.find(p => p.payment_status === 'SUCCESS')
             : null;
 
         if (successfulPayment) {
             res.json({ status: 'SUCCESS', payment: successfulPayment });
         } else {
-            // Check order status as fallback
-            const orderResponse = await Cashfree.PGOrderFetchDetails("2023-08-01", orderId);
-            if (orderResponse.data.order_status === 'PAID') {
-                res.json({ status: 'SUCCESS', order: orderResponse.data });
+            const orderDetails = await Cashfree.PGOrderFetchDetails("2023-08-01", orderId);
+            if (orderDetails.data.order_status === 'PAID') {
+                res.json({ status: 'SUCCESS', order: orderDetails.data });
             } else {
                 res.json({ status: 'PENDING_OR_FAILED', data: response.data });
             }
         }
-
     } catch (error) {
-        console.error("Error verifying payment:", error.response?.data?.message || error.message);
-        if (error.response?.data) {
-            console.error("Cashfree API Verification Error:", JSON.stringify(error.response.data));
-        }
-        res.status(500).json({ error: error.response?.data?.message || error.message });
+        console.error("[Backend] Verification failed:", error.message);
+        res.status(500).json({ error: "Verification failed", message: error.message });
     }
-});
+};
 
-// 3. Subscribe to FCM Topic API
-app.post('/api/subscribe-topic', async (req, res) => {
-    try {
-        const { token, topic } = req.body;
-        if (!token || !topic) {
-            return res.status(400).json({ error: "Missing token or topic" });
-        }
+app.get('/api/verify-payment/:orderId', verifyPaymentHandler);
+app.get('/verify-payment/:orderId', verifyPaymentHandler); // Fallback
 
-        console.log(`Subscribing token to topic: ${topic}`);
-        const response = await admin.messaging().subscribeToTopic(token, topic);
-        console.log("Successfully subscribed to topic:", response);
-        res.json({ success: true, message: `Subscribed to ${topic}`, response });
-    } catch (error) {
-        console.error("Error subscribing to topic:", error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Health check endpoint
+// Health check
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', message: 'NexRide API is running', mode: ENVIRONMENT });
+    res.json({ status: 'ok', environment: FINAL_ENV });
 });
 
-// Export as V2 Function
+// Export the Express app as a Firebase Function
 exports.nexrideApi = onRequest({
-    serviceAccount: "nexridein@appspot.gserviceaccount.com",
+    memory: "256MiB",
+    timeoutSeconds: 60,
     cors: true,
     region: "us-central1"
 }, app);
