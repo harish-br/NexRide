@@ -55,16 +55,22 @@ const BottomSheet = ({
     // A.S.M Booking State
     const [isAsmBookingVisible, setIsAsmBookingVisible] = useState(false);
     const [selectedAsmRoute, setSelectedAsmRoute] = useState(null);
+    const [selectedRouteDetails, setSelectedRouteDetails] = useState(null);
 
     const contentRef = useRef(null);
 
     const handleContentPointerDown = (e) => {
-        const isAtTop = contentRef.current ? contentRef.current.scrollTop <= 0 : true;
-
-        // If sheet is not expanded, or we are at the top of content, allow dragging the sheet
-        if (sheetState !== 'expanded' || isAtTop) {
+        // If sheet is collapsed, allow dragging the sheet up.
+        // If mid or expanded, do NOT intercept touches here so the native scroll works flawlessly.
+        if (sheetState === 'collapsed') {
             dragControls.start(e);
         }
+    };
+
+    const handleStartCashfreeBooking = (index) => {
+        setSelectedRouteIndex(index);
+        setIsGuestSelectionVisible(true);
+        setSheetState('collapsed');
     };
 
     const handleStartJourney = () => {
@@ -231,9 +237,11 @@ const BottomSheet = ({
                     style={{
                         padding: '24px 24px 160px', // Adjusted to 160px to clear Bottom Nav (80px) + Sheet Offset (50px) + Buffer
                         height: '100%',
-                        overflowY: sheetState === 'expanded' ? 'auto' : 'hidden',
+                        overflowY: (sheetState === 'expanded' || sheetState === 'mid') ? 'auto' : 'hidden',
                         boxSizing: 'border-box',
-                        touchAction: sheetState === 'expanded' ? 'pan-y' : 'none'
+                        touchAction: (sheetState === 'expanded' || sheetState === 'mid') ? 'pan-y' : 'none',
+                        WebkitOverflowScrolling: 'touch',
+                        overscrollBehavior: 'contain'
                     }}
                 >
                     {routeData ? (
@@ -247,22 +255,10 @@ const BottomSheet = ({
                                 routeStats={routeStats} 
                                 origin={routeData.origin} 
                                 destination={routeData.destination} 
-                                onStartNavigation={() => { console.log('Navigation coming soon') }}
+                                onStartNavigation={handleStartJourney}
                                 selectedRouteIndex={selectedRouteIndex}
                                 setSelectedRouteIndex={setSelectedRouteIndex}
-                                onBookAsm={(route) => {
-                                    setSelectedAsmRoute({
-                                        ...route,
-                                        origin: routeData.origin?.name?.split(',')[0] || routeData.origin,
-                                        destination: routeData.destination?.name?.split(',')[0] || routeData.destination
-                                    });
-                                    setIsAsmBookingVisible(true);
-                                    // Expand sheet to show form well
-                                    if (sheetState !== 'expanded') {
-                                        setSheetState('expanded');
-                                        controls.start({ y: snapPoints.expanded });
-                                    }
-                                }}
+                                onRouteDetailsChange={(details) => setSelectedRouteDetails(details)}
                             />
                         )
                     ) : (
@@ -306,10 +302,10 @@ const BottomSheet = ({
                 onClose={() => setIsGuestSelectionVisible(false)}
                 onContinue={handleGuestContinue}
                 routeData={routeData ? { ...routeData, ...routeStats } : null}
-                selectedRoute={{
-                    type: (selectedRouteIndex === 1 || selectedRouteIndex === 3) ? 'train' : 'bus',
-                    routeNumber: 'N/A',
-                    isGovt: selectedRouteIndex === 0
+                selectedRoute={selectedRouteDetails || {
+                    type: 'bus',
+                    routeNumber: 'Bus',
+                    isGovt: false
                 }}
             />
 
@@ -317,10 +313,10 @@ const BottomSheet = ({
                 isVisible={isTicketVisible}
                 onClose={() => setIsTicketVisible(false)}
                 routeData={{ ...routeData, ...routeStats }}
-                selectedRoute={{
-                    type: (selectedRouteIndex === 1 || selectedRouteIndex === 3) ? 'train' : 'bus',
-                    routeNumber: 'N/A',
-                    isGovt: selectedRouteIndex === 0
+                selectedRoute={selectedRouteDetails || {
+                    type: 'bus',
+                    routeNumber: 'Bus',
+                    isGovt: false
                 }}
                 overrideFare={ticketMeta.totalFare}
                 passengerCount={ticketMeta.count}

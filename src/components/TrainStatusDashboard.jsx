@@ -15,15 +15,16 @@ const FloatingStatusCard = ({ trainData, isVisible }) => {
 
     const isLate = trainData.isLate;
     const msg = isLate
-        ? `Delayed by ${trainData.overallDelay} mins`
+        ? `Delayed by ${trainData.overallDelay} min`
         : 'On Time';
 
-    // Determine context (e.g. Departed X vs Arrived X)
-    // We'll use the current station logic from props ideally, 
-    // but for now we use the overall status text props if available, else standard.
     const statusHeader = trainData.currentStation
         ? `Departed ${trainData.currentStation}`
-        : (trainData.status || "Live Status");
+        : (trainData.statusSummary || "Live Status");
+
+    // Status Chip Style (Stricter mapping to User Request)
+    const badgeBg = isLate ? '#FEF3C7' : '#ECFDF5';
+    const badgeText = isLate ? '#D97706' : '#16A34A';
 
     return (
         <AnimatePresence>
@@ -35,41 +36,43 @@ const FloatingStatusCard = ({ trainData, isVisible }) => {
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     style={{
                         position: 'absolute',
-                        top: '-10px', // Shift up slightly relative to the train icon
-                        left: '40px', // To the right of the timeline
+                        top: '-10px',
+                        left: '40px',
                         background: 'white',
-                        borderRadius: '12px',
-                        padding: '12px 16px',
-                        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-                        border: '1px solid white', // clean look
+                        borderRadius: '16px',
+                        padding: '14px 18px',
+                        boxShadow: '0 12px 32px rgba(0,0,0,0.12)',
+                        border: '1px solid #F1F5F9',
                         zIndex: 50,
-                        minWidth: '180px',
-                        pointerEvents: 'none' // Let clicks pass through to parent to reset timer
+                        minWidth: '200px',
+                        pointerEvents: 'none'
                     }}
                 >
-                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#111', marginBottom: '4px' }}>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#1E293B', marginBottom: '8px' }}>
                         {statusHeader}
                     </div>
                     <div style={{
                         display: 'inline-flex', alignItems: 'center', gap: '6px',
-                        background: isLate ? '#FEF2F2' : '#ECFDF5',
-                        color: isLate ? '#DC2626' : '#059669',
-                        padding: '4px 8px', borderRadius: '6px',
-                        fontSize: '11px', fontWeight: 600
+                        background: badgeBg,
+                        color: badgeText,
+                        padding: '6px 12px', borderRadius: '10px',
+                        fontSize: '12px', fontWeight: 700
                     }}>
-                        {isLate ? <AlertCircle size={12} /> : <Clock size={12} />}
+                        {isLate ? <AlertCircle size={14} /> : <Clock size={14} />}
                         {msg}
                     </div>
-                    <div style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '6px' }}>
+                    <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '8px', fontWeight: 500 }}>
                         Updated just now
                     </div>
 
                     {/* Pointer / Arrow */}
                     <div style={{
-                        position: 'absolute', top: '20px', left: '-6px',
+                        position: 'absolute', top: '22px', left: '-6px',
                         width: '12px', height: '12px', background: 'white',
                         transform: 'rotate(45deg)',
-                        borderRadius: '2px'
+                        borderLeft: '1px solid #F1F5F9',
+                        borderBottom: '1px solid #F1F5F9',
+                        zIndex: -1
                     }} />
                 </motion.div>
             )}
@@ -79,32 +82,47 @@ const FloatingStatusCard = ({ trainData, isVisible }) => {
 
 // --- TIMELINE ROW COMPONENT ---
 const TimelineRow = ({ stop, isFirst, isLast, isCurrent, isPast, trainData, showStatusCard }) => {
+    // Arrival Logic
+    const arrivalTime = !isFirst ? (stop.actualArrival || stop.scheduledArrival) : null;
+    const isArrivalDelayed = stop.actualArrival && stop.actualArrival !== stop.scheduledArrival;
+
+    // Departure Logic
+    const departureTime = !isLast ? (stop.actualDeparture || stop.scheduledDeparture) : null;
+    const isDepartureDelayed = stop.actualDeparture && stop.actualDeparture !== stop.scheduledDeparture;
+
     return (
-        <div style={{ display: 'flex', position: 'relative', minHeight: '60px' }}>
+        <div style={{ display: 'flex', position: 'relative', minHeight: '70px' }}>
 
             {/* 1. ARRIVAL TIME (Left Column) */}
             <div style={{
-                width: '70px', textAlign: 'right', paddingRight: '16px', paddingTop: '4px',
-                fontSize: '13px', fontWeight: '600', color: isPast ? '#374151' : '#9CA3AF'
+                width: '80px', textAlign: 'right', paddingRight: '16px', paddingTop: '4px',
+                display: 'flex', flexDirection: 'column', gap: '2px'
             }}>
-                {!isFirst && (stop.actualArrival || stop.scheduledArrival || '--')}
+                <div style={{
+                    fontSize: '13px', fontWeight: '800',
+                    color: isArrivalDelayed ? '#D97706' : (isPast ? '#1E293B' : '#94A3B8')
+                }}>
+                    {arrivalTime || (isFirst ? '' : '—')}
+                </div>
+                {isArrivalDelayed && (
+                    <div style={{ fontSize: '10px', color: '#CBD5E1', textDecoration: 'line-through' }}>
+                        {stop.scheduledArrival}
+                    </div>
+                )}
             </div>
 
-            {/* 2. TIMELINE (Center Column) - Fixed Width */}
+            {/* 2. TIMELINE (Center Column) */}
             <div style={{ width: '40px', position: 'relative', display: 'flex', justifyContent: 'center' }}>
-                {/* Vertical Line */}
                 {!isLast && (
                     <div style={{
                         position: 'absolute', top: '14px', bottom: '-20px', width: '2px',
-                        background: isPast ? '#BFDBFE' : '#E5E7EB', // Blue if passed, Grey if future
+                        background: isPast ? '#DBEAFE' : '#F1F5F9',
                         zIndex: 0
                     }} />
                 )}
 
-                {/* NODE */}
                 <div style={{ zIndex: 10, marginTop: '5px' }}>
                     {isCurrent ? (
-                        // CURRENT STATION NODE: Pulse Animation
                         <div style={{ position: 'relative' }}>
                             <motion.div
                                 animate={{ scale: [1, 1.2, 1] }}
@@ -115,58 +133,59 @@ const TimelineRow = ({ stop, isFirst, isLast, isCurrent, isPast, trainData, show
                                     boxShadow: '0 0 0 2px #3B82F6'
                                 }}
                             />
-                            {/* TRAIN ICON (Floating on top of or next to node) */}
-                            {/* Note: If train is moving between stations, this logic needs 'distance' check. 
-                                 For v1, we assume 'isCurrent' means 'reached/at/departed recent' */}
                             <div style={{
                                 position: 'absolute', top: '-4px', left: '-4px', right: '-4px', bottom: '-4px',
                                 borderRadius: '50%', border: '1px solid rgba(59,130,246,0.3)',
                                 animation: 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite'
                             }} />
-                            <style>{`@keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }`}</style>
-
-                            {/* Render Floating Status Card HERE */}
                             <FloatingStatusCard trainData={trainData} isVisible={showStatusCard} />
                         </div>
                     ) : isPast ? (
-                        // PAST NODE: Filled Blue
                         <div style={{
                             width: '12px', height: '12px', borderRadius: '50%',
                             background: '#93C5FD', marginTop: '2px'
                         }} />
                     ) : (
-                        // FUTURE NODE: Hollow Grey
                         <div style={{
                             width: '12px', height: '12px', borderRadius: '50%',
-                            border: '2px solid #D1D5DB', background: 'white', marginTop: '2px'
+                            border: '2px solid #E2E8F0', background: 'white', marginTop: '2px'
                         }} />
                     )}
                 </div>
             </div>
 
-            {/* 3. STATION INFO & DEPARTURE (Right Column) */}
+            {/* 3. STATION INFO & DEPARTURE */}
             <div style={{ flex: 1, paddingLeft: '8px', paddingBottom: '32px', display: 'flex', justifyContent: 'space-between' }}>
-                {/* Info */}
                 <div>
                     <div style={{
-                        fontSize: '15px', fontWeight: isCurrent ? '700' : '500',
-                        color: isCurrent || isPast ? '#111' : '#6B7280',
+                        fontSize: '15px', fontWeight: isCurrent ? '800' : '600',
+                        color: isCurrent || isPast ? '#1E293B' : '#64748B',
                         lineHeight: '1.2', marginBottom: '4px'
                     }}>
                         {stop.stationName}
                     </div>
-                    <div style={{ fontSize: '12px', color: '#9CA3AF' }}>
+                    <div style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
                         {stop.distance ? `${stop.distance} km` : ''}
-                        {stop.platform && stop.platform !== 'TBD' && ` • PF ${stop.platform}`}
+                        {stop.platform && stop.platform !== 'TBD' && stop.platform !== '--' && ` • PF ${stop.platform}`}
                     </div>
                 </div>
 
                 {/* DEPARTURE TIME (Far Right) */}
                 <div style={{
-                    textAlign: 'right', fontSize: '13px', fontWeight: '600',
-                    color: isPast ? '#374151' : '#9CA3AF', minWidth: '60px'
+                    width: '80px', textAlign: 'right', paddingLeft: '16px', paddingTop: '4px',
+                    display: 'flex', flexDirection: 'column', gap: '2px'
                 }}>
-                    {!isLast && (stop.actualDeparture || stop.scheduledDeparture || '--')}
+                    <div style={{
+                        fontSize: '13px', fontWeight: '800',
+                        color: isDepartureDelayed ? '#D97706' : (isPast ? '#1E293B' : '#94A3B8')
+                    }}>
+                        {departureTime || (isLast ? '' : '—')}
+                    </div>
+                    {isDepartureDelayed && (
+                        <div style={{ fontSize: '10px', color: '#CBD5E1', textDecoration: 'line-through' }}>
+                            {stop.scheduledDeparture}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

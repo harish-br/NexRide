@@ -9,6 +9,116 @@ import { busSchedules } from '../data/busSchedules';
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
+// --- OPTIMIZED BUS CARD COMPONENT ---
+const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, statusColor, statusText }) => {
+    return (
+        <div style={{
+            background: 'white',
+            borderRadius: '16px',
+            padding: '16px',
+            marginBottom: '12px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+            border: '1px solid #F3F4F6',
+            position: 'relative',
+            overflow: 'hidden',
+            minHeight: '80px',
+            willChange: 'transform' // Hint for GPU acceleration
+        }}>
+            {/* 3D Icon - Absolute Right */}
+            <div style={{
+                position: 'absolute',
+                right: '-20px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '100px',
+                height: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: 1,
+                zIndex: 0,
+                pointerEvents: 'none'
+            }}>
+                <img
+                    src={isTrain ? trainIconImg : busIconImg}
+                    alt="Transport Mode"
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        // Removed heavy filter: drop-shadow for scroll performance
+                    }}
+                />
+            </div>
+
+            {/* Content Container (Z-Index 1) */}
+            <div style={{
+                position: 'relative',
+                zIndex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+                paddingRight: '50px'
+            }}>
+                {/* Top Row: Time + Status & Details */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {/* Time & Status Row */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <div style={{ fontSize: '20px', fontWeight: 600, color: '#111', lineHeight: '1.2' }}>{bus.departureTime}</div>
+
+                        <div style={{ width: '1px', height: '16px', background: '#D1D5DB' }}></div>
+
+                        <div style={{
+                            background: statusColor, color: statusText,
+                            fontSize: '11px', fontWeight: 600,
+                            padding: '4px 10px', borderRadius: '100px',
+                            letterSpacing: '0.5px', whiteSpace: 'nowrap'
+                        }}>
+                            {statusLabel}
+                        </div>
+                    </div>
+
+                    {/* Details */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        <div style={{ fontSize: '14px', color: '#374151', fontWeight: '600' }}>{bus.operatorName}</div>
+                        <div style={{ fontSize: '13px', color: '#9CA3AF', fontWeight: '500' }}>{bus.serviceType}</div>
+                    </div>
+                </div>
+
+                {/* Bottom Row: Path Visual */}
+                <div style={{
+                    paddingTop: '12px',
+                    borderTop: '1px solid #F3F4F6',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '12px',
+                    width: '100%'
+                }}>
+                    {/* Source */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#9CA3AF' }} />
+                        <div style={{ fontSize: '13px', color: '#1F2937', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                            {source.split(',')[0].trim().replace(/\b\w/g, l => l.toUpperCase())}
+                        </div>
+                    </div>
+
+                    {/* Connector */}
+                    <div style={{ flex: 1, height: '1px', borderTop: '2px dotted #E5E7EB', margin: '0 4px' }} />
+
+                    {/* Destination */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#111827' }} />
+                        <div style={{ fontSize: '13px', color: '#1F2937', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                            {destination.split(',')[0].trim().replace(/\b\w/g, l => l.toUpperCase())}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+});
+
 const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, userPosition }) => {
     const { t } = useTranslation();
     // State
@@ -305,7 +415,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                             </div>
 
                             {/* --- SCROLLABLE CONTENT --- */}
-                            <div style={{ flex: 1, overflowY: 'auto', position: 'relative', paddingBottom: '140px' }}>
+                            <div style={{ flex: 1, overflowY: 'auto', position: 'relative', paddingBottom: '140px', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y' }}>
                                 <div style={{ padding: '24px' }}>
 
                                     {/* INPUT CARD - RELATIVE PARENT FOR SUGGESTIONS */}
@@ -478,109 +588,16 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                                 }
 
                                                 return (
-                                                    <div key={i} style={{
-                                                        background: 'white',
-                                                        borderRadius: '16px',
-                                                        padding: '16px',
-                                                        marginBottom: '12px',
-                                                        boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
-                                                        border: '1px solid #F3F4F6',
-                                                        position: 'relative',
-                                                        overflow: 'hidden',
-                                                        minHeight: '80px'
-                                                    }}>
-                                                        {/* 3D Icon - Absolute Right */}
-                                                        <div style={{
-                                                            position: 'absolute',
-                                                            right: '-20px',
-                                                            top: '50%',
-                                                            transform: 'translateY(-50%)',
-                                                            width: '100px',
-                                                            height: '75px',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            opacity: 1,
-                                                            zIndex: 0,
-                                                            pointerEvents: 'none'
-                                                        }}>
-                                                            <img
-                                                                src={isTrain ? trainIconImg : busIconImg}
-                                                                alt="Transport Mode"
-                                                                style={{
-                                                                    width: '100%',
-                                                                    height: '100%',
-                                                                    objectFit: 'contain',
-                                                                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
-                                                                }}
-                                                            />
-                                                        </div>
-
-                                                        {/* Content Container (Z-Index 1) */}
-                                                        <div style={{
-                                                            position: 'relative',
-                                                            zIndex: 1,
-                                                            display: 'flex',
-                                                            flexDirection: 'column',
-                                                            gap: '12px', // Increased gap between top and bottom sections
-                                                            paddingRight: '50px'
-                                                        }}>
-                                                            {/* Top Row: Time + Status & Details */}
-                                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                                                {/* Time & Status Row */}
-                                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                                                                    <div style={{ fontSize: '20px', fontWeight: 600, color: '#111', lineHeight: '1.2' }}>{bus.departureTime}</div>
-
-                                                                    <div style={{ width: '1px', height: '16px', background: '#D1D5DB' }}></div>
-
-                                                                    <div style={{
-                                                                        background: statusColor, color: statusText,
-                                                                        fontSize: '11px', fontWeight: 600,
-                                                                        padding: '4px 10px', borderRadius: '100px',
-                                                                        letterSpacing: '0.5px', whiteSpace: 'nowrap'
-                                                                    }}>
-                                                                        {statusLabel}
-                                                                    </div>
-                                                                </div>
-
-                                                                {/* Details */}
-                                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                                                                    <div style={{ fontSize: '14px', color: '#374151', fontWeight: '600' }}>{bus.operatorName}</div>
-                                                                    <div style={{ fontSize: '13px', color: '#9CA3AF', fontWeight: '500' }}>{bus.serviceType}</div>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Bottom Row: Path Visual */}
-                                                            <div style={{
-                                                                paddingTop: '12px',
-                                                                borderTop: '1px solid #F3F4F6',
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'space-between', // Ensure edge-to-edge alignment
-                                                                gap: '12px',
-                                                                width: '100%' // Full width of the container
-                                                            }}>
-                                                                {/* Source */}
-                                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#9CA3AF' }} />
-                                                                    <div style={{ fontSize: '13px', color: '#1F2937', fontWeight: 600, whiteSpace: 'nowrap' }}>
-                                                                        {source.split(',')[0].trim().replace(/\b\w/g, l => l.toUpperCase())}
-                                                                    </div>
-                                                                </div>
-
-                                                                {/* Connector */}
-                                                                <div style={{ flex: 1, height: '1px', borderTop: '2px dotted #E5E7EB', margin: '0 4px' }} />
-
-                                                                {/* Destination */}
-                                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#111827' }} />
-                                                                    <div style={{ fontSize: '13px', color: '#1F2937', fontWeight: 600, whiteSpace: 'nowrap' }}>
-                                                                        {destination.split(',')[0].trim().replace(/\b\w/g, l => l.toUpperCase())}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <BusCard
+                                                        key={`${bus.routeCode}-${bus.departureTime}-${i}`}
+                                                        bus={bus}
+                                                        source={source}
+                                                        destination={destination}
+                                                        isTrain={isTrain}
+                                                        statusLabel={statusLabel}
+                                                        statusColor={statusColor}
+                                                        statusText={statusText}
+                                                    />
                                                 );
                                             })}
                                         </div>

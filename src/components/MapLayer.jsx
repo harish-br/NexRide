@@ -490,11 +490,20 @@ const MapContent = ({ userPosition, routeData, onRouteDetailsChange, selectedRou
         map.panTo(projection.fromPointToLatLng(newWorldPoint));
     }, [map]);
 
+    const prevRecenterTrigger = useRef(0);
+
     useEffect(() => {
-        if (recenterTrigger > 0) {
-            setTimeout(() => setIsFollowing(true), 0);
-            if (userPosition) { map.setZoom(15); setTimeout(() => panToWithOffset(userPosition), 50); }
+        let justRecentered = false;
+        if (recenterTrigger > prevRecenterTrigger.current) {
+            prevRecenterTrigger.current = recenterTrigger;
+            setIsFollowing(true);
+            justRecentered = true;
+            if (userPosition) { 
+                map.setZoom(15); 
+                setTimeout(() => panToWithOffset(userPosition), 50); 
+            }
         }
+
         // PRIORITY: If we have a train location, follow IT, not the user.
         if (activeTrainLocation) {
             map.setZoom(13);
@@ -502,7 +511,7 @@ const MapContent = ({ userPosition, routeData, onRouteDetailsChange, selectedRou
             return;
         }
 
-        if (userPosition && !routeData && isFollowing) {
+        if (userPosition && !routeData && isFollowing && !justRecentered) {
             if (recenterTrigger === 0 && !lastFetchPos.current) map.setZoom(15);
             panToWithOffset(userPosition);
             fetchNearbyStops(userPosition);

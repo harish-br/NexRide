@@ -40,65 +40,109 @@ const fetchWithCache = async (url, retries = 1) => {
     }
 };
 
-// PROCESSING LOGIC FOR STATION LIVE DATA
-const processStationData = (response) => {
-    if (!response) return null;
+// --- NORMALIZATION LAYER (Step 2 & 3) ---
+const normalizeTrainData = (t) => {
+    const trainInfo = t.train || {};
+    const live = t.live || {};
+    const schedule = t.schedule || {};
+    const status = t.status || {};
 
-    // Support nested data structure from API
-    const rawData = response.data || response;
+    // Map to standardized fields (snake_case from API -> camelCase for App)
+    const data = {
+        number: trainInfo.number || "—",
+        name: trainInfo.name || "Train",
+        scheduledArrival: schedule.arrival,
+        expectedArrival: live.expectedArrival,
+        scheduledDeparture: schedule.departure,
+        expectedDeparture: live.expectedDeparture,
+        delay: live.arrivalDelayMinutes || live.departureDelayMinutes || (live.arrivalDelayDisplay ? parseInt(live.arrivalDelayDisplay) : 0) || 0,
+        platform: t.platform || "—",
+        hasArrived: status.hasArrived,
+        hasDeparted: status.hasDeparted,
+        isCancelled: status.isCancelled
+    };
 
-    // Validations
-    if (!rawData.trains || !Array.isArray(rawData.trains)) {
-        return {
-            atStation: [],
-            arriving: [],
-            departing: [],
-            station: rawData.station || {}
-        };
+    // Selecting primary time (Step 3: expected > scheduled)
+    const rawArrival = data.expectedArrival || data.scheduledArrival;
+    const rawDeparture = data.expectedDeparture || data.scheduledDeparture;
+
+    // Formatting (Step 4, 5, 6)
+    data.displayArrival = getDisplayTime(rawArrival);
+    data.displayDeparture = getDisplayTime(rawDeparture);
+
+    // Debugging (Step 8)
+    console.log(`[Train] ${data.name} (${data.number})`);
+    console.log(`- Scheduled Arrival: ${data.scheduledArrival} | Expected Arrival: ${data.expectedArrival}`);
+    console.log(`- Final Display Time: ${data.displayArrival}`);
+
+    return data;
+};
+
+// --- FAIL-SAFE TIME FORMATTING (Bypasses Timezone Bugs) ---
+const getDisplayTime = (timeRaw) => {
+    if (!timeRaw || timeRaw === "--") return "—";
+
+    // CASE 1: Standard "HH:MM" or "HH:MM:SS" (API Local Time)
+    // We parse this manually to avoid ANY browser/system timezone shifts.
+    if (typeof timeRaw === 'string' && timeRaw.includes(':') && !timeRaw.includes('T')) {
+        try {
+            const parts = timeRaw.split(':');
+            let h = parseInt(parts[0]);
+            let m = parseInt(parts[1]);
+            
+            if (isNaN(h) || isNaN(m)) return "—";
+            
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            const mm = m.toString().padStart(2, '0');
+            
+            return `${h12}:${mm} ${ampm}`;
+        } catch (e) {
+            return "—";
+        }
     }
 
-    const trains = rawData.trains.map(t => {
-        // Safe access helpers
-        const trainInfo = t.train || {};
-        const live = t.live || {};
-        const schedule = t.schedule || {};
-        const status = t.status || {};
+    // CASE 2: ISO Strings or Unix Timestamps (Global Time)
+    // These MUST be shifted to Asia/Kolkata.
+    try {
+        let date;
+        if (typeof timeRaw === 'string' && (timeRaw.includes('T') || timeRaw.includes('Z'))) {
+            date = new Date(timeRaw);
+        } else {
+            const num = Number(timeRaw);
+            if (isNaN(num)) return "—";
+            // 10-digit = seconds, 13-digit = ms
+            date = new Date(num < 200000000000 ? num * 1000 : num);
+        }
 
-        return {
-            trainName: trainInfo.name || "Train",
-            trainNumber: trainInfo.number || "—",
-            platform: t.platform || "TBD",
+        return date.toLocaleTimeString("en-IN", {
+            timeZone: "Asia/Kolkata",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        });
+    } catch (err) {
+        console.error("Format Error:", err);
+        return "—";
+    }
+};
 
-            // Time logic
-            scheduledArrival: formatTime(schedule.arrival),
-            expectedArrival: formatTime(live.expectedArrival),
-            scheduledDeparture: formatTime(schedule.departure),
-            expectedDeparture: formatTime(live.expectedDeparture),
+// PROCESSING LOGIC FOR STATION LIVE DATA (Step 7)
+const processStationData = (response) => {
+    if (!response) return null;
+    const rawData = response.data || response;
 
-            // Status logic
-            status: status.hasDeparted ? 'DEPARTED' :
-                (status.hasArrived ? 'ARRIVED' :
-                    (status.isCancelled ? 'CANCELLED' : 'ON TIME')),
+    if (!rawData.trains || !Array.isArray(rawData.trains)) {
+        return { atStation: [], arriving: [], departing: [], stationName: rawData.station?.name || "—" };
+    }
 
-            // Delay text
-            delayText: live.arrivalDelayDisplay ? `Late ${live.arrivalDelayDisplay}` :
-                (live.departureDelayDisplay ? `Late ${live.departureDelayDisplay}` : 'On Time'),
-
-            // Categorization flags
-            hasArrived: status.hasArrived,
-            hasDeparted: status.hasDeparted
-        };
-    });
-
-    // Categorize
-    const atStation = trains.filter(t => t.hasArrived && !t.hasDeparted);
-    const arriving = trains.filter(t => !t.hasArrived && !t.hasDeparted);
-    const departing = trains.filter(t => t.hasDeparted);
+    // Apply normalization consistently to all trains (Step 7)
+    const normalizedTrains = rawData.trains.map(normalizeTrainData);
 
     return {
-        atStation,
-        arriving,
-        departing,
+        atStation: normalizedTrains.filter(t => t.hasArrived && !t.hasDeparted),
+        arriving: normalizedTrains.filter(t => !t.hasArrived && !t.hasDeparted),
+        departing: normalizedTrains.filter(t => t.hasDeparted),
         stationName: rawData.station?.name || rawData.station?.code,
         stationCode: rawData.station?.code
     };
@@ -173,120 +217,71 @@ export const searchStations = async (query) => {
     }
 };
 
-// Helper to format Unix timestamp to HH:MM
-const formatTime = (ts) => {
-    if (!ts) return "--";
-    // If it's already a time string like "10:30", return it
-    if (typeof ts === 'string' && ts.includes(':')) return ts;
-    // Handle Unix timestamp (assuming seconds based on previous observation, but checking length)
-    // If > 20000000000, probably ms? RailRadar usually uses seconds or standard ms. 
-    // Let's safe check: 1766536200 is 2025... so it's seconds.
-    const date = new Date(ts * 1000);
-    return date.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false });
-};
-
 // Helper to parse "HH:MM" to minutes from midnight
 const parseTimeToMinutes = (timeStr) => {
     if (!timeStr || typeof timeStr !== 'string') return -1;
-    const [hh, mm] = timeStr.trim().split(':').map(Number);
+    let hh, mm;
+    if (timeStr.includes('AM') || timeStr.includes('PM')) {
+        // Already formatted by our getDisplayTime
+        const [time, modifier] = timeStr.trim().split(' ');
+        [hh, mm] = time.split(':').map(Number);
+        if (modifier === 'PM' && hh < 12) hh += 12;
+        if (modifier === 'AM' && hh === 12) hh = 0;
+    } else {
+        [hh, mm] = timeStr.trim().split(':').map(Number);
+    }
+    
     if (isNaN(hh) || isNaN(mm)) return -1;
     return hh * 60 + mm;
 };
 
-// PROCESSING LOGIC FOR NEW CAMELCASE RESPONSE
+// PROCESSING LOGIC FOR LIVE STATUS (ROUTE)
 const processTrainStatus = (response) => {
-    // 1. Validate mandatory fields (Now camelCase)
     if (!response || !response.route || !Array.isArray(response.route)) {
         console.error("Invalid API Response: route missing");
         return null;
     }
 
-    // 2. Read Top-Level Data (camelCase or snake_case fallback)
     const trainName = response.trainName || response.train_name || "Train";
     const trainNumber = response.trainNumber || response.train_number || "—";
-
     const route = response.route;
 
-    // 3. Process Route & Identify Current Location
-
-    // STRATEGY A: Explicit "currentLocation" object from API
-    // Handle both camelCase and snake_case keys
     const apiCurrentLocation = response.currentLocation || response.current_location;
-    const currentParam = apiCurrentLocation
-        ? (apiCurrentLocation.stationCode || apiCurrentLocation.station_code)
-        : null;
+    const currentParam = apiCurrentLocation ? (apiCurrentLocation.stationCode || apiCurrentLocation.station_code) : null;
 
     let validCurrentIndex = -1;
-
     if (currentParam) {
         validCurrentIndex = route.findIndex(s => s.stationCode === currentParam);
     }
 
-    // STRATEGY B: Time-Based Fallback (If API gives no explicit current station)
-    // We walk the route and find the last station where (actualTime <= currentTime)
+    // Time-based fallback
     if (validCurrentIndex === -1) {
         const now = new Date();
         const currentMins = now.getHours() * 60 + now.getMinutes();
-
-        // We need to handle day wrapping (e.g. 23:00 -> 01:00).
-        // Simple heuristic: If the route is sorted, we just check each station.
-        // We assume the train is running "today" or "yesterday" relevant to the times shown.
-        // To avoid complex date math without dates, we just assume:
-        // A station is passed if its time is "earlier" than now (with some overnight tolerance).
-        // Since this is a fallback, a simple check is better than nothing.
-
         let lastPassedIndex = -1;
-
         for (let i = 0; i < route.length; i++) {
             const s = route[i];
-            // Prefer actual, then scheduled
-            const depStr = s.actualDeparture || s.scheduledDeparture;
-            const arrStr = s.actualArrival || s.scheduledArrival;
-
-            // Use departure for "passed" check, arrival for "reached" check
-            const checkTimeStr = depStr || arrStr;
+            const checkTimeStr = s.actualDeparture || s.scheduledDeparture || s.actualArrival || s.scheduledArrival;
             const checkMins = parseTimeToMinutes(checkTimeStr);
-
-            if (checkMins !== -1) {
-                // Direct comparison for same-day
-                if (checkMins <= currentMins) {
-                    lastPassedIndex = i;
-                }
-                // Handle late night trains (e.g. current 01:00, station 23:00 - considered passed yesterday?)
-                // This is hard without explicit day count. API 'distance' might help?
-                // For now, simple <= is the safest MVP fallback.
+            if (checkMins !== -1 && checkMins <= currentMins) {
+                lastPassedIndex = i;
             }
         }
-
-        if (lastPassedIndex !== -1) {
-            validCurrentIndex = lastPassedIndex;
-        }
+        if (lastPassedIndex !== -1) validCurrentIndex = lastPassedIndex;
     }
 
-    // 4. Build Detailed Current Location Object
-    // "currentStation" for the UI usually implies "Last Reported Station".
-    const currentLocParams = validCurrentIndex !== -1 ? route[validCurrentIndex] : null; // The station we are at or just left
+    const currentLocParams = validCurrentIndex !== -1 ? route[validCurrentIndex] : null; 
+    const nextLocParams = (validCurrentIndex !== -1 && validCurrentIndex + 1 < route.length) ? route[validCurrentIndex + 1] : null;
 
-    // nextStation is simply the one after current
-    const nextLocParams = (validCurrentIndex !== -1 && validCurrentIndex + 1 < route.length)
-        ? route[validCurrentIndex + 1]
-        : null;
-
-    // Build the objects
     const currentLocation = currentLocParams ? {
         name: currentLocParams.stationName || currentLocParams.stationCode,
         code: currentLocParams.stationCode,
         distance: currentLocParams.distanceFromOriginKm || 0,
         platform: currentLocParams.platform || '--',
-        time: formatTime(currentLocParams.actualDeparture || currentLocParams.actualArrival),
+        time: getDisplayTime(currentLocParams.actualDeparture || currentLocParams.actualArrival),
         delay: currentLocParams.delayDepartureMinutes || currentLocParams.delayArrivalMinutes || 0,
-
-        // Coordinates for Map
-        // API usually provides lat/lng in station object (e.g. stationLat, stationLng)
         lat: currentLocParams.stationLat || currentLocParams.lat,
         lng: currentLocParams.stationLng || currentLocParams.lng,
-
-        // Strict keys for UI compat
         stationName: currentLocParams.stationName || currentLocParams.stationCode,
         stationCode: currentLocParams.stationCode
     } : null;
@@ -297,51 +292,34 @@ const processTrainStatus = (response) => {
         delay: nextLocParams.delayArrivalMinutes || nextLocParams.delayDepartureMinutes || 0
     } : null;
 
-    // 6. Timeline & Icon Logic
     const timeline = route.map((station, index) => ({
         stationName: station.stationName || station.stationCode,
         stationCode: station.stationCode,
         distance: station.distanceFromOriginKm || 0,
-
-        // Time mapping (camelCase)
-        scheduledArrival: formatTime(station.scheduledArrival),
-        actualArrival: formatTime(station.actualArrival),
-        scheduledDeparture: formatTime(station.scheduledDeparture),
-        actualDeparture: formatTime(station.actualDeparture),
+        scheduledArrival: getDisplayTime(station.scheduledArrival),
+        actualArrival: getDisplayTime(station.actualArrival),
+        scheduledDeparture: getDisplayTime(station.scheduledDeparture),
+        actualDeparture: getDisplayTime(station.actualDeparture),
         delayMinutes: station.delayArrivalMinutes || station.delayDepartureMinutes || 0,
         platform: station.platform || '--',
-
-        // UI RULE: isCurrent ONLY if index === validCurrentIndex
-        // This puts the pulsing dot on the last updated station.
         isCurrent: index === validCurrentIndex,
-
-        // hasPassed is true for everything BEFORE current. 
-        // Current itself is "active", not "past_grey", but usually we color it uniquely.
-        // If we want the line to be blue UP TO current, we include current in hasPassed logic or handle UI.
         hasPassed: index <= validCurrentIndex
     }));
 
-    // Overall Delay is usually drawn from the current or next station's delay stats
     const overallDelay = currentLocation?.delay || nextStationInfo?.delay || 0;
-
-    // Name to display in the floating pill
-    const displayStationName = currentLocation?.name || "Source";
-
+    
     return {
         trainName,
         trainNumber,
         lastUpdated: response.lastUpdatedAt || new Date().toISOString(),
         source: timeline[0]?.stationCode,
         destination: timeline[timeline.length - 1]?.stationCode,
-
         currentLocation: currentLocation,
-        currentStation: displayStationName, // <--- EXPLICIT: Last visited station name
+        currentStation: currentLocation?.name || "Source",
         nextStationInfo: nextStationInfo,
-
         isLate: overallDelay > 0,
         overallDelay: overallDelay,
-
         timeline: timeline,
-        statusSummary: response.statusSummary || "Live Status"
+        statusSummary: overallDelay > 0 ? `Delayed by ${overallDelay} min` : "On Time"
     };
 };

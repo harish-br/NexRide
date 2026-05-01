@@ -29,70 +29,89 @@ const trainIconImg = "/icons/train_new_square.jpg"; // Consistent asset
 
 
 // --- Helper Component: Train List Item (Premium Card Style) ---
+// --- Helper Component: Train List Item (Premium Card Style) ---
 const TrainListItem = ({ train }) => {
-    // Status Logic for Color
     const isLate = train.isLate;
-    const isArrived = train.hasArrived;
+    const isDelayed = train.status === 'DELAYED' || isLate;
+    const isUnknown = train.status === 'UNKNOWN';
 
-    // Status Badge Style
-    const badgeStyle = {
-        background: isArrived ? '#ECFDF5' : (isLate ? '#FEF2F2' : '#EFF6FF'),
-        color: isArrived ? '#059669' : (isLate ? '#DC2626' : '#3B82F6'),
-        fontSize: '11px', fontWeight: 600, padding: '4px 8px', borderRadius: '6px',
-        display: 'inline-block', letterSpacing: '0.3px'
-    };
+    // Using pre-formatted display fields from normalization layer
+    const displayTime = train.displayArrival || train.displayDeparture || "—";
+    const timeLabel = train.displayArrival && train.displayArrival !== "—" ? "Arrives" : "Departs";
+
+    // Status Chip Style (Stricter mapping to User Request)
+    let badgeBg = '#ECFDF5'; // On Time
+    let badgeText = '#16A34A';
+    let statusLabel = 'On Time';
+
+    if (isDelayed) {
+        badgeBg = '#FEF3C7';
+        badgeText = '#D97706';
+        // Format delay as "+X min delay" per request
+        const mins = train.delay || 0;
+        statusLabel = `+${mins} min delay`;
+    } else if (isUnknown) {
+        badgeBg = '#F3F4F6';
+        badgeText = '#6B7280';
+        statusLabel = 'Status unavailable';
+    }
 
     return (
         <div style={{
-            background: 'white', borderRadius: '16px', padding: '16px',
-            marginBottom: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-            border: '1px solid #F3F4F6', position: 'relative'
+            background: 'white', borderRadius: '20px', padding: '18px',
+            marginBottom: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+            border: '1px solid #F1F5F9', position: 'relative'
         }}>
-            {/* Top Row: Train Info */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                         <span style={{
-                            background: '#F3F4F6', color: '#4B5563',
-                            fontSize: '11px', fontWeight: 600, padding: '2px 6px', borderRadius: '4px'
+                            background: '#F1F5F9', color: '#64748B',
+                            fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '6px',
+                            letterSpacing: '0.5px'
                         }}>
-                            {train.trainNumber}
+                            {train.number}
                         </span>
-                        {train.platform !== 'TBD' && (
-                            <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: '500' }}>
-                                • PF {train.platform}
+                        {train.platform && train.platform !== 'TBD' && train.platform !== '—' && (
+                            <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: '600' }}>
+                                Platform {train.platform}
                             </span>
                         )}
                     </div>
-                    <div style={{ fontSize: '15px', fontWeight: 600, color: '#111', lineHeight: '1.3' }}>
-                        {train.trainName}
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#1E293B', marginBottom: '12px' }}>
+                        {train.name}
                     </div>
                 </div>
 
-                {/* Time Display */}
                 <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '16px', fontWeight: 600, color: '#1F2937' }}>
-                        {train.expectedDeparture || train.expectedArrival}
+                    <div style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 600, marginBottom: '2px' }}>
+                        {timeLabel}
                     </div>
-                    {/* Show Scheduled if different */}
-                    {(train.expectedDeparture !== train.scheduledDeparture) && (
-                        <div style={{ fontSize: '11px', color: '#9CA3AF', textDecoration: 'line-through' }}>
-                            {train.scheduledDeparture || train.scheduledArrival}
-                        </div>
-                    )}
+                    <div style={{ fontSize: '18px', fontWeight: 800, color: isLate ? '#D97706' : '#1E293B' }}>
+                        {displayTime}
+                    </div>
+                    {/* Faded duplicate time removed here */}
                 </div>
             </div>
 
-            {/* Bottom Row: Status Badge & Divider */}
-            <div style={{ borderTop: '1px dashed #E5E7EB', paddingTop: '10px', marginTop: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={badgeStyle}>
-                    {train.delayText || train.status}
+            <div style={{ 
+                display: 'flex', alignItems: 'center', gap: '10px', 
+                marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #F1F5F9' 
+            }}>
+                <div style={{
+                    background: badgeBg, color: badgeText,
+                    fontSize: '12px', fontWeight: 700, padding: '6px 12px', borderRadius: '10px',
+                    display: 'flex', alignItems: 'center', gap: '6px'
+                }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: badgeText }} />
+                    {statusLabel}
                 </div>
-
-                {/* Visual Helper */}
-                <div style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: '500' }}>
-                    {isArrived ? 'Arrived' : (train.hasDeparted ? 'Departed' : (isLate ? 'Running Late' : 'On Time'))}
-                </div>
+                
+                {train.hasArrived && !train.hasDeparted && (
+                    <span style={{ fontSize: '12px', color: '#10B981', fontWeight: 600 }}>
+                        • At Station
+                    </span>
+                )}
             </div>
         </div>
     );
@@ -421,11 +440,11 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
                                                     <TrainFront size={22} />
                                                 </div>
                                                 <div>
-                                                    <div style={{ fontSize: '15px', fontWeight: 600, color: '#111827' }}>
+                                                    <div style={{ fontSize: '15px', fontWeight: 700, color: '#1E293B' }}>
                                                         {station.name}
                                                     </div>
-                                                    <div style={{ fontSize: '12px', color: '#6B7280', fontWeight: '500' }}>
-                                                        {station.aliases?.[0] || t('train.railway_station') || "Railway Station"}
+                                                    <div style={{ fontSize: '12px', color: '#64748B', fontWeight: '500', marginTop: '2px' }}>
+                                                        {station.state || 'Railway Station'}
                                                     </div>
                                                 </div>
                                             </div>
@@ -446,14 +465,15 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                 >
-                                    <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-                                        <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#111', margin: '0 0 4px 0' }}>
+                                    <div style={{ marginBottom: '24px', textAlign: 'center' }}>
+                                        <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#1E293B', margin: '0 0 6px 0', letterSpacing: '-0.5px' }}>
                                             {stationBoard.stationName}
                                         </h3>
                                         <div style={{
-                                            display: 'inline-block', padding: '4px 10px',
-                                            background: '#ECFDF5', color: '#059669',
-                                            borderRadius: '20px', fontSize: '12px', fontWeight: 600
+                                            display: 'inline-flex', padding: '6px 14px',
+                                            background: '#F1F5F9', color: '#475569',
+                                            borderRadius: '10px', fontSize: '12px', fontWeight: 700,
+                                            border: '1px solid #E2E8F0'
                                         }}>
                                             {stationBoard.stationCode}
                                         </div>

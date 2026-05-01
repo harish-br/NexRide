@@ -156,9 +156,9 @@ const GuestSelectionScreen = ({
                     onClick={() => onContinue(count, totalFare)}
                     style={{
                         width: '100%', padding: '18px', borderRadius: '24px',
-                        backgroundColor: '#111', color: 'white',
+                        backgroundColor: '#22C55E', color: 'white',
                         fontSize: '16px', fontWeight: 600, border: 'none',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                        boxShadow: '0 4px 12px rgba(34, 197, 94, 0.3)'
                     }}
                 >
                     Continue

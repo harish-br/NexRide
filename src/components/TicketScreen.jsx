@@ -182,41 +182,58 @@ const TicketScreen = ({
                                 marginTop: '20px',
                                 marginLeft: '-24px' // Flush with the left edge of the card
                             }}>
-                                {selectedRoute?.type === 'bus' ? (
-                                    <img
-                                        src={busIconNew}
-                                        alt="Bus"
-                                        style={{
-                                            width: '80px',
-                                            height: '80px',
-                                            objectFit: 'contain',
-                                            display: 'block'
-                                        }}
-                                    />
-                                ) : (
-                                    <div style={{ width: '80px', display: 'flex', justifyContent: 'center' }}>
-                                        <Train size={56} color="#16A34A" />
-                                    </div>
-                                )}
-                                <div>
-                                    <div style={{
-                                        fontSize: '20px',
-                                        fontWeight: 600,
-                                        color: '#111',
-                                        textTransform: 'capitalize',
-                                        lineHeight: '1.1'
-                                    }}>
-                                        {selectedRoute?.type || t('ticket.transport')}
-                                    </div>
-                                    <div style={{
-                                        fontSize: '15px',
-                                        fontWeight: '500',
-                                        color: '#6B7280',
-                                        marginTop: '4px'
-                                    }}>
-                                        {selectedRoute?.routeNumber || t('ticket.route')}
-                                    </div>
-                                </div>
+                                {(() => {
+                                    const transportType = selectedRoute?.type || 'bus';
+                                    const isBus = transportType === 'bus';
+                                    const transportLabel = isBus ? 'Bus' : 'Train';
+
+                                    return (
+                                        <>
+                                            {isBus ? (
+                                                <img
+                                                    src={busIconNew}
+                                                    alt="Bus"
+                                                    style={{
+                                                        width: '80px',
+                                                        height: '80px',
+                                                        objectFit: 'contain',
+                                                        display: 'block'
+                                                    }}
+                                                />
+                                            ) : (
+                                                <div style={{ width: '80px', display: 'flex', justifyContent: 'center' }}>
+                                                    <Train size={56} color="#16A34A" />
+                                                </div>
+                                            )}
+                                            <div>
+                                                <div style={{
+                                                    fontSize: '20px',
+                                                    fontWeight: 600,
+                                                    color: '#111',
+                                                    lineHeight: '1.1'
+                                                }}>
+                                                    {transportLabel}
+                                                </div>
+                                                <div style={{
+                                                    fontSize: '15px',
+                                                    fontWeight: '600',
+                                                    color: '#374151',
+                                                    marginTop: '4px'
+                                                }}>
+                                                    {selectedRoute?.name || 'A.S.M Bus'}
+                                                </div>
+                                                <div style={{
+                                                    fontSize: '13px',
+                                                    fontWeight: '500',
+                                                    color: '#6B7280',
+                                                    marginTop: '2px'
+                                                }}>
+                                                    Dep: {selectedRoute?.time || '--:--'}
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })()}
                             </div>
                         </div>
 
@@ -296,7 +313,7 @@ const TicketScreen = ({
                             disabled={!fare || isLoading || paymentStatus === 'processing'}
                             style={{
                                 width: '100%',
-                                backgroundColor: paymentStatus === 'failure' ? '#DC2626' : '#111',
+                                backgroundColor: paymentStatus === 'failure' ? '#DC2626' : '#22C55E', // Green primary CTA
                                 color: '#fff',
                                 border: 'none',
                                 padding: '18px',

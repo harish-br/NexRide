@@ -15,6 +15,39 @@ const MapController = ({ center }) => {
     return null;
 };
 
+// Custom component to safely bind native map events
+const MapEventsHandler = ({ onIdle, onDragStart }) => {
+    const map = useMap();
+    
+    useEffect(() => {
+        if (!map || !window.google) return;
+        
+        const idleListener = map.addListener("idle", () => {
+            const center = map.getCenter();
+            if (center) {
+                onIdle(center.lat(), center.lng());
+            }
+        });
+
+        const dragListener = map.addListener("dragstart", () => {
+            onDragStart();
+        });
+
+        const dragListener2 = map.addListener("center_changed", () => {
+             // Optionally mark as moving if center changes programmatically
+             // Or we rely purely on map bounds.
+        });
+
+        return () => {
+            window.google.maps.event.removeListener(idleListener);
+            window.google.maps.event.removeListener(dragListener);
+            window.google.maps.event.removeListener(dragListener2);
+        };
+    }, [map, onIdle, onDragStart]);
+
+    return null;
+};
+
 const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
     
     const defaultLocation = initialLocation || { lat: 11.3410, lng: 77.7172 };
@@ -34,7 +67,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
         return 'Add New Place';
     };
 
-    const reverseGeocode = async (lat, lng, retryCount = 0) => {
+    const reverseGeocode = useCallback(async (lat, lng, retryCount = 0) => {
         setIsResolving(true);
         setAddressError(false);
         console.log(`[Geocode] Staring reverse geocode for Lat: ${lat}, Lng: ${lng}`);
@@ -93,7 +126,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
             setIsResolving(false);
             setIsMoving(false); // Safety reset
         }
-    };
+    }, []);
 
     const fetchCurrentLocation = () => {
         if ("geolocation" in navigator) {
@@ -242,38 +275,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
         if (geocodeTimeout.current) clearTimeout(geocodeTimeout.current);
     }, []);
 
-    // Custom component to safely bind native map events
-    const MapEventsHandler = ({ onIdle, onDragStart }) => {
-        const map = useMap();
-        
-        useEffect(() => {
-            if (!map || !window.google) return;
-            
-            const idleListener = map.addListener("idle", () => {
-                const center = map.getCenter();
-                if (center) {
-                    onIdle(center.lat(), center.lng());
-                }
-            });
 
-            const dragListener = map.addListener("dragstart", () => {
-                onDragStart();
-            });
-
-            const dragListener2 = map.addListener("center_changed", () => {
-                 // Optionally mark as moving if center changes programmatically
-                 // Or we rely purely on map bounds.
-            });
-
-            return () => {
-                window.google.maps.event.removeListener(idleListener);
-                window.google.maps.event.removeListener(dragListener);
-                window.google.maps.event.removeListener(dragListener2);
-            };
-        }, [map, onIdle, onDragStart]);
-
-        return null;
-    };
 
     return (
         <div className="location-screen-container" style={{
@@ -350,66 +352,72 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                     defaultCenter={{ lat: 11.3410, lng: 77.7172 }}
                     defaultZoom={16}
                     disableDefaultUI={true}
-                    gestureHandling="greedy"
+                    gestureHandling="auto"
+                    draggable={true}
                     style={{ width: '100%', height: '100%' }}
                 >
                     <MapEventsHandler onIdle={handleLocationChange} onDragStart={handleDragStart} />
                     <MapController center={center} />
                 </Map>
-                
-                {/* FIXED CENTER PIN UI */}
-                <div style={{
-                    position: 'absolute', top: '50%', left: '50%',
-                    transform: isMoving ? 'translate(-50%, -120%)' : 'translate(-50%, -100%)',
-                    transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center',
-                    zIndex: 2
+                {/* OVERLAY CONTAINER FOR MAP UI */}
+                <div className="overlay" style={{
+                    position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none'
                 }}>
-                    <div className="pin-label" style={{ 
-                        background: '#1569FD', color: 'white', padding: '8px 14px', 
-                        borderRadius: '24px', fontSize: '13px', fontWeight: 600,
-                        marginBottom: '10px', boxShadow: '0 6px 16px rgba(21,105,253,0.3)',
-                        whiteSpace: 'nowrap',
-                        transform: isMoving ? 'scale(1.05)' : 'scale(1)',
-                        transition: 'transform 0.2s ease'
+                    {/* FIXED CENTER PIN UI */}
+                    <div style={{
+                        position: 'absolute', top: '50%', left: '50%',
+                        transform: isMoving ? 'translate(-50%, -120%)' : 'translate(-50%, -100%)',
+                        transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center',
+                        pointerEvents: 'none'
                     }}>
-                        {isMoving ? 'Move map to adjust' : 'Set Location Here'}
+                        <div className="pin-label" style={{ 
+                            background: '#1569FD', color: 'white', padding: '8px 14px', 
+                            borderRadius: '24px', fontSize: '13px', fontWeight: 600,
+                            marginBottom: '10px', boxShadow: '0 6px 16px rgba(21,105,253,0.3)',
+                            whiteSpace: 'nowrap',
+                            transform: isMoving ? 'scale(1.05)' : 'scale(1)',
+                            transition: 'transform 0.2s ease'
+                        }}>
+                            {isMoving ? 'Move map to adjust' : 'Set Location Here'}
+                        </div>
+                        {/* Map marker SVG custom pin */}
+                        <div style={{ position: 'relative' }}>
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 8px 8px rgba(0,0,0,0.25))' }}>
+                                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="#1569FD" stroke="white" strokeWidth="2"/>
+                                <circle cx="12" cy="9" r="3.5" fill="white"/>
+                            </svg>
+                            {/* Shadow beneath pin */}
+                            <div style={{ 
+                                position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%)',
+                                width: '12px', height: '4px', background: 'rgba(0,0,0,0.3)', borderRadius: '50%',
+                                filter: 'blur(2px)', opacity: isMoving ? 0.3 : 0.8, transition: 'opacity 0.2s'
+                            }} />
+                        </div>
                     </div>
-                    {/* Map marker SVG custom pin */}
-                    <div style={{ position: 'relative' }}>
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 8px 8px rgba(0,0,0,0.25))' }}>
-                            <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="#1569FD" stroke="white" strokeWidth="2"/>
-                            <circle cx="12" cy="9" r="3.5" fill="white"/>
-                        </svg>
-                        {/* Shadow beneath pin */}
-                        <div style={{ 
-                            position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%)',
-                            width: '12px', height: '4px', background: 'rgba(0,0,0,0.3)', borderRadius: '50%',
-                            filter: 'blur(2px)', opacity: isMoving ? 0.3 : 0.8, transition: 'opacity 0.2s'
-                        }} />
-                    </div>
-                </div>
 
-                {/* LOCATE ME BUTTON */}
-                <button 
-                    onClick={() => {
-                        haptics.light();
-                        fetchCurrentLocation();
-                    }}
-                    className="location-btn"
-                    style={{
-                        position: 'absolute', bottom: '32px', right: '20px',
-                        width: '48px', height: '48px', borderRadius: '50%', 
-                        background: 'rgba(21,105,253,0.1)', color: '#1569FD',
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.08)', border: '1.5px solid white',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        backdropFilter: 'blur(8px)', transition: 'transform 0.2s'
-                    }}
-                    onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.92)'}
-                    onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                >
-                    <LocateFixed size={22} color="#1569FD" />
-                </button>
+                    {/* LOCATE ME BUTTON */}
+                    <button 
+                        onClick={() => {
+                            haptics.light();
+                            fetchCurrentLocation();
+                        }}
+                        className="location-btn clickable"
+                        style={{
+                            position: 'absolute', bottom: '32px', right: '20px',
+                            width: '48px', height: '48px', borderRadius: '50%', 
+                            background: 'rgba(21,105,253,0.1)', color: '#1569FD',
+                            boxShadow: '0 4px 16px rgba(0,0,0,0.08)', border: '1.5px solid white',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            backdropFilter: 'blur(8px)', transition: 'transform 0.2s',
+                            pointerEvents: 'auto'
+                        }}
+                        onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.92)'}
+                        onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                        <LocateFixed size={22} color="#1569FD" />
+                    </button>
+                </div>
             </div>
 
             {/* BOTTOM CONFIRMATION SHEET */}
