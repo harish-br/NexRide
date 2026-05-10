@@ -6,6 +6,7 @@ import { ant_erd } from './bus_timings/ant_erd';
 import { erd_pln } from './bus_timings/erd_pln';
 import { erd_dpm } from './bus_timings/erd_dpm';
 import { erd_kgm } from './bus_timings/erd_kgm';
+import { comprehensive } from './bus_timings/comprehensive';
 
 export const busSchedules = [
     ...erd_cbe.map(bus => ({
@@ -95,7 +96,8 @@ export const busSchedules = [
         operatorName: 'A.S.M Bus Travel',
         serviceType: 'Private AC Seater',
         bus_type: 'A.S.M'
-    }))
+    })),
+    ...comprehensive
 ];
 
 export const busStops = [

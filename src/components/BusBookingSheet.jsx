@@ -81,7 +81,14 @@ const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, st
                     {/* Details */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                         <div style={{ fontSize: '14px', color: '#374151', fontWeight: '600' }}>{bus.operatorName}</div>
-                        <div style={{ fontSize: '13px', color: '#9CA3AF', fontWeight: '500' }}>{bus.serviceType}</div>
+                        <div style={{ fontSize: '13px', color: '#9CA3AF', fontWeight: '500' }}>
+                            {bus.serviceType}
+                            {bus.via && (
+                                <span style={{ marginLeft: '8px', color: '#6B7280', fontSize: '12px', fontWeight: '400' }}>
+                                    • via {bus.via}
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -242,17 +249,39 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
         // 1. Find ALL buses for this route (ignoring time)
         const routeBuses = busSchedules.filter(bus => {
             // Priority: Explicit Route Code Match (for Bhavani logic)
-            if (targetRouteCode) {
-                return bus.routeCode === targetRouteCode;
+            if (targetRouteCode && bus.routeCode === targetRouteCode) {
+                return true;
             }
+
             const busFrom = normalizePlace(bus.from);
             const busTo = normalizePlace(bus.to);
+            const busVia = bus.via ? normalizePlace(bus.via) : "";
 
-            // Strict Direction Match
-            const fromMatch = busFrom === normSource || busFrom.includes(normSource) || normSource.includes(busFrom);
-            const toMatch = busTo === normDest || busTo.includes(normDest) || normDest.includes(busTo);
+            // Helper to check if a place matches
+            const matches = (place, target) => {
+                if (!place || !target) return false;
+                return place === target || place.includes(target) || target.includes(place);
+            };
 
-            return fromMatch && toMatch;
+            // Case A: Direct match from -> to
+            const directMatch = matches(busFrom, normSource) && matches(busTo, normDest);
+            if (directMatch) return true;
+
+            // Case B: Source is 'from', Destination is in 'via'
+            if (matches(busFrom, normSource) && matches(busVia, normDest)) return true;
+
+            // Case C: Source is in 'via', Destination is 'to'
+            if (matches(busVia, normSource) && matches(busTo, normDest)) return true;
+
+            // Case D: Both source and destination are in 'via'
+            // We'll check if source comes before destination in the via string
+            if (matches(busVia, normSource) && matches(busVia, normDest)) {
+                const sourceIdx = busVia.indexOf(normSource);
+                const destIdx = busVia.indexOf(normDest);
+                return sourceIdx < destIdx;
+            }
+
+            return false;
         });
 
         if (routeBuses.length === 0) {
