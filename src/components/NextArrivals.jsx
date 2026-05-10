@@ -1,108 +1,209 @@
 import React, { useState, useEffect } from 'react';
-import busData from '../data/busData';
-import { getDistance, ERODE_BUS_STAND_COORDS, ERODE_DISTRICT_CENTROID, ANTHIYUR_COORDS, VISIBILITY_RADIUS_METERS, DISTRICT_FALLBACK_RADIUS_METERS } from '../utils/locationUtils';
-import { MapPin, ArrowUpDown } from 'lucide-react';
+import { getDistance, SOURCE_COORDINATES } from '../utils/locationUtils';
+import { MapPin, ArrowUpDown, ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { busSchedules } from '../data/busSchedules';
+import haptics from '../utils/haptics';
+
+const ArrivalCard = ({ bus, status, operatorName, busType, t }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+    
+    // Split via string into stops if it exists
+    const routeStops = bus.via ? bus.via.split(',').map(s => s.trim()) : [];
+
+    return (
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '16px 4px',
+                borderBottom: '1px solid #F3F4F6',
+            }}
+        >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                {/* Left: Icon + Bus Info */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
+                    <div style={{
+                        width: '40px', height: '40px', borderRadius: '8px',
+                        background: '#F3F4F6', overflow: 'hidden'
+                    }}>
+                        <img
+                            src="/icons/bus_icon_minimal.jpg"
+                            alt="Bus"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span style={{ fontSize: '16px', fontWeight: 600, color: '#111827' }}>
+                            {operatorName} <span style={{ fontSize: '13px', fontWeight: 700, color: '#6B7280' }}>| {bus.displayTime}</span>
+                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+                            <span style={{ fontSize: '14px', fontWeight: '600', color: '#374151' }}>
+                                {bus.origin} → {bus.destination}
+                            </span>
+
+                            <div className="badge-row" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', maxWidth: '65%', alignItems: 'center' }}>
+                                {/* GOVT Badge */}
+                                {busType === 'Govt' && (
+                                    <span style={{
+                                        fontSize: '12px', fontWeight: '500', color: '#065F46',
+                                        background: '#ECFDF5', border: '1px solid #A7F3D0',
+                                        borderRadius: '9999px', padding: '4px 8px', whiteSpace: 'nowrap'
+                                    }}>
+                                        {t('next_arrivals.govt')}
+                                    </span>
+                                )}
+
+                                {/* PRIVATE Badge */}
+                                {busType === 'Private' && (
+                                    <span style={{
+                                        fontSize: '12px', fontWeight: '500', color: '#1F2937',
+                                        background: '#F3F4F6', border: '1px solid #E5E7EB',
+                                        borderRadius: '9999px', padding: '4px 8px', whiteSpace: 'nowrap'
+                                    }}>
+                                        {t('next_arrivals.private')}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right: ETA & Status */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', minWidth: '80px', flexShrink: 0 }}>
+                    <div style={{
+                        fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '4px'
+                    }}>
+                        {status.sub}
+                    </div>
+                    <div style={{
+                        fontSize: '12px', fontWeight: 700,
+                        color: status.color
+                    }}>
+                        {status.label}
+                    </div>
+                </div>
+            </div>
+
+            {/* NEW: Expandable Via Route Section */}
+            {routeStops.length > 0 && (
+                <div style={{ marginTop: '10px', paddingLeft: '56px' }}>
+                    <button
+                        onClick={() => {
+                            haptics.light();
+                            setIsExpanded(!isExpanded);
+                        }}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            padding: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <span style={{ fontSize: '12px', color: '#6B7280', fontWeight: '500' }}>
+                            {t('next_arrivals.via_route')}
+                        </span>
+                        <motion.div
+                            animate={{ rotate: isExpanded ? 90 : 0 }}
+                            transition={{ duration: 0.2 }}
+                            style={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            <ChevronRight size={14} color="#9CA3AF" />
+                        </motion.div>
+                    </button>
+                    
+                    <AnimatePresence>
+                        {isExpanded && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.25, ease: "easeInOut" }}
+                                style={{ overflow: 'hidden' }}
+                            >
+                                <div style={{ 
+                                    paddingTop: '6px', 
+                                    fontSize: '12px', 
+                                    color: '#9CA3AF', 
+                                    fontWeight: '400',
+                                    lineHeight: '1.5'
+                                }}>
+                                    {t('next_arrivals.via')} {routeStops.join(", ")}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            )}
+        </div>
+    );
+};
 
 const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
     const { t } = useTranslation();
-    // 📍 Detect District Logic (New)
-    const [isInsideDistrict, setIsInsideDistrict] = useState(false);
     const [currentCity, setCurrentCity] = useState('Unknown');
-    const [availableDistricts, setAvailableDistricts] = useState([]);
-    const [manualDistrictSelection, setManualDistrictSelection] = useState(null);
+    const [availableNearbySources, setAvailableNearbySources] = useState([]);
+    const [manualSourceSelection, setManualSourceSelection] = useState(null);
 
     useEffect(() => {
-        let detectedCity = 'Unknown';
-        let insideErodeDistrict = false;
-        let districts = [];
-
-        // 1. Proximity Checks
+        let nearby = [];
+        
+        // 1. Proximity Check for all known sources
         if (userPosition) {
-            // Check Erode Proximity
-            const distToErode = getDistance(userPosition.lat, userPosition.lng, ERODE_BUS_STAND_COORDS.lat, ERODE_BUS_STAND_COORDS.lng);
-            if (distToErode <= 25000) { // 25km radius
-                districts.push('Erode');
-            }
-
-            // Check Anthiyur Proximity
-            const distToAnthiyur = getDistance(userPosition.lat, userPosition.lng, ANTHIYUR_COORDS.lat, ANTHIYUR_COORDS.lng);
-            if (distToAnthiyur <= 25000) {
-                districts.push('Anthiyur');
-            }
+            Object.entries(SOURCE_COORDINATES).forEach(([name, coords]) => {
+                const dist = getDistance(userPosition.lat, userPosition.lng, coords.lat, coords.lng);
+                if (dist <= 30000) { // 30km radius for "Nearby"
+                    nearby.push({ name, dist });
+                }
+            });
         }
 
-        // 2. Fallback: Administrative Check (if not detected by strict radius)
-        if (districts.length === 0 && userDistrictInfo && userDistrictInfo.district) {
-            const d = userDistrictInfo.district.toLowerCase();
-            const s = userDistrictInfo.state ? userDistrictInfo.state.toLowerCase() : '';
-
-            if (d.includes('erode') && s.includes('tamil nadu')) {
-                // If in Erode district but not close to Anthiyur specific coords, default to Erode
-                if (!districts.includes('Erode')) districts.push('Erode');
-            } else if (d.includes('coimbatore')) {
-                if (!districts.includes('Coimbatore')) districts.push('Coimbatore');
-            } else if (d.includes('mettur') || d.includes('salem')) {
-                if (!districts.includes('Mettur')) districts.push('Mettur');
-            }
+        // 2. Fallback: District Check
+        if (nearby.length === 0 && userDistrictInfo && userDistrictInfo.district) {
+            const district = userDistrictInfo.district.toLowerCase();
+            Object.entries(SOURCE_COORDINATES).forEach(([name, coords]) => {
+                if (coords.district.toLowerCase().includes(district)) {
+                    nearby.push({ name, dist: 50000 }); // Default distance for district match
+                }
+            });
         }
 
-        // 3. Fallback: Centroid Check for Erode
-        if (districts.length === 0 && userPosition) {
-            const distToCentroid = getDistance(
-                userPosition.lat,
-                userPosition.lng,
-                ERODE_DISTRICT_CENTROID.lat,
-                ERODE_DISTRICT_CENTROID.lng
-            );
-            if (distToCentroid <= DISTRICT_FALLBACK_RADIUS_METERS) {
-                districts.push('Erode');
-            }
-        }
-
-        // 4. Fallback: Address String
-        if (districts.length === 0 && userAddress) {
+        // 3. Fallback: Address String
+        if (nearby.length === 0 && userAddress) {
             const addr = userAddress.toLowerCase();
-            if (addr.includes('anthiyur')) {
-                districts.push('Anthiyur');
-            }
-            if (addr.includes('erode')) {
-                if (!districts.includes('Erode')) districts.push('Erode');
-            } else if (addr.includes('coimbatore')) {
-                districts.push('Coimbatore');
-            } else if (addr.includes('mettur') || addr.includes('salem')) {
-                districts.push('Mettur');
-            }
+            Object.entries(SOURCE_COORDINATES).forEach(([name, coords]) => {
+                if (addr.includes(name.toLowerCase())) {
+                    nearby.push({ name, dist: 10000 });
+                }
+            });
         }
 
-        setAvailableDistricts(districts);
+        // Sort by distance
+        nearby.sort((a, b) => a.dist - b.dist);
+        const sourceNames = nearby.map(n => n.name);
+        setAvailableNearbySources(sourceNames);
 
-        // Set Current City Logic
-        // If manual selection is active and valid, use it
-        if (manualDistrictSelection && districts.includes(manualDistrictSelection)) {
-            setCurrentCity(manualDistrictSelection);
+        // Set Current City
+        if (manualSourceSelection && sourceNames.includes(manualSourceSelection)) {
+            setCurrentCity(manualSourceSelection);
+        } else if (sourceNames.length > 0) {
+            setCurrentCity(sourceNames[0]);
         } else {
-            // Default Priority: Anthiyur -> Erode -> Others
-            if (districts.includes('Anthiyur')) {
-                setCurrentCity('Anthiyur');
-            } else if (districts.includes('Erode')) {
-                setCurrentCity('Erode');
-            } else if (districts.length > 0) {
-                setCurrentCity(districts[0]);
-            } else {
-                setCurrentCity('Unknown');
-            }
+            setCurrentCity('Unknown');
         }
 
-        setIsInsideDistrict(districts.length > 0);
+    }, [userAddress, userPosition, userDistrictInfo, manualSourceSelection]);
 
-    }, [userAddress, userPosition, userDistrictInfo, manualDistrictSelection]);
-
-
-    const handleDistrictToggle = () => {
-        if (currentCity === 'Anthiyur') setManualDistrictSelection('Erode');
-        else if (currentCity === 'Erode') setManualDistrictSelection('Anthiyur');
+    const handleSourceToggle = () => {
+        if (availableNearbySources.length <= 1) return;
+        const currentIndex = availableNearbySources.indexOf(currentCity);
+        const nextIndex = (currentIndex + 1) % availableNearbySources.length;
+        setManualSourceSelection(availableNearbySources[nextIndex]);
     };
 
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -112,18 +213,12 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
         const [time, modifier] = timeStr.split(' ');
         let [hours, minutes] = time.split(':');
 
-        if (hours === '12') {
-            hours = '00';
-        }
-
-        if (modifier && modifier.toLowerCase() === 'pm') {
+        if (modifier && modifier.toLowerCase() === 'pm' && hours !== '12') {
             hours = parseInt(hours, 10) + 12;
-        } else if (modifier && modifier.toLowerCase() === 'am') {
-            // Handle 12 AM edge case properly (already set to 00 if 12)
-            // If not 12, keep as is
-            if (hours !== '00') {
-                hours = parseInt(hours, 10);
-            }
+        } else if (modifier && modifier.toLowerCase() === 'am' && hours === '12') {
+            hours = 0;
+        } else {
+            hours = parseInt(hours, 10);
         }
 
         return { hours: Number(hours), minutes: Number(minutes) };
@@ -131,73 +226,54 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
 
     // 🚌 Filter & Sort Routes
     const getUpcomingBuses = () => {
+        if (currentCity === 'Unknown') return [];
+
         const now = new Date();
-        const currentHours = now.getHours();
-        const currentMinutes = now.getMinutes();
-        const totalCurrentMinutes = currentHours * 60 + currentMinutes;
+        const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
 
-        let filtered = [];
-
-        if (currentCity === 'Anthiyur') {
-            filtered = busData.filter(r => r.origin === 'Anthiyur' && r.destination === 'Erode');
-        } else if (currentCity === 'Erode') {
-            filtered = busData.filter(r => r.origin === 'Erode' && (r.destination === 'Coimbatore' || r.destination === 'Mettur' || r.destination === 'Sathyamangalam' || r.destination === 'Bengaluru' || r.destination === 'Palani' || r.destination === 'Dharapuram' || r.destination === 'Kangayam'));
-        } else if (currentCity === 'Coimbatore') {
-            filtered = busData.filter(r => r.origin === 'Coimbatore' && r.destination === 'Erode');
-        } else if (currentCity === 'Mettur') {
-            filtered = busData.filter(r => r.origin === 'Mettur' && r.destination === 'Erode');
-        } else {
-            return [];
-        }
+        // Filter busSchedules for the current city
+        const filtered = busSchedules.filter(r => r.from === currentCity);
 
         // Map to add 'minutesRemaining' and sort
         const scheduledBuses = filtered.map(bus => {
-            const { hours, minutes } = parseTime(bus.time);
+            const { hours, minutes } = parseTime(bus.departureTime);
             const busTotalMinutes = hours * 60 + minutes;
 
-            let diff = busTotalMinutes - totalCurrentMinutes;
+            let diff = busTotalMinutes - currentTotalMinutes;
 
-            if (diff < -2) { // 2 min buffer to clear "Departed"
-                diff += 24 * 60; // Show tomorrow's bus if today's is gone? 
-                // Requirement check: "Show Next Arrivals". 
-                // Usually we only show near future. 
-                // If its 11PM and bus is 4AM, diff is negative, +1440 makes it positive large number.
+            if (diff < -5) { // 5 min buffer to clear "Departed"
+                diff += 24 * 60; // Show tomorrow's bus if today's is gone
             }
 
             return {
                 ...bus,
                 diffMinutes: diff,
-                displayTime: bus.time
+                displayTime: bus.departureTime,
+                origin: bus.from,
+                destination: bus.to,
+                operator: bus.operatorName
             };
         });
 
-        // Sort by nearest time
+        // Sort and slice
         const futureBuses = scheduledBuses
-            .filter(b => b.diffMinutes > -2 && b.diffMinutes < 180) // Only show buses within next 3 hours roughly to keep list relevant? Or just sort all.
-            // Let's just sort and slice.
+            .filter(b => b.diffMinutes > -5)
             .sort((a, b) => a.diffMinutes - b.diffMinutes)
-            // Filter out "tomorrow" buses that are excessively far away if we want "Next Arrivals" for "Now"
-            // But for late night users, tomorrow morning bus is relevant.
-            .slice(0, 8); // Show next 8 buses
+            .slice(0, 15); // Show more buses from the comprehensive list
 
         return futureBuses;
     };
 
     const [upcomingBuses, setUpcomingBuses] = useState([]);
 
-    // 🔄 Update Timer & List
     useEffect(() => {
-        // Initial load
         setUpcomingBuses(getUpcomingBuses());
-
         const timer = setInterval(() => {
             setCurrentTime(new Date());
             setUpcomingBuses(getUpcomingBuses());
-        }, 30000); // Update every 30s
-
+        }, 30000);
         return () => clearInterval(timer);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentCity]); // Re-run when city changes or timer ticks (managed by internal state update)
+    }, [currentCity]);
 
     // 🕒 Format ETA Helper (JSX with Visual Priority)
     const FormatETA = ({ totalMinutes }) => {
@@ -274,24 +350,13 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
         <div>
             <style>
                 {`
-                .nonstop-badge {
-                    padding: 3px 7px;
-                    font-size: 11px;
-                    white-space: nowrap;
-                }
-                @media (max-width: 380px) {
-                    .nonstop-badge {
-                        padding: 3px 6px;
-                        font-size: 10.5px;
-                    }
+                .blink-text {
+                    animation: blink 1s infinite ease-in-out;
                 }
                 @keyframes blink {
                     0% { opacity: 1; }
                     50% { opacity: 0.3; }
                     100% { opacity: 1; }
-                }
-                .blink-text {
-                    animation: blink 1s infinite ease-in-out;
                 }
                 `}
             </style>
@@ -301,7 +366,7 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
                 {currentCity !== 'Unknown' && (
                     <motion.div
                         whileTap={{ scale: 0.95 }}
-                        onClick={availableDistricts.includes('Anthiyur') && availableDistricts.includes('Erode') ? handleDistrictToggle : undefined}
+                        onClick={availableNearbySources.length > 1 ? handleSourceToggle : undefined}
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -309,7 +374,7 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
                             background: '#F3F4F6',
                             padding: '6px 12px',
                             borderRadius: '12px',
-                            cursor: availableDistricts.includes('Anthiyur') && availableDistricts.includes('Erode') ? 'pointer' : 'default',
+                            cursor: availableNearbySources.length > 1 ? 'pointer' : 'default',
                             userSelect: 'none'
                         }}
                     >
@@ -326,9 +391,9 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
                             </motion.span>
                         </AnimatePresence>
 
-                        {availableDistricts.includes('Anthiyur') && availableDistricts.includes('Erode') && (
+                        {availableNearbySources.length > 1 && (
                             <motion.div
-                                animate={{ rotate: currentCity === 'Anthiyur' ? 0 : 180 }}
+                                animate={{ rotate: 0 }}
                                 transition={{ duration: 0.2 }}
                                 style={{ display: 'flex', alignItems: 'center', color: '#6B7280' }}
                             >
@@ -366,105 +431,14 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
                             const busType = getBusType(bus);
 
                             return (
-                                <div
-                                    key={index}
-                                    style={{
-                                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                                        padding: '16px 4px',
-                                        borderBottom: '1px solid #F3F4F6',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    {/* Left: Icon + Bus Info */}
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
-                                        <div style={{
-                                            width: '40px', height: '40px', borderRadius: '8px',
-                                            background: '#F3F4F6', overflow: 'hidden'
-                                        }}>
-                                            <img
-                                                src="/icons/bus_icon_minimal.jpg"
-                                                alt="Bus"
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                            />
-                                        </div>
-
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <span style={{ fontSize: '16px', fontWeight: 600, color: '#111827' }}>
-                                                {operatorName} <span style={{ fontSize: '13px', fontWeight: 700, color: '#6B7280' }}>| {bus.displayTime}</span>
-                                            </span>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
-                                                <span style={{ fontSize: '14px', fontWeight: '600', color: '#374151' }}>
-                                                    {bus.origin} → {bus.destination}
-                                                </span>
-
-                                                <div className="badge-row" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', maxWidth: '65%', alignItems: 'center' }}>
-                                                    {/* GOVT Badge */}
-                                                    {busType === 'Govt' && (
-                                                        <span style={{
-                                                            fontSize: '12px', fontWeight: '500', color: '#065F46',
-                                                            background: '#ECFDF5', border: '1px solid #A7F3D0',
-                                                            borderRadius: '9999px', padding: '4px 8px', whiteSpace: 'nowrap'
-                                                        }}>
-                                                            {t('next_arrivals.govt')}
-                                                        </span>
-                                                    )}
-
-                                                    {/* PRIVATE Badge */}
-                                                    {busType === 'Private' && (
-                                                        <span style={{
-                                                            fontSize: '12px', fontWeight: '500', color: '#1F2937',
-                                                            background: '#F3F4F6', border: '1px solid #E5E7EB',
-                                                            borderRadius: '9999px', padding: '4px 8px', whiteSpace: 'nowrap'
-                                                        }}>
-                                                            {t('next_arrivals.private')}
-                                                        </span>
-                                                    )}
-
-                                                    {/* NON-STOP Badge */}
-                                                    {bus.serviceType === 'Non-Stop' && (
-                                                        <span className="nonstop-badge" style={{
-                                                            fontWeight: '500',
-                                                            color: '#6B7280',
-                                                            border: '1px solid #E5E7EB',
-                                                            borderRadius: '9999px',
-                                                            background: 'transparent'
-                                                        }}>
-                                                            {t('next_arrivals.non_stop')}
-                                                        </span>
-                                                    )}
-
-                                                    {/* VIA Badge */}
-                                                    {bus.via && (
-                                                        <span className="nonstop-badge" style={{
-                                                            fontWeight: '500',
-                                                            color: '#6B7280',
-                                                            border: '1px solid #E5E7EB',
-                                                            borderRadius: '9999px',
-                                                            background: 'transparent'
-                                                        }}>
-                                                            via {bus.via}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Right: ETA & Status */}
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', minWidth: '80px', flexShrink: 0 }}>
-                                        <div style={{
-                                            fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '4px'
-                                        }}>
-                                            {status.sub}
-                                        </div>
-                                        <div style={{
-                                            fontSize: '12px', fontWeight: 700,
-                                            color: status.color
-                                        }}>
-                                            {status.label}
-                                        </div>
-                                    </div>
-                                </div>
+                                <ArrivalCard 
+                                    key={index} 
+                                    bus={bus} 
+                                    status={status} 
+                                    operatorName={operatorName} 
+                                    busType={busType} 
+                                    t={t} 
+                                />
                             );
                         })
                     )}

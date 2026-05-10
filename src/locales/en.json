@@ -289,6 +289,8 @@
         "govt": "Govt",
         "private": "Private",
         "non_stop": "Non-Stop",
+        "via_route": "Via route",
+        "via": "Via",
         "min": "min",
         "hr": "hr"
     },

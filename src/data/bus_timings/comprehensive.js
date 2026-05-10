@@ -12544,5 +12544,4100 @@ export const comprehensive = [
         "departureTime": "01:00 PM",
         "operatorName": "TNSTC",
         "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "01:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "01:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "04:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "05:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "05:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "06:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "07:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "07:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "08:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "09:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "10:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "11:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "11:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "11:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "12:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "04:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "05:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-OOT",
+            "from": "Erode",
+            "to": "Ooty",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor",
+            "departureTime": "05:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-GUD",
+            "from": "Erode",
+            "to": "Gudalur",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor, Ooty",
+            "departureTime": "12:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-GUD",
+            "from": "Erode",
+            "to": "Gudalur",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor, Ooty",
+            "departureTime": "06:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-GUD",
+            "from": "Erode",
+            "to": "Gudalur",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor, Ooty",
+            "departureTime": "03:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-GUD",
+            "from": "Erode",
+            "to": "Gudalur",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor, Ooty",
+            "departureTime": "10:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-GUD",
+            "from": "Erode",
+            "to": "Gudalur",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Coonoor, Ooty",
+            "departureTime": "11:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-KOT",
+            "from": "Erode",
+            "to": "Kotagiri",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Kunjapanai",
+            "departureTime": "01:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-KOT",
+            "from": "Erode",
+            "to": "Kotagiri",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Kunjapanai",
+            "departureTime": "09:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-KOT",
+            "from": "Erode",
+            "to": "Kotagiri",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Kunjapanai",
+            "departureTime": "11:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "ERO-KOT",
+            "from": "Erode",
+            "to": "Kotagiri",
+            "via": "Perundurai, Avinashi, Annur, Mettupalayam, Kunjapanai",
+            "departureTime": "05:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "05:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "05:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "06:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "06:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "06:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "07:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "07:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "08:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "08:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "09:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "09:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "10:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "10:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "11:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "11:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "11:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "11:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "11:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "12:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "12:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "01:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "01:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "01:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "02:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "02:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "02:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "03:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "03:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "04:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "04:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "04:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "05:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "05:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "05:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "06:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "06:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "06:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "07:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "07:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "07:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "08:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-BHA",
+            "from": "Perundurai",
+            "to": "Bhavani",
+            "via": "Bhavani",
+            "departureTime": "09:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "06:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "06:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "07:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "08:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "08:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "09:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "10:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "10:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "11:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "11:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "12:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "12:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "12:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "01:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "01:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "01:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "02:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "02:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "03:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "04:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "05:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "05:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "05:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "06:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "06:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "07:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "08:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "08:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "08:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-CHE",
+            "from": "Perundurai",
+            "to": "Chennimalai",
+            "via": "Chennimalai",
+            "departureTime": "09:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "03:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "04:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "04:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "04:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "04:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "05:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "05:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "05:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "05:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "06:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "06:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "06:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "07:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "07:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "08:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "08:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "09:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "09:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "09:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "10:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "10:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "11:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "11:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "11:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "11:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "12:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "12:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "01:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "01:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "01:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "01:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "01:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "01:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "02:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "02:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "02:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "02:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "02:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "03:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "03:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "03:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "03:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "03:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "04:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "04:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "04:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "05:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "05:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "06:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "06:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "06:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "06:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "07:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "07:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "08:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "08:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "09:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-ERO",
+            "from": "Perundurai",
+            "to": "Erode",
+            "via": "Erode",
+            "departureTime": "09:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "05:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "05:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "06:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "06:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "07:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "07:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "08:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "09:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "09:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "09:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "09:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "10:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "10:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "10:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "11:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "11:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "11:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "12:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "12:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "12:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "01:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "01:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "01:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "02:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "02:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "02:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "03:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "03:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "03:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "04:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "04:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "04:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "04:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "04:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "05:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "05:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "06:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "06:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "07:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "07:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "07:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "08:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "08:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "08:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "09:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GOB",
+            "from": "Perundurai",
+            "to": "Gobichettipalayam",
+            "via": "Gobichettipalayam",
+            "departureTime": "10:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-VEL",
+            "from": "Perundurai",
+            "to": "Vellode",
+            "via": "Vellode",
+            "departureTime": "05:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-VEL",
+            "from": "Perundurai",
+            "to": "Vellode",
+            "via": "Vellode",
+            "departureTime": "08:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-VIJ",
+            "from": "Perundurai",
+            "to": "Vijayamangalam",
+            "via": "Vijayamangalam",
+            "departureTime": "04:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-VIJ",
+            "from": "Perundurai",
+            "to": "Vijayamangalam",
+            "via": "Vijayamangalam",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-VIJ",
+            "from": "Perundurai",
+            "to": "Vijayamangalam",
+            "via": "Vijayamangalam",
+            "departureTime": "07:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-THI",
+            "from": "Perundurai",
+            "to": "Thingalur",
+            "via": "Thingalur",
+            "departureTime": "06:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-THI",
+            "from": "Perundurai",
+            "to": "Thingalur",
+            "via": "Thingalur",
+            "departureTime": "05:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-SIV",
+            "from": "Perundurai",
+            "to": "Sivagiri",
+            "via": "Sivagiri",
+            "departureTime": "08:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-SIV",
+            "from": "Perundurai",
+            "to": "Sivagiri",
+            "via": "Sivagiri",
+            "departureTime": "02:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-SIP",
+            "from": "Perundurai",
+            "to": "SIPCOT",
+            "via": "SIPCOT",
+            "departureTime": "05:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-SIP",
+            "from": "Perundurai",
+            "to": "SIPCOT",
+            "via": "SIPCOT",
+            "departureTime": "06:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-SIP",
+            "from": "Perundurai",
+            "to": "SIPCOT",
+            "via": "SIPCOT",
+            "departureTime": "08:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-SIP",
+            "from": "Perundurai",
+            "to": "SIPCOT",
+            "via": "SIPCOT",
+            "departureTime": "09:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAN",
+            "from": "Perundurai",
+            "to": "Kangeyam",
+            "via": "Kangeyam",
+            "departureTime": "05:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAN",
+            "from": "Perundurai",
+            "to": "Kangeyam",
+            "via": "Kangeyam",
+            "departureTime": "10:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAN",
+            "from": "Perundurai",
+            "to": "Kangeyam",
+            "via": "Kangeyam",
+            "departureTime": "12:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAN",
+            "from": "Perundurai",
+            "to": "Kangeyam",
+            "via": "Kangeyam",
+            "departureTime": "03:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAN",
+            "from": "Perundurai",
+            "to": "Kangeyam",
+            "via": "Kangeyam",
+            "departureTime": "06:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAI",
+            "from": "Perundurai",
+            "to": "Kaikolapalayam",
+            "via": "Kaikolapalayam",
+            "departureTime": "05:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAN",
+            "from": "Perundurai",
+            "to": "Kanjikoil",
+            "via": "Kanjikoil",
+            "departureTime": "04:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "05:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "06:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "07:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "08:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "09:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "10:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "10:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "11:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "11:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "11:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "12:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "12:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "01:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "01:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "02:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "02:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "03:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "04:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "05:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "05:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "05:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "06:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "06:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "08:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "08:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KAV",
+            "from": "Perundurai",
+            "to": "Kavindapadi",
+            "via": "Kavindapadi",
+            "departureTime": "09:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GET",
+            "from": "Perundurai",
+            "to": "Getticheviyur",
+            "via": "Getticheviyur",
+            "departureTime": "06:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-GET",
+            "from": "Perundurai",
+            "to": "Getticheviyur",
+            "via": "Getticheviyur",
+            "departureTime": "04:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "06:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "06:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "06:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "06:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "07:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "09:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "09:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "10:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "11:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "12:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "02:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "02:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "02:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "02:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "03:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "04:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "04:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "04:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "06:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "07:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-KUN",
+            "from": "Perundurai",
+            "to": "Kunnathur",
+            "via": "Kunnathur",
+            "departureTime": "08:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-MOD",
+            "from": "Perundurai",
+            "to": "Modakurichi",
+            "via": "Modakurichi",
+            "departureTime": "06:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-MOD",
+            "from": "Perundurai",
+            "to": "Modakurichi",
+            "via": "Modakurichi",
+            "departureTime": "05:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-MOO",
+            "from": "Perundurai",
+            "to": "Moonampalli",
+            "via": "Moonampalli",
+            "departureTime": "06:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-MOO",
+            "from": "Perundurai",
+            "to": "Moonampalli",
+            "via": "Moonampalli",
+            "departureTime": "07:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-PAN",
+            "from": "Perundurai",
+            "to": "Panikkampalayam",
+            "via": "Panikkampalayam",
+            "departureTime": "08:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-PAN",
+            "from": "Perundurai",
+            "to": "Panikkampalayam",
+            "via": "Panikkampalayam",
+            "departureTime": "05:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-PER",
+            "from": "Perundurai",
+            "to": "Periya Vettuvapalayam",
+            "via": "Periya Vettuvapalayam",
+            "departureTime": "05:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-SAR",
+            "from": "Perundurai",
+            "to": "Saralai",
+            "via": "Saralai",
+            "departureTime": "07:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "PER-VEL",
+            "from": "Perundurai",
+            "to": "Vellirveli",
+            "via": "Vellirveli",
+            "departureTime": "06:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "04:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "04:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "05:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "05:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "05:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "06:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "06:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "07:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "07:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "07:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "07:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "08:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "09:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "09:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "10:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "10:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "11:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "12:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "01:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "01:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "02:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "02:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "03:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "04:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "04:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "04:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "05:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "05:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "05:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "06:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "06:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "06:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "08:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "08:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "08:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "09:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "09:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "09:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ANT",
+            "from": "Bhavani",
+            "to": "Anthiyur",
+            "via": "Paruvachi",
+            "departureTime": "09:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "04:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "07:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "09:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "10:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "11:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "02:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "05:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "07:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "08:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOV",
+            "from": "Bhavani",
+            "to": "Kovilur",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "09:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ENN",
+            "from": "Bhavani",
+            "to": "Ennamangalam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "07:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ENN",
+            "from": "Bhavani",
+            "to": "Ennamangalam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "08:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ENN",
+            "from": "Bhavani",
+            "to": "Ennamangalam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "10:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-MAL",
+            "from": "Bhavani",
+            "to": "Malai Karuppusamy Kovil",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "06:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-VEL",
+            "from": "Bhavani",
+            "to": "Vellithiruppur",
+            "via": "Olgadam",
+            "departureTime": "07:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-VEL",
+            "from": "Bhavani",
+            "to": "Vellithiruppur",
+            "via": "Olgadam",
+            "departureTime": "12:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-VEL",
+            "from": "Bhavani",
+            "to": "Vellithiruppur",
+            "via": "Olgadam",
+            "departureTime": "02:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-VEL",
+            "from": "Bhavani",
+            "to": "Vellithiruppur",
+            "via": "Olgadam",
+            "departureTime": "04:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-VEL",
+            "from": "Bhavani",
+            "to": "Vellithiruppur",
+            "via": "Olgadam",
+            "departureTime": "06:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-VEL",
+            "from": "Bhavani",
+            "to": "Vellithiruppur",
+            "via": "Olgadam",
+            "departureTime": "08:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOM",
+            "from": "Bhavani",
+            "to": "Komarayanur",
+            "via": "Olgadam, Vellithiruppur, Chennampatti",
+            "departureTime": "02:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KOM",
+            "from": "Bhavani",
+            "to": "Komarayanur",
+            "via": "Olgadam, Vellithiruppur, Chennampatti",
+            "departureTime": "03:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KAR",
+            "from": "Bhavani",
+            "to": "Kargekandi",
+            "via": "Paruvachi, Anthiyur, Thamaraikarai",
+            "departureTime": "06:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KAR",
+            "from": "Bhavani",
+            "to": "Kargekandi",
+            "via": "Paruvachi, Anthiyur, Thamaraikarai",
+            "departureTime": "06:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KAR",
+            "from": "Bhavani",
+            "to": "Kargekandi",
+            "via": "Paruvachi, Anthiyur, Thamaraikarai",
+            "departureTime": "09:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KAR",
+            "from": "Bhavani",
+            "to": "Kargekandi",
+            "via": "Paruvachi, Anthiyur, Thamaraikarai",
+            "departureTime": "01:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-MYS",
+            "from": "Bhavani",
+            "to": "Mysore",
+            "via": "Paruvachi, Anthiyur, Thamaraikarai, Kargekandi, Ramapura, Hanur, Kollegal",
+            "departureTime": "06:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "05:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "06:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "06:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "07:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "07:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "08:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "09:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "09:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "09:50 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "10:10 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "10:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "12:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "12:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "12:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "01:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "02:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "02:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "02:25 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "02:35 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "04:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "04:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "04:55 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "06:10 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "06:25 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "06:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAL",
+            "from": "Bhavani",
+            "to": "Salem",
+            "via": "Sankagiri",
+            "departureTime": "07:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-GOB",
+            "from": "Bhavani",
+            "to": "Gobichettipalayam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "07:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-GOB",
+            "from": "Bhavani",
+            "to": "Gobichettipalayam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "11:45 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-GOB",
+            "from": "Bhavani",
+            "to": "Gobichettipalayam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "02:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-GOB",
+            "from": "Bhavani",
+            "to": "Gobichettipalayam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "05:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-GOB",
+            "from": "Bhavani",
+            "to": "Gobichettipalayam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "05:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-GOB",
+            "from": "Bhavani",
+            "to": "Gobichettipalayam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "06:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-GOB",
+            "from": "Bhavani",
+            "to": "Gobichettipalayam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "08:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-GOB",
+            "from": "Bhavani",
+            "to": "Gobichettipalayam",
+            "via": "Paruvachi, Anthiyur",
+            "departureTime": "09:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ATH",
+            "from": "Bhavani",
+            "to": "Athani",
+            "via": "Appakudal",
+            "departureTime": "01:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ATH",
+            "from": "Bhavani",
+            "to": "Athani",
+            "via": "Appakudal",
+            "departureTime": "04:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-ATH",
+            "from": "Bhavani",
+            "to": "Athani",
+            "via": "Appakudal",
+            "departureTime": "06:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-NAG",
+            "from": "Bhavani",
+            "to": "Nagalur",
+            "via": "Appakudal, Athani",
+            "departureTime": "03:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-TN ",
+            "from": "Bhavani",
+            "to": "TN Palayam",
+            "via": "Appakudal, Athani",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-TN ",
+            "from": "Bhavani",
+            "to": "TN Palayam",
+            "via": "Appakudal, Athani",
+            "departureTime": "11:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-TN ",
+            "from": "Bhavani",
+            "to": "TN Palayam",
+            "via": "Appakudal, Athani",
+            "departureTime": "03:15 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "05:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "05:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "07:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "10:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "03:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "03:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "06:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "06:50 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "04:30 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "04:40 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "06:45 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "07:10 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "07:40 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "08:20 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "08:45 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "11:50 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "12:40 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "01:20 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "01:50 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "02:30 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "03:30 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "04:40 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "04:45 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "05:30 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "06:00 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "08:00 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-SAT",
+            "from": "Bhavani",
+            "to": "Sathyamangalam",
+            "via": "Appakudal, Athani",
+            "departureTime": "09:00 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-BAN",
+            "from": "Bhavani",
+            "to": "Bannari",
+            "via": "Sathyamangalam",
+            "departureTime": "05:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-BAN",
+            "from": "Bhavani",
+            "to": "Bannari",
+            "via": "Sathyamangalam",
+            "departureTime": "08:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "06:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "06:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "07:20 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "07:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "08:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "08:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "09:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "11:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "12:20 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "01:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "02:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "03:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "03:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "06:40 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "09:20 AM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "02:40 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "04:00 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-COI",
+            "from": "Bhavani",
+            "to": "Coimbatore",
+            "via": "Perundurai, Perumanallur, Avinashi",
+            "departureTime": "05:30 PM",
+            "operatorName": "Private",
+            "serviceType": "Private"
+    },
+    {
+            "routeCode": "BHA-KRI",
+            "from": "Bhavani",
+            "to": "Krishnagiri",
+            "via": "Mettur, Dharmapuri",
+            "departureTime": "04:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KRI",
+            "from": "Bhavani",
+            "to": "Krishnagiri",
+            "via": "Mettur, Dharmapuri",
+            "departureTime": "07:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KRI",
+            "from": "Bhavani",
+            "to": "Krishnagiri",
+            "via": "Mettur, Dharmapuri",
+            "departureTime": "10:40 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KRI",
+            "from": "Bhavani",
+            "to": "Krishnagiri",
+            "via": "Mettur, Dharmapuri",
+            "departureTime": "01:40 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KRI",
+            "from": "Bhavani",
+            "to": "Krishnagiri",
+            "via": "Mettur, Dharmapuri",
+            "departureTime": "05:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KRI",
+            "from": "Bhavani",
+            "to": "Krishnagiri",
+            "via": "Mettur, Dharmapuri",
+            "departureTime": "06:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-KRI",
+            "from": "Bhavani",
+            "to": "Krishnagiri",
+            "via": "Mettur, Dharmapuri",
+            "departureTime": "07:00 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-HOS",
+            "from": "Bhavani",
+            "to": "Hosur",
+            "via": "Mettur, Dharmapuri, Krishnagiri",
+            "departureTime": "12:15 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-HOS",
+            "from": "Bhavani",
+            "to": "Hosur",
+            "via": "Mettur, Dharmapuri, Krishnagiri",
+            "departureTime": "09:30 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-HOS",
+            "from": "Bhavani",
+            "to": "Hosur",
+            "via": "Mettur, Dharmapuri, Krishnagiri",
+            "departureTime": "12:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-HOS",
+            "from": "Bhavani",
+            "to": "Hosur",
+            "via": "Mettur, Dharmapuri, Krishnagiri",
+            "departureTime": "03:30 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-BAN",
+            "from": "Bhavani",
+            "to": "Bangalore",
+            "via": "Mettur, Dharmapuri, Rayakottai, Hosur",
+            "departureTime": "10:00 AM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-BAN",
+            "from": "Bhavani",
+            "to": "Bangalore",
+            "via": "Mettur, Dharmapuri, Rayakottai, Hosur",
+            "departureTime": "10:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
+    },
+    {
+            "routeCode": "BHA-BAN",
+            "from": "Bhavani",
+            "to": "Bangalore",
+            "via": "Mettur, Dharmapuri, Rayakottai, Hosur",
+            "departureTime": "11:45 PM",
+            "operatorName": "TNSTC",
+            "serviceType": "Govt"
     }
 ];
