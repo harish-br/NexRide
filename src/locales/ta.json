@@ -310,7 +310,8 @@
         "by_continuing": "By continuing, you agree to our"
     },
     "bus_booking": {
-        "find_buses": "Find Buses",
+        "searching": "தேடுகிறது...",
+        "find_buses": "பஸ்களைத் கண்டறியவும்",
         "start_location": "Start location",
         "where_to": "Where are you going?",
         "results_from_to": "Results from {{source}} to {{destination}}",

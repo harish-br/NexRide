@@ -22,6 +22,7 @@
     "@cashfreepayments/cashfree-js": "^1.0.5",
     "@vis.gl/react-google-maps": "^1.4.1",
     "firebase": "^12.7.0",
+    "firebase-admin": "^13.9.0",
     "framer-motion": "^12.23.26",
     "i18next": "^25.8.0",
     "i18next-browser-languagedetector": "^8.2.0",

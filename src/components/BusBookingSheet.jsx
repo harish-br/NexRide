@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { normalizePlace } from '../utils/busSearchUtils';
 import haptics from '../utils/haptics';
 import { busSchedules } from '../data/busSchedules';
+import { busService } from '../services/busService';
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
@@ -206,116 +207,72 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
     }, [isOpen]);
 
     // ------------------------------------------------------------
-    // BUS SEARCH LOGIC (Auto-Trigger)
+    // BUS SEARCH LOGIC (Firestore-Triggered)
     // ------------------------------------------------------------
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [upcomingBuses, setUpcomingBuses] = useState([]);
+    const [routeStatus, setRouteStatus] = useState('INVALID_INPUT');
+    const [isSearching, setIsSearching] = useState(false);
 
     useEffect(() => {
         const interval = setInterval(() => setCurrentTime(new Date()), 60000);
         return () => clearInterval(interval);
     }, []);
 
-    const { upcomingBuses, routeStatus } = useMemo(() => {
-        let normSource = normalizePlace(source);
-        let normDest = normalizePlace(destination);
-        const isValidInput = normSource && normDest && normSource !== normDest;
-
-        if (!isValidInput) {
-            return { upcomingBuses: [], routeStatus: 'INVALID_INPUT' };
-        }
-
-        // --- SEARCH LOGIC UPDATED FOR BHAVANI SUPPORT ---
-        // If user searches "Bhavani" <-> "Erode" OR "Bhavani" <-> "Anthiyur", 
-        // we should show "Anthiyur-Erode" buses because they pass through Bhavani.
-
-        let targetRouteCode = null;
-
-        // Check for Bhavani edge case
-        const isBhavaniInvolved = normSource.includes('bhavani') || normDest.includes('bhavani');
-
-        if (isBhavaniInvolved) {
-            // Case 1: Bhavani <-> Erode (Show ANT-ERD buses)
-            if ((normSource.includes('bhavani') && normDest.includes('erode')) ||
-                (normSource.includes('erode') && normDest.includes('bhavani'))) {
-                targetRouteCode = 'ANT-ERD';
-            }
-            // Case 2: Bhavani <-> Anthiyur (Show ANT-ERD buses)
-            else if ((normSource.includes('bhavani') && normDest.includes('anthiyur')) ||
-                (normSource.includes('anthiyur') && normDest.includes('bhavani'))) {
-                targetRouteCode = 'ANT-ERD';
-            }
-        }
-
-        // 1. Find ALL buses for this route (ignoring time)
-        const routeBuses = busSchedules.filter(bus => {
-            // Priority: Explicit Route Code Match (for Bhavani logic)
-            if (targetRouteCode && bus.routeCode === targetRouteCode) {
-                return true;
+    useEffect(() => {
+        const performSearch = async () => {
+            if (!source || !destination || source === destination) {
+                setRouteStatus('INVALID_INPUT');
+                setUpcomingBuses([]);
+                setIsSearching(false);
+                return;
             }
 
-            const busFrom = normalizePlace(bus.from);
-            const busTo = normalizePlace(bus.to);
-            const busVia = bus.via ? normalizePlace(bus.via) : "";
+            try {
+                const results = await busService.getSchedules(source, destination);
+                
+                if (results.length === 0) {
+                    setRouteStatus('NO_ROUTE');
+                    setUpcomingBuses([]);
+                } else {
+                    const now = new Date();
+                    const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
 
-            // Helper to check if a place matches
-            const matches = (place, target) => {
-                if (!place || !target) return false;
-                return place === target || place.includes(target) || target.includes(place);
-            };
+                    const toMinutes = (timeStr) => {
+                        const [time, period] = timeStr.split(' ');
+                        let [hours, minutes] = time.split(':').map(Number);
+                        if (period === 'PM' && hours !== 12) hours += 12;
+                        if (period === 'AM' && hours === 12) hours = 0;
+                        return hours * 60 + minutes;
+                    };
 
-            // Case A: Direct match from -> to
-            const directMatch = matches(busFrom, normSource) && matches(busTo, normDest);
-            if (directMatch) return true;
+                    const futureBuses = results.filter(bus => {
+                        const busMinutes = toMinutes(bus.departureTime);
+                        return busMinutes >= currentTotalMinutes - 10;
+                    });
 
-            // Case B: Source is 'from', Destination is in 'via'
-            if (matches(busFrom, normSource) && matches(busVia, normDest)) return true;
+                    futureBuses.sort((a, b) => toMinutes(a.departureTime) - toMinutes(b.departureTime));
 
-            // Case C: Source is in 'via', Destination is 'to'
-            if (matches(busVia, normSource) && matches(busTo, normDest)) return true;
-
-            // Case D: Both source and destination are in 'via'
-            // We'll check if source comes before destination in the via string
-            if (matches(busVia, normSource) && matches(busVia, normDest)) {
-                const sourceIdx = busVia.indexOf(normSource);
-                const destIdx = busVia.indexOf(normDest);
-                return sourceIdx < destIdx;
+                    if (futureBuses.length === 0) {
+                        setRouteStatus('NO_FUTURE_BUSES');
+                    } else {
+                        setRouteStatus('FOUND');
+                    }
+                    setUpcomingBuses(futureBuses);
+                }
+            } catch (error) {
+                console.error("Search failed:", error);
+                setRouteStatus('NO_ROUTE');
+            } finally {
+                setIsSearching(false);
             }
-
-            return false;
-        });
-
-        if (routeBuses.length === 0) {
-            return { upcomingBuses: [], routeStatus: 'NO_ROUTE' };
-        }
-
-        // 2. Filter by Time (Future Only)
-        const now = currentTime; // Use stable currentTime state
-        const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
-
-        const toMinutes = (timeStr) => {
-            const [time, period] = timeStr.split(' ');
-            let [hours, minutes] = time.split(':').map(Number);
-            if (period === 'PM' && hours !== 12) hours += 12;
-            if (period === 'AM' && hours === 12) hours = 0;
-            return hours * 60 + minutes;
         };
 
-        const futureBuses = routeBuses.filter(bus => {
-            const busMinutes = toMinutes(bus.departureTime);
-            return busMinutes >= currentTotalMinutes;
-        });
-
-        // 3. Sort
-        futureBuses.sort((a, b) => {
-            return toMinutes(a.departureTime) - toMinutes(b.departureTime);
-        });
-
-        if (futureBuses.length === 0) {
-            return { upcomingBuses: [], routeStatus: 'NO_FUTURE_BUSES' };
+        if (source && destination && source !== destination) {
+            setIsSearching(true);
         }
-
-        return { upcomingBuses: futureBuses, routeStatus: 'FOUND' };
-
+        const timer = setTimeout(performSearch, 500); 
+        return () => clearTimeout(timer);
     }, [source, destination, currentTime]);
 
 
@@ -583,10 +540,19 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                                         )}
                                     </div>
 
-                                    {/* --- RESULTS SECTION --- */}
+                                    {/* CASE: SEARCHING */}
+                                    {isSearching && (
+                                        <div style={{ padding: '40px', textAlign: 'center', color: '#6B7280' }}>
+                                            <div className="animate-spin" style={{ 
+                                                width: '24px', height: '24px', border: '2px solid #F3F4F6', 
+                                                borderTopColor: '#3B82F6', borderRadius: '50%', margin: '0 auto 12px' 
+                                            }}></div>
+                                            <span>{t('bus_booking.searching')}...</span>
+                                        </div>
+                                    )}
 
                                     {/* CASE: FOUND BUSES */}
-                                    {routeStatus === 'FOUND' && (
+                                    {!isSearching && routeStatus === 'FOUND' && (
                                         <div style={{ marginTop: '24px' }}>
                                             <div style={{ fontSize: '13px', color: '#6B7280', marginBottom: '16px', fontWeight: '600' }}>
                                                 {t('bus_booking.results_from_to', { source, destination })}

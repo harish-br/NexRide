@@ -309,6 +309,7 @@
         "by_continuing": "By continuing, you agree to our"
     },
     "bus_booking": {
+        "searching": "Searching",
         "find_buses": "Find Buses",
         "start_location": "Start location",
         "where_to": "Where are you going?",

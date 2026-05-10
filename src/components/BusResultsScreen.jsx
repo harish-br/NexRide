@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { ArrowLeft, ArrowUpDown } from 'lucide-react';
-import { busSchedules } from '../data/busSchedules';
+import { busService } from '../services/busService';
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
@@ -26,26 +26,10 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
     };
 
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [buses, setBuses] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedAsmBus, setSelectedAsmBus] = useState(null);
     const listRef = React.useRef(null);
-
-    // RESTORE SCROLL POSITION Logic
-    // We utilize valid HTML DOM methods to restore scroll
-    React.useLayoutEffect(() => {
-        if (listRef.current && filterState?.scrollPosition) {
-            listRef.current.scrollTop = filterState.scrollPosition;
-        }
-    }, []); // Run once on mount
-
-    // SAVE SCROLL POSITION Logic
-    useEffect(() => {
-        return () => {
-            if (listRef.current) {
-                const pos = listRef.current.scrollTop;
-                setFilterState(prev => ({ ...prev, scrollPosition: pos }));
-            }
-        };
-    }, []);
 
     // Auto Refresh every 60s
     useEffect(() => {
@@ -55,20 +39,26 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
         return () => clearInterval(interval);
     }, []);
 
+    // Fetch from Firestore
+    useEffect(() => {
+        const fetchResults = async () => {
+            if (!searchData?.from || !searchData?.to) return;
+            
+            setIsLoading(true);
+            try {
+                const results = await busService.getSchedules(searchData.from, searchData.to);
+                setBuses(results);
+            } catch (error) {
+                console.error("Failed to fetch search results:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchResults();
+    }, [searchData]);
+
     const filteredBuses = useMemo(() => {
-        if (!searchData) return [];
-
-        const source = searchData.from;
-        const dest = searchData.to;
-
-        const fromQuery = normalizePlace(source).toLowerCase();
-        const toQuery = normalizePlace(dest).toLowerCase();
-
-        // Prepare current time in minutes for comparison
-        const currentHours = currentTime.getHours();
-        const currentMinutes = currentTime.getMinutes();
-        const currentTotalMinutes = currentHours * 60 + currentMinutes;
-
         // Helper to convert time "04:45 AM" to minutes
         const toMinutes = (timeStr) => {
             const [time, period] = timeStr.split(' ');
@@ -78,17 +68,11 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
             return hours * 60 + minutes;
         };
 
-        // Filter by route
-        let results = busSchedules.filter(bus => {
-            const busFrom = normalizePlace(bus.from).toLowerCase();
-            const busTo = normalizePlace(bus.to).toLowerCase();
-            return busFrom === fromQuery && busTo === toQuery;
-        });
+        const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
-        // TIME-AWARE FILTERING - Strictly hide past buses
-        results = results.filter(bus => {
+        let results = buses.filter(bus => {
             const busTimeMinutes = toMinutes(bus.departureTime);
-            return busTimeMinutes >= currentTotalMinutes;
+            return busTimeMinutes >= currentTotalMinutes - 10;
         });
 
         // Filter by Type
@@ -102,12 +86,6 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                 results = results.filter(bus =>
                     bus.serviceType.toLowerCase() === 'private'
                 );
-            } else if (filterType === 'Non-Stop') {
-                results = results.filter(bus =>
-                    bus.serviceType.toLowerCase().includes('non-stop')
-                );
-            } else if (filterType === 'A.S.M') {
-                results = results.filter(bus => bus.bus_type === 'A.S.M');
             }
         }
 
@@ -119,7 +97,7 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
         });
 
         return results;
-    }, [searchData, filterType, sortBy, currentTime]); // Re-run when time changes
+    }, [buses, filterType, sortBy, currentTime]);
 
     return (
         <div
@@ -229,7 +207,15 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
             {/* List */}
             <div ref={listRef} style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {filteredBuses.length > 0 ? (
+                    {isLoading ? (
+                        <div style={{ padding: '60px', textAlign: 'center', color: '#6B7280' }}>
+                            <div className="animate-spin" style={{ 
+                                width: '32px', height: '32px', border: '3px solid #F3F4F6', 
+                                borderTopColor: '#2563EB', borderRadius: '50%', margin: '0 auto 16px' 
+                            }}></div>
+                            <span style={{ fontWeight: 600 }}>Searching schedules...</span>
+                        </div>
+                    ) : filteredBuses.length > 0 ? (
                         filteredBuses.map((bus, index) => {
                             // Determine icon type
                             const isTrain = bus.operatorName.toLowerCase().includes('train') || bus.serviceType.toLowerCase().includes('train');

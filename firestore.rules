@@ -31,5 +31,10 @@ service cloud.firestore {
       allow read: if request.auth != null;
       allow write: if request.auth != null && request.auth.uid == driverId;
     }
+    // Bus Schedules: Public read, locked writes
+    match /bus_schedules/{scheduleId} {
+      allow read: if true;
+      allow write: if false; // 🔒 SECURED
+    }
   }
 }
