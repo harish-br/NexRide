@@ -24,7 +24,7 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
 
     // --- Dynamic Data Helpers ---
     const availableOperators = useMemo(() => {
-        return Array.from(new Set(busSchedules.map(b => b.operatorName)))
+        const filtered = Array.from(new Set(busSchedules.map(b => b.operatorName)))
             .filter(name => name && name.toLowerCase().includes('a.s.m'))
             .map(name => {
                 const schedule = busSchedules.find(b => b.operatorName === name);
@@ -36,6 +36,12 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                 }
                 return { name: displayName, serviceType };
             });
+
+        // Fallback to A.S.M if no operators found (since this sheet is focused on A.S.M)
+        if (filtered.length === 0) {
+            return [{ name: 'A.S.M', serviceType: 'Private' }];
+        }
+        return filtered;
     }, []);
 
     const availableStops = useMemo(() => [
@@ -178,14 +184,30 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
 
                 <div style={{ flex: 1, overflowY: 'auto', padding: '12px 20px' }}>
                     {/* Top Active Card */}
+                    {/* Top Active Card */}
                     <div style={{
-                        background: '#FFFFFF', borderRadius: '16px', padding: '20px',
-                        marginBottom: '20px', textAlign: 'center', border: '1px solid #E5E7EB',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+                        background: '#FFFFFF', borderRadius: '20px', padding: '24px 20px',
+                        marginBottom: '24px', textAlign: 'center', border: '1px solid #E2E8F0',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
+                        position: 'relative', overflow: 'hidden'
                     }}>
-                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '6px' }}>{label}</div>
-                        <div style={{ fontSize: '16px', fontWeight: 600, color: selectedStop ? '#0F172A' : '#CBD5E1' }}>
-                            {selectedStop ? selectedStop.name : (type === 'from' ? "Enter source station" : "Enter destination station")}
+                        <div style={{ 
+                            position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', 
+                            background: type === 'from' ? '#2563EB' : '#F59E0B' 
+                        }} />
+                        <div style={{ 
+                            fontSize: '11px', fontWeight: 800, color: '#64748B', 
+                            textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' 
+                        }}>
+                            {label}
+                        </div>
+                        <div style={{ 
+                            fontSize: '18px', fontWeight: 700, 
+                            color: selectedStop ? '#1E293B' : '#CBD5E1',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                        }}>
+                            {type === 'from' ? <MapPin size={18} color="#2563EB" /> : <MapPin size={18} color="#F59E0B" />}
+                            {selectedStop ? selectedStop.name : (type === 'from' ? "Choose source station" : "Choose destination")}
                         </div>
                     </div>
 
@@ -451,42 +473,59 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                                     {/* Operator Dropdown */}
                                     <AnimatePresence>
                                         {isOperatorListOpen && (
-                                            <motion.div
-                                                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-                                                style={{
-                                                    position: 'absolute', top: '100%', left: 0, right: 0,
-                                                    background: 'white', borderRadius: '16px', marginTop: '8px',
-                                                    boxShadow: '0 10px 25px rgba(0,0,0,0.1)', zIndex: 110,
-                                                    border: '1px solid #E5E7EB', overflow: 'hidden'
-                                                }}
-                                            >
-                                                {availableOperators.map((op, idx) => (
-                                                    <div
-                                                        key={idx}
-                                                        onClick={() => { setSelectedOperator(op); setIsOperatorListOpen(false); haptics.light(); }}
-                                                        style={{
-                                                            padding: '14px 16px 14px 8px', borderBottom: idx === availableOperators.length - 1 ? 'none' : '1px solid #F1F5F9',
-                                                            display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer',
-                                                            background: selectedOperator?.name === op.name ? '#EFF6FF' : 'transparent'
-                                                        }}
-                                                    >
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                            <div style={{
-                                                                width: '48px', height: '48px', borderRadius: '10px',
-                                                                background: '#F3F4F6', display: 'flex', alignItems: 'center',
-                                                                justifyContent: 'center', border: 'none', overflow: 'hidden'
-                                                            }}>
-                                                                <img src="/icons/bus_icon_minimal.jpg" alt="bus" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.05)' }} />
+                                            <>
+                                                {/* Transparent Backdrop for click-outside */}
+                                                <div 
+                                                    style={{ 
+                                                        position: 'fixed', 
+                                                        inset: 0, 
+                                                        zIndex: 109,
+                                                        cursor: 'default'
+                                                    }} 
+                                                    onClick={() => setIsOperatorListOpen(false)} 
+                                                />
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -10 }} 
+                                                    animate={{ opacity: 1, y: 0 }} 
+                                                    exit={{ opacity: 0, y: -10 }}
+                                                    style={{
+                                                        position: 'absolute', top: '100%', left: 0, right: 0,
+                                                        background: 'white', borderRadius: '16px', marginTop: '8px',
+                                                        boxShadow: '0 12px 30px rgba(0,0,0,0.15)', zIndex: 110,
+                                                        border: '1px solid #E5E7EB', overflow: 'hidden',
+                                                        maxHeight: '280px', overflowY: 'auto'
+                                                    }}
+                                                >
+                                                    {availableOperators.map((op, idx) => (
+                                                        <div
+                                                            key={idx}
+                                                            onClick={() => { setSelectedOperator(op); setIsOperatorListOpen(false); haptics.light(); }}
+                                                            style={{
+                                                                padding: '14px 16px 14px 8px', 
+                                                                borderBottom: idx === availableOperators.length - 1 ? 'none' : '1px solid #F1F5F9',
+                                                                display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer',
+                                                                background: selectedOperator?.name === op.name ? '#EFF6FF' : 'transparent',
+                                                                transition: 'background 0.2s'
+                                                            }}
+                                                        >
+                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                                <div style={{
+                                                                    width: '48px', height: '48px', borderRadius: '10px',
+                                                                    background: '#F3F4F6', display: 'flex', alignItems: 'center',
+                                                                    justifyContent: 'center', border: 'none', overflow: 'hidden'
+                                                                }}>
+                                                                    <img src="/icons/bus_icon_minimal.jpg" alt="bus" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.05)' }} />
+                                                                </div>
+                                                                <div>
+                                                                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#1E293B' }}>{op.name}</div>
+                                                                    <div style={{ fontSize: '11px', color: '#64748B' }}>{op.serviceType}</div>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <div style={{ fontSize: '14px', fontWeight: 600, color: '#1E293B' }}>{op.name}</div>
-                                                                <div style={{ fontSize: '11px', color: '#64748B' }}>{op.serviceType}</div>
-                                                            </div>
+                                                            {selectedOperator?.name === op.name && <Check size={18} color="#2563EB" />}
                                                         </div>
-                                                        {selectedOperator?.name === op.name && <Check size={18} color="#2563EB" />}
-                                                    </div>
-                                                ))}
-                                            </motion.div>
+                                                    ))}
+                                                </motion.div>
+                                            </>
                                         )}
                                     </AnimatePresence>
                                 </div>
@@ -506,18 +545,31 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
 
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                     {/* Trigger From */}
-                                    <div
+                                    <motion.div
+                                        whileTap={selectedOperator ? { scale: 0.98 } : {}}
                                         onClick={() => { if (selectedOperator) { setActiveDropdown('from'); setIsOperatorListOpen(false); } }}
                                         style={{
-                                            background: '#F8FAFC', padding: '20px', borderRadius: '16px', border: '1px solid #E5E7EB',
-                                            textAlign: 'center', cursor: selectedOperator ? 'pointer' : 'not-allowed'
+                                            background: '#FFFFFF', padding: '24px 20px', borderRadius: '20px', 
+                                            border: '1px solid #E2E8F0',
+                                            textAlign: 'center', cursor: selectedOperator ? 'pointer' : 'not-allowed',
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                                            position: 'relative', overflow: 'hidden'
                                         }}
                                     >
-                                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '4px' }}>Source stop</div>
-                                        <div style={{ fontSize: '16px', fontWeight: 600, color: sourceStop ? '#0F172A' : '#CBD5E1' }}>
-                                            {sourceStop ? sourceStop.name : "Enter source station"}
+                                        <div style={{ 
+                                            position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', 
+                                            background: '#2563EB', opacity: selectedOperator ? 1 : 0.3 
+                                        }} />
+                                        <div style={{ fontSize: '11px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>Source stop</div>
+                                        <div style={{ 
+                                            fontSize: '17px', fontWeight: 700, 
+                                            color: sourceStop ? '#0F172A' : '#CBD5E1',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                                        }}>
+                                            <MapPin size={18} color={sourceStop ? '#2563EB' : '#CBD5E1'} />
+                                            {sourceStop ? sourceStop.name : "Choose source station"}
                                         </div>
-                                    </div>
+                                    </motion.div>
 
                                     {/* Swap Action */}
                                     <div style={{ display: 'flex', justifyContent: 'center', height: '0', position: 'relative', zIndex: 10 }}>
@@ -534,18 +586,31 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
                                     </div>
 
                                     {/* Trigger To */}
-                                    <div
+                                    <motion.div
+                                        whileTap={selectedOperator ? { scale: 0.98 } : {}}
                                         onClick={() => { if (selectedOperator) { setActiveDropdown('to'); setIsOperatorListOpen(false); } }}
                                         style={{
-                                            background: '#F8FAFC', padding: '20px', borderRadius: '16px', border: '1px solid #E5E7EB',
-                                            textAlign: 'center', cursor: selectedOperator ? 'pointer' : 'not-allowed'
+                                            background: '#FFFFFF', padding: '24px 20px', borderRadius: '20px', 
+                                            border: '1px solid #E2E8F0',
+                                            textAlign: 'center', cursor: selectedOperator ? 'pointer' : 'not-allowed',
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                                            position: 'relative', overflow: 'hidden'
                                         }}
                                     >
-                                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '4px' }}>To stop</div>
-                                        <div style={{ fontSize: '16px', fontWeight: 600, color: destinationStop ? '#0F172A' : '#CBD5E1' }}>
-                                            {destinationStop ? destinationStop.name : "Enter destination station"}
+                                        <div style={{ 
+                                            position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', 
+                                            background: '#F59E0B', opacity: selectedOperator ? 1 : 0.3 
+                                        }} />
+                                        <div style={{ fontSize: '11px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>To stop</div>
+                                        <div style={{ 
+                                            fontSize: '17px', fontWeight: 700, 
+                                            color: destinationStop ? '#0F172A' : '#CBD5E1',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                                        }}>
+                                            <MapPin size={18} color={destinationStop ? '#F59E0B' : '#CBD5E1'} />
+                                            {destinationStop ? destinationStop.name : "Choose destination"}
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 </div>
                             </div>
 
