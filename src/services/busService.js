@@ -63,7 +63,7 @@ export const busService = {
             });
 
             console.log(`Firestore Search: ${filteredResults.length} routes match direction ${normSource} -> ${normDest}`);
-            
+
             // Format for the UI
             const finalBuses = [];
             filteredResults.forEach(data => {
@@ -94,20 +94,19 @@ export const busService = {
         try {
             const schedulesRef = collection(db, "bus_schedules");
             const normSource = source.toLowerCase().trim();
-            
+
             // Fetch everything and filter locally for flexibility
-            const q = query(schedulesRef, limit(200)); 
+            const q = query(schedulesRef, limit(200));
             const querySnapshot = await getDocs(q);
-            
+
             const results = [];
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
-                const tags = (data.search_tags || []).map(t => t.toLowerCase());
-                
-                // If the source matches any tag (e.g. "gobi" matches "gobichettipalayam")
-                const matches = tags.some(tag => tag.includes(normSource) || normSource.includes(tag));
-                
-                if (matches) {
+                // STRICT SOURCE MATCHING: Only show buses that START their journey from this stop.
+                // This prevents passing-through buses from appearing as local departures.
+                const isSourceMatch = normalize(data.source) === normSource;
+
+                if (isSourceMatch && data.status !== 'cancelled' && data.status !== 'completed') {
                     data.departure_times.forEach(time => {
                         results.push({
                             id: `${doc.id}-${time}`,

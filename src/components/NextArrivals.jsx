@@ -8,7 +8,7 @@ import haptics from '../utils/haptics';
 
 const ArrivalCard = ({ bus, status, operatorName, busType, t }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    
+
     // Split via string into stops if it exists
     const routeStops = bus.via ? bus.via.split(',').map(s => s.trim()) : [];
 
@@ -43,7 +43,7 @@ const ArrivalCard = ({ bus, status, operatorName, busType, t }) => {
                             <span style={{ fontSize: '14px', fontWeight: '600', color: '#4B5563' }}>
                                 {bus.from} → {bus.to}
                             </span>
-                            
+
                             {/* GOVT Badge */}
                             {busType === 'Govt' && (
                                 <span style={{
@@ -116,7 +116,7 @@ const ArrivalCard = ({ bus, status, operatorName, busType, t }) => {
                             <ChevronRight size={14} color="#9CA3AF" />
                         </motion.div>
                     </button>
-                    
+
                     <AnimatePresence>
                         {isExpanded && (
                             <motion.div
@@ -126,10 +126,10 @@ const ArrivalCard = ({ bus, status, operatorName, busType, t }) => {
                                 transition={{ duration: 0.25, ease: "easeInOut" }}
                                 style={{ overflow: 'hidden' }}
                             >
-                                <div style={{ 
-                                    paddingTop: '6px', 
-                                    fontSize: '12px', 
-                                    color: '#9CA3AF', 
+                                <div style={{
+                                    paddingTop: '6px',
+                                    fontSize: '12px',
+                                    color: '#9CA3AF',
                                     fontWeight: '400',
                                     lineHeight: '1.5'
                                 }}>
@@ -155,7 +155,7 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
     // 1. Determine nearby bus stands based on GPS
     useEffect(() => {
         let nearby = [];
-        
+
         if (userPosition) {
             Object.entries(SOURCE_COORDINATES).forEach(([name, coords]) => {
                 const dist = getDistance(userPosition.lat, userPosition.lng, coords.lat, coords.lng);
@@ -166,7 +166,7 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
         }
 
         // Fallback checks omitted for brevity but can be added back if needed
-        
+
         nearby.sort((a, b) => a.dist - b.dist);
         const sourceNames = nearby.map(n => n.name);
         setAvailableNearbySources(sourceNames);
@@ -188,7 +188,7 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
                 setIsLoading(false);
                 return;
             }
-            
+
             setIsLoading(true);
             try {
                 const fetchedBuses = await busService.getArrivalsBySource(currentCity);
@@ -392,9 +392,9 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
                 }}>
                     {isLoading ? (
                         <div style={{ padding: '40px', textAlign: 'center', color: '#6B7280' }}>
-                            <div className="animate-spin" style={{ 
-                                width: '24px', height: '24px', border: '2px solid #F3F4F6', 
-                                borderTopColor: '#3B82F6', borderRadius: '50%', margin: '0 auto 12px' 
+                            <div className="animate-spin" style={{
+                                width: '24px', height: '24px', border: '2px solid #F3F4F6',
+                                borderTopColor: '#3B82F6', borderRadius: '50%', margin: '0 auto 12px'
                             }}></div>
                             <span>Searching schedules...</span>
                         </div>
@@ -409,13 +409,13 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
                             const busType = getBusType(bus);
 
                             return (
-                                <ArrivalCard 
-                                    key={index} 
-                                    bus={bus} 
-                                    status={status} 
-                                    operatorName={operatorName} 
-                                    busType={busType} 
-                                    t={t} 
+                                <ArrivalCard
+                                    key={index}
+                                    bus={bus}
+                                    status={status}
+                                    operatorName={operatorName}
+                                    busType={busType}
+                                    t={t}
                                 />
                             );
                         })
