@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import SEOManager from './components/SEOManager';
 import NetworkStatusBanner from './components/NetworkStatusBanner';
 import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -863,6 +864,13 @@ export default function App() {
 
   return (
     <APIProvider apiKey={API_KEY} libraries={LIBRARIES} onError={(e) => console.error('Maps API Error', e)}>
+      <SEOManager 
+        activeScreen={activeScreen} 
+        activeTab={activeTab}
+        showBusBooking={showBusBooking}
+        showTrainBooking={showTrainBooking}
+        showParcelBooking={showParcelBooking}
+      />
       <div style={{
         position: 'fixed',
         top: 0, left: 0, right: 0, bottom: 0,
