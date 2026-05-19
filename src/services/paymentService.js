@@ -1,7 +1,7 @@
 import { load } from '@cashfreepayments/cashfree-js';
 
 // Configuration (App ID is safe to expose, Secret is strictly on the backend)
-const CASHFREE_APP_ID = '896041d8f54dee23374b874529140698';
+const CASHFREE_APP_ID = import.meta.env.VITE_CASHFREE_APP_ID;
 const CASHFREE_ENV    = 'sandbox'; // Set to 'production' for live payments
 
 class PaymentService {

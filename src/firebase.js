@@ -7,13 +7,13 @@ import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAc_V5V4VGQS5mn7qMb3uKMAnSr8FVy2d4",
-    authDomain: "nexridein.firebaseapp.com",
-    projectId: "nexridein",
-    storageBucket: "nexridein.firebasestorage.app",
-    messagingSenderId: "320418103794",
-    appId: "1:320418103794:web:3e6330fe8b6c23549f2b6b",
-    measurementId: "G-0B5HVDEYR0"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -26,7 +26,7 @@ try {
     // Only run if localhost or https (App Check often requires valid domain)
     if (location.hostname === 'localhost' || location.protocol === 'https:') {
         initializeAppCheck(app, {
-            provider: new ReCaptchaV3Provider("Y6Le8BDgsAAAAABSk1_54Mc47PK-yjNoTqp4mM6vF"),
+            provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_V3_KEY),
             isTokenAutoRefreshEnabled: true,
         });
     }

@@ -33,6 +33,7 @@ import AdminRouteCreator from './components/AdminRouteCreator';
 import SafetyScreen from './components/SafetyScreen';
 import RideScreen from './components/RideScreen';
 import WebLanding from './components/WebLanding';
+import RouteSEOPage from './components/RouteSEOPage';
 import NearbyBusStopsScreen from './components/NearbyBusStopsScreen';
 import NearbyStopMapScreen from './components/NearbyStopMapScreen';
 
@@ -53,7 +54,7 @@ import { LocationPermissionCard } from './components/LocationPermissionModal';
 import { notificationService } from './services/notificationService';
 import GlobalLoader from './components/GlobalLoader';
 
-const API_KEY = 'AIzaSyDlpxJyvl6FFHQGVO3_i-FsTO_-L9GlLO8';
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const LIBRARIES = ['places', 'geometry', 'geocoding', 'routes'];
 
 export default function App() {
@@ -81,6 +82,19 @@ export default function App() {
     if (path === '/refund-policy' || path === '/profile/refund') return 'refund';
     if (path === '/contact' || path === '/profile/contact') return 'contact';
     if (path === '/app') return 'home';
+
+    const SEORoutesList = [
+      '/erode-bus-timings',
+      '/anthiyur-bus-schedule',
+      '/gobichettipalayam-bus',
+      '/bhavani-bus-timings',
+      '/parcel-booking-erode',
+      '/bus-timings',
+      '/parcel-booking',
+      '/bus-booking',
+      '/routes'
+    ];
+    if (SEORoutesList.includes(path)) return 'seo-route';
 
     // NEW (2026-01-20): Skip SEO landing if app has already been "Launched" once
     const hasLaunched = localStorage.getItem("introCompleted") === "true";
@@ -883,6 +897,14 @@ export default function App() {
         {/* Website Landing Page - SEO and Brand First (Only shown on '/') */}
         {activeScreen === 'landing' && (
           <WebLanding onLaunchApp={() => navigateTo('home', 'collapsed')} />
+        )}
+
+        {/* SEO Route Pages */}
+        {activeScreen === 'seo-route' && (
+          <RouteSEOPage 
+            routePath={window.location.pathname} 
+            onLaunchApp={() => navigateTo('home', 'collapsed', true)} 
+          />
         )}
 
         {/* Splash Screen - Highest Priority */}

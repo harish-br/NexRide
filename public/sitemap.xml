@@ -54,4 +54,44 @@
     <priority>0.5</priority>
   </url>
 
+  <!-- Route-Specific SEO Pages -->
+  <url>
+    <loc>https://nexride.co.in/erode-bus-timings</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nexride.co.in/anthiyur-bus-schedule</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nexride.co.in/gobichettipalayam-bus</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nexride.co.in/bhavani-bus-timings</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nexride.co.in/parcel-booking-erode</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Sitelinks Pages -->
+  <url>
+    <loc>https://nexride.co.in/bus-timings</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nexride.co.in/parcel-booking</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nexride.co.in/bus-booking</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nexride.co.in/routes</loc>
+    <priority>0.9</priority>
+  </url>
+
 </urlset>

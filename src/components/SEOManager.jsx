@@ -7,8 +7,20 @@ import { useEffect } from 'react';
 const SEOManager = ({ activeScreen, activeTab, showBusBooking, showTrainBooking, showParcelBooking }) => {
     
     useEffect(() => {
-        let title = "NexRide Transport and Mobility Application";
-        let description = "Search bus timings, check train schedules, explore routes, and book cabs and autos in one seamless platform.";
+        let title = "NexRide – Bus Timings, Parcel & Bus Booking | Erode, Ooty, Anthiyur & More";
+        let description = "Book buses and parcels online across Erode, Anthiyur, Ooty, Gobichettipalayam and Bhavani. Check live bus timings, track parcels, and book seats instantly on NexRide.";
+
+        const SEORoutes = {
+            '/erode-bus-timings': { title: 'Erode Bus Timings & Booking | NexRide' },
+            '/anthiyur-bus-schedule': { title: 'Anthiyur Bus Timings & Schedule | NexRide' },
+            '/gobichettipalayam-bus': { title: 'Gobichettipalayam Bus Booking | NexRide' },
+            '/bhavani-bus-timings': { title: 'Bhavani Bus Timings & Routes | NexRide' },
+            '/parcel-booking-erode': { title: 'Erode Parcel Booking Online | NexRide' },
+            '/bus-timings': { title: 'Live Bus Timings & Schedules | NexRide' },
+            '/parcel-booking': { title: 'Online Parcel Booking & Delivery | NexRide' },
+            '/bus-booking': { title: 'Online Bus Ticket Booking | NexRide' },
+            '/routes': { title: 'Explore Bus Routes & Services | NexRide' }
+        };
 
         // Metadata Mapping based on App State
         if (showBusBooking) {
@@ -48,8 +60,12 @@ const SEOManager = ({ activeScreen, activeTab, showBusBooking, showTrainBooking,
             description = "Access bus timings, train schedules, and ride booking on the go.";
         }
         else if (activeScreen === 'landing') {
-            title = "NexRide Transport and Mobility Application";
-            description = "Search bus timings, check train schedules, explore routes, and book cabs and autos in one seamless platform.";
+            title = "NexRide – Bus Timings, Parcel & Bus Booking | Erode, Ooty, Anthiyur & More";
+            description = "Book buses and parcels online across Erode, Anthiyur, Ooty, Gobichettipalayam and Bhavani. Check live bus timings, track parcels, and book seats instantly on NexRide.";
+        }
+        else if (activeScreen === 'seo-route' && SEORoutes[window.location.pathname]) {
+            title = SEORoutes[window.location.pathname].title;
+            description = "Book buses and parcels online across Erode, Anthiyur, Ooty, Gobichettipalayam and Bhavani. Check live bus timings, track parcels, and book seats instantly on NexRide.";
         }
 
         // Apply Updates to DOM

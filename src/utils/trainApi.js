@@ -1,4 +1,4 @@
-const API_KEY = import.meta.env.VITE_RAILRADAR_API_KEY || 'rr_admin_9s2d5f8h1k4m7p0q';
+const API_KEY = import.meta.env.VITE_RAILRADAR_API_KEY;
 const BASE_URL = 'https://api.railradar.in/api/v1';
 
 // In-memory cache

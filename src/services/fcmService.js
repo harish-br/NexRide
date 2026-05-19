@@ -2,7 +2,7 @@ import { getToken } from "firebase/messaging";
 import { messaging } from "../firebase";
 
 // TODO: Replace with your actual Web Push Public Key (VAPID Key) from Firebase Console
-const VAPID_KEY = "BPYfOex7qn7p30lOUNyOyRVdu1_hfJzOIzlUsfK0ucOA7HF4atBDj__PbHwqYL_-NLBgTXH4GJgVI2XRnB1d9GY"; 
+const VAPID_KEY = import.meta.env.VITE_FCM_VAPID_KEY;
 
 const BACKEND_URL = "https://us-central1-nexridein.cloudfunctions.net/nexrideApi";
 

@@ -9,7 +9,7 @@ const db = getFirestore();
 // NOTE: Ideally this should be in .env, but for now we put a placeholder or explicit key if known.
 // Since the user didn't provide one, we'll try without it (some setups work) or ask the user.
 // Usually getToken({ vapidKey: '...' })
-const VAPID_KEY = "BKC_9vL8pC ..."; // TODO: Ask User for VAPID Key or use default
+const VAPID_KEY = import.meta.env.VITE_FCM_VAPID_KEY;
 
 export const notificationService = {
     // Check if supported

@@ -3,25 +3,15 @@ import { motion, useTransform } from 'framer-motion';
 import packageIcon from '../icons8-package-94.png';
 
 const ParcelFab = ({ onClick, sheetY, show = true }) => {
-    // Window height state to handle resizing
-    const [windowHeight, setWindowHeight] = useState(typeof window !== 'undefined' ? window.innerHeight : 800);
-
-    useEffect(() => {
-        const handleResize = () => setWindowHeight(window.innerHeight);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // Calculate dynamic bottom position via transform
-    // Formula: FAB Bottom = (Window Height - Sheet Top Y) + Gap
-    // Gap = 53px (Matches LocationFab)
-    const fabBottom = useTransform(
-        sheetY || { get: () => 0 },
+    // Calculate dynamic top position via transform
+    // Formula: FAB Top = Sheet Top Y - FAB Height - Margin
+    // FAB Height = 48px, Margin = 16px
+    const fabTop = useTransform(
+        sheetY || { get: () => window.innerHeight - 358 },
         (y) => {
-            const gap = 53;
-            const calcBottom = (windowHeight - y) + gap;
-            // Clamp to minimum safe area
-            return Math.max(100, calcBottom);
+            const margin = 16;
+            const fabHeight = 48;
+            return y - fabHeight - margin;
         }
     );
 
@@ -36,7 +26,7 @@ const ParcelFab = ({ onClick, sheetY, show = true }) => {
             onClick={onClick}
             style={{
                 position: 'fixed',
-                bottom: fabBottom, // Dynamically driven by sheetY, same as LocationFab
+                top: fabTop, // Anchored exactly above the bottom sheet
                 left: '20px',
                 width: '100px',
                 height: '48px',
