@@ -64,8 +64,6 @@ export default function App() {
   const [sheetState, setSheetState] = useState('collapsed'); // 'collapsed', 'expanded', 'hidden'
   const [routeData, setRouteData] = useState(null); // { origin, destination, routes }
   const [busSearchData, setBusSearchData] = useState(null); // { from, to }
-  const [selectedStation, setSelectedStation] = useState(null); // { name, code }
-  const [selectedTrainData, setSelectedTrainData] = useState(null); // Train status data
   const [selectedBusStop, setSelectedBusStop] = useState(null);
   const [activeTrainLocation, setActiveTrainLocation] = useState(null); // { lat, lng, title }
 
@@ -138,13 +136,12 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home'); // 'home', 'tickets', 'plan', 'profile'
 
   // WebView Data
-  const [webViewData, setWebViewData] = useState({ title: '', url: '' });
+  const [webViewData] = useState({ title: '', url: '' });
 
   // --- AUTH & INTRO STATE ---
   const [showIntro, setShowIntro] = useState(true);
   const [user, setUser] = useState(null);
   const [authStatus, setAuthStatus] = useState('loading'); // 'loading' | 'authenticated' | 'guest'
-  const [confirmationResult, setConfirmationResult] = useState(null); // Phone Auth Confirmation Result
 
   // New States for Nearby Feature
   const [recenterTrigger, setRecenterTrigger] = useState(0);
@@ -185,7 +182,7 @@ export default function App() {
       const session = JSON.parse(localStorage.getItem('userSession') || '{}');
       hasLocalSession = (session.isLoggedIn === true && session.sessionStatus === 'active');
       if (!hasLocalSession) hasLocalSession = localStorage.getItem('isLoggedIn') === 'true';
-    } catch (e) {
+    } catch {
       hasLocalSession = localStorage.getItem('isLoggedIn') === 'true';
     }
 
@@ -254,6 +251,7 @@ export default function App() {
     });
 
     return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleIntroComplete = () => {
@@ -356,6 +354,7 @@ export default function App() {
     checkInterval = setInterval(checkLocationState, 10000);
 
     return () => clearInterval(checkInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showSplash, showIntro, needsOnboarding, isManualLocationMode, userPosition, isLocating, activeScreen]);
 
   const handleEnableLocation = () => {
@@ -386,6 +385,7 @@ export default function App() {
       setShowLocationModal(false);
       handleLocateMe(); // Center map on the new position
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userPosition, showLocationModal]);
 
   const startLocationTracking = (retryWithLowAccuracy = true) => {
@@ -532,7 +532,6 @@ export default function App() {
       // Manual URL parsing since we don't use React Router's useSearchParams
       const searchParams = new URLSearchParams(window.location.search);
       const orderId = searchParams.get('order_id');
-      const path = window.location.pathname;
 
       if (!orderId) return;
 
@@ -670,6 +669,7 @@ export default function App() {
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Generic Navigate Function with Replace Support
@@ -792,16 +792,12 @@ export default function App() {
     navigateTo('bus-results');
   };
 
-  const handleStationSelect = (station) => {
-    setSelectedStation(station);
-    setSelectedTrainData(null);
+  const handleStationSelect = () => {
     setShowTrainBooking(false);
     navigateTo('train-live');
   };
 
-  const handleTrainSelect = (trainData) => {
-    setSelectedTrainData(trainData);
-    setSelectedStation(null);
+  const handleTrainSelect = () => {
     setShowTrainBooking(false);
     navigateTo('train-live');
   };
@@ -826,12 +822,6 @@ export default function App() {
       console.log(t('errors.no_nearby_stops'));
     }
   }, [t]);
-
-  const handleAdminNavigate = (screen) => {
-    if (screen === 'admin-routes') {
-      navigateTo('admin-route-create');
-    }
-  };
 
   const handleLegalNavigate = (screen) => {
     navigateTo(screen);

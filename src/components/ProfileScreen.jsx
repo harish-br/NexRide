@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from './LanguageContext';
 import LanguageSettingsScreen from './LanguageSettingsScreen';
-import { auth } from '../firebase';
-import { signOut, deleteUser } from 'firebase/auth';
+
 import {
     User, ChevronRight, Shield, Lock, Bus, Map as MapIcon,
     Ticket, History, CreditCard, Wallet, FileText, RefreshCw,
@@ -63,7 +62,7 @@ const ProfileSkeleton = () => (
 
 /* ------------------- UI COMPONENTS ------------------- */
 
-const PillComponent = ({ icon: Icon, label, subLabel, onClick, rightElement, isLast, iconColor = '#4B5563', textColor = '#1F2937', isLocked = false, customIcon = null, isRTL }) => (
+const PillComponent = ({ icon: Icon, label, subLabel, onClick, rightElement, iconColor = '#4B5563', textColor = '#1F2937', isLocked = false, customIcon = null, isRTL }) => (
     <motion.div
         whileTap={{ scale: 0.96 }}
         onClick={() => {
@@ -122,7 +121,7 @@ const Pill = (props) => {
 
 /* ------------------- MAIN COMPONENT ------------------- */
 
-const ProfileScreenContent = ({ user, authStatus, onNavigate, onLegalNavigate, onLogin, onBack, onLogout }) => {
+const ProfileScreenContent = ({ user, authStatus, onNavigate, onLegalNavigate, onBack, onLogout }) => {
     const { t } = useTranslation();
     const { currentLanguage, languages, isRTL } = useLanguage();
 
@@ -189,10 +188,6 @@ const ProfileScreenContent = ({ user, authStatus, onNavigate, onLegalNavigate, o
         // 4. Main Authenticated / Guest State
         const displayName = isGuest ? t('common.guest') : (firestoreDisplayName || user.displayName || t('common.traveller'));
         const displayEmail = isGuest ? t('common.welcome') : (user.email || t('common.verified_user'));
-
-        const handleDeleteAccount = async () => {
-            // ... existing code ...
-        };
 
         const handleLogout = () => {
             if (onLogout) {
@@ -292,7 +287,7 @@ const ProfileScreenContent = ({ user, authStatus, onNavigate, onLegalNavigate, o
 
 
 
-export default ({ user, authStatus, onNavigate, onLegalNavigate, onLogin, onBack, onLogout }) => {
+const ProfileScreen = ({ user, authStatus, onNavigate, onLegalNavigate, onBack, onLogout }) => {
     const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
     const prevAuthStatusRef = React.useRef(authStatus);
 
@@ -328,10 +323,11 @@ export default ({ user, authStatus, onNavigate, onLegalNavigate, onLogin, onBack
                 authStatus={authStatus}
                 onNavigate={onNavigate}
                 onLegalNavigate={onLegalNavigate}
-                onLogin={onLogin}
                 onBack={onBack}
                 onLogout={onLogout}
             />
         </div>
     );
 };
+
+export default ProfileScreen;

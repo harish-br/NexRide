@@ -32,9 +32,41 @@ service cloud.firestore {
       allow write: if request.auth != null && request.auth.uid == driverId;
     }
     // Bus Schedules: Public read, locked writes
+    // Helper function to check if user is an admin
+    function isAdmin() {
+      return request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Admins Collection
+    match /admins/{adminId} {
+      allow read: if request.auth != null && request.auth.uid == adminId;
+      allow write: if isAdmin();
+    }
+
+    // Admin Managed Collections
+    match /places/{placeId} {
+      allow read: if true; // Might need public read later, keeping safe: isAdmin() or public? Public is fine.
+      allow write: if isAdmin();
+    }
+    match /routes/{routeId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /buses/{busId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /audit_logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+    match /bus_requests/{requestId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Bus Schedules: Public read, admin only writes
     match /bus_schedules/{scheduleId} {
       allow read: if true;
-      allow write: if false; // 🔒 SECURED
+      allow write: if isAdmin();
     }
   }
 }

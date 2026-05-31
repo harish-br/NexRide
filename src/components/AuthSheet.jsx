@@ -70,14 +70,16 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
             if (window.recaptchaVerifier) {
                 try {
                     window.recaptchaVerifier.clear();
-                } catch (e) { }
+                } catch {
+                    console.warn("Recaptcha clear failed");
+                }
                 window.recaptchaVerifier = null;
             }
 
             try {
                 window.recaptchaVerifier = new RecaptchaVerifier(auth, container, {
                     'size': 'invisible',
-                    'callback': (response) => {
+                    'callback': () => {
                         console.log("Recaptcha Solved");
                     },
                     'expired-callback': () => {
@@ -88,7 +90,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                 console.warn("Recaptcha Init Warn:", err);
             }
         }
-    }, [isOpen]);
+    }, [isOpen, t]);
 
     const handleSendOtp = async () => {
         if (phoneNumber.length !== 10) {

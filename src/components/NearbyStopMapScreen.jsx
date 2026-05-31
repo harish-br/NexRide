@@ -18,7 +18,6 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
     const userMarkerRef = useRef(null);
     const stopMarkerRef = useRef(null);
     const markerDivRef = useRef(null);
-    const hasFittedRef = useRef(false);
 
     const [zoomLevel, setZoomLevel] = useState(15);
 
@@ -233,7 +232,7 @@ const MapOverlay = ({ userPosition, stop, setRouteInfo, setIsLoadingRoute }) => 
 
 
         return cleanup;
-    }, [map, markerLibrary, userPosition.lat, userPosition.lng, stop.latitude, stop.longitude, cleanup, setRouteInfo, setIsLoadingRoute]);
+    }, [map, markerLibrary, userPosition.lat, userPosition.lng, stop.latitude, stop.longitude, stop.name, cleanup, setRouteInfo, setIsLoadingRoute]);
 
     // Track responsive map zooming to scale the marker properly to avoid clutter
     useEffect(() => {

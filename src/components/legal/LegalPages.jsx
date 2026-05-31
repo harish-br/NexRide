@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Mail, Phone, MapPin } from 'lucide-react';
 import Lottie from 'lottie-react';
 import lockAnimation from '../LottieAnimations/Lock.json';
@@ -76,6 +76,13 @@ export const PrivacyPolicyScreen = ({ onBack }) => {
         };
     }, []);
 
+    const finishAnimation = React.useCallback(() => {
+        setAnimationState('fading');
+        setTimeout(() => {
+            setAnimationState('finished');
+        }, 500); // 500ms fade out duration
+    }, []);
+
     // Animation Logic
     useEffect(() => {
         // Enforce fixed 3s duration
@@ -86,14 +93,7 @@ export const PrivacyPolicyScreen = ({ onBack }) => {
         }, 3000);
 
         return () => clearTimeout(timer);
-    }, [animationState]);
-
-    const finishAnimation = () => {
-        setAnimationState('fading');
-        setTimeout(() => {
-            setAnimationState('finished');
-        }, 500); // 500ms fade out duration
-    };
+    }, [animationState, finishAnimation]);
 
     return (
         <div style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'white' }}>

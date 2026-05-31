@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { LocateFixed, Loader2 } from 'lucide-react';
 import { motion, useTransform } from 'framer-motion';
 

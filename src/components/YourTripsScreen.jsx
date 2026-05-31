@@ -16,12 +16,13 @@ const YourTripsScreen = ({ onBack, onBookRide, user = auth.currentUser }) => {
     const { t } = useTranslation();
     const { isRTL } = useLanguage();
     const [activeTab, setActiveTab] = useState('active'); // 'active' | 'history'
+    const [now, setNow] = useState(0);
 
     // CACHE-FIRST INITIALIZATION
     const [tickets, setTickets] = useState(() => {
         try {
             return JSON.parse(localStorage.getItem('tickets') || '[]');
-        } catch (e) {
+        } catch {
             return [];
         }
     });
@@ -29,6 +30,10 @@ const YourTripsScreen = ({ onBack, onBookRide, user = auth.currentUser }) => {
     // Only show full loader if we have NO data to show initially
     const [isLoading, setIsLoading] = useState(tickets.length === 0);
     const [viewingTicket, setViewingTicket] = useState(null); // For history details modal
+
+    useEffect(() => {
+        setNow(Date.now());
+    }, []);
 
     // Fetch Tickets from Firestore (Background Sync)
     useEffect(() => {
@@ -68,7 +73,7 @@ const YourTripsScreen = ({ onBack, onBookRide, user = auth.currentUser }) => {
     }, [user]);
 
     // Derived State
-    const now = Date.now();
+    if (now === 0) return null;
 
     const activeTickets = tickets.filter(t => {
         // Active if NOT expired and NOT cancelled
@@ -238,9 +243,9 @@ const ActiveTripsList = ({ tickets, onBookRide }) => {
 
 const ActiveTicketItem = ({ ticket }) => {
     const { t } = useTranslation();
-    const { isRTL } = useLanguage();
     // Basic countdown logic
     const [timeLeft, setTimeLeft] = useState('...');
+    const [isExpiringSoon, setIsExpiringSoon] = useState(false);
 
     useEffect(() => {
         const updateTimer = () => {
@@ -248,18 +253,18 @@ const ActiveTicketItem = ({ ticket }) => {
             const diff = ticket.expiryTime - now;
             if (diff <= 0) {
                 setTimeLeft(t('trips.expired'));
+                setIsExpiringSoon(false);
             } else {
                 const h = Math.floor((diff / (1000 * 60 * 60)));
                 const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 setTimeLeft(`${h}h ${m}m`);
+                setIsExpiringSoon(diff < 3600000);
             }
         };
         updateTimer();
         const interval = setInterval(updateTimer, 60000); // Update every min is enough for list
         return () => clearInterval(interval);
-    }, [ticket.expiryTime]);
-
-    const isExpiringSoon = ticket.expiryTime - Date.now() < 3600000; // < 1 hour
+    }, [ticket.expiryTime, t]);
 
     return (
         <motion.div
@@ -352,7 +357,6 @@ const HistoryTripsList = ({ tickets, onViewResponse }) => {
 
 const HistoryTicketItem = ({ ticket, onClick }) => {
     const { t } = useTranslation();
-    const { isRTL } = useLanguage();
     const isCancelled = ticket.status === 'cancelled';
 
     return (

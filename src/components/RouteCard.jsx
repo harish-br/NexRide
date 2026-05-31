@@ -4,7 +4,6 @@ import { Bus, Train, User as Walk, ChevronRight, Zap, PiggyBank, Scale } from 'l
 import { useTranslation } from 'react-i18next';
 
 const StepChip = ({ step }) => {
-    const { t } = useTranslation();
     const getIcon = (type) => {
         switch (type) {
             case 'WALK': return <Walk size={14} color="#6B7280" />;

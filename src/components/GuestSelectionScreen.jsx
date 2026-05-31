@@ -42,29 +42,27 @@ const GuestSelectionScreen = ({
     selectedRoute
 }) => {
     const [count, setCount] = useState(1);
-    const [baseFare, setBaseFare] = useState(0);
     const lottieRef = React.useRef(null);
 
-    // Initial Fare Logic
+    // Calculate baseFare dynamically during render
+    const distanceStr = routeData?.distance || '0 km';
+    const distance = parseFloat(distanceStr.replace(/[^0-9.]/g, '')) || 0;
+
+    let ratePerKm = 1.5;
+    if (selectedRoute?.type === 'train') ratePerKm = 0.8;
+
+    let baseFare = Math.round(distance * ratePerKm);
+    if (baseFare < 10) baseFare = 10;
+
+    // Reset count & animation when component becomes visible
     useEffect(() => {
-        if (isVisible && routeData) {
-            const distanceStr = routeData.distance || '0 km';
-            const distance = parseFloat(distanceStr.replace(/[^0-9.]/g, ''));
-
-            let ratePerKm = 1.5;
-            if (selectedRoute?.type === 'train') ratePerKm = 0.8;
-
-            let calculatedBase = Math.round(distance * ratePerKm);
-            if (calculatedBase < 10) calculatedBase = 10;
-
-            setBaseFare(calculatedBase);
-            setCount(1); // Reset
-            // Reset animation to start
+        if (isVisible) {
+            setCount(1);
             if (lottieRef.current) {
                 lottieRef.current.goToAndStop(MARKERS[1], true);
             }
         }
-    }, [isVisible, routeData, selectedRoute]);
+    }, [isVisible]);
 
     if (!isVisible) return null;
 

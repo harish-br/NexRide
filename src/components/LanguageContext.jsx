@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import i18n from '../i18n';
 import { db, auth } from '../firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
@@ -12,7 +13,7 @@ const LanguageContext = createContext({
     isRTL: false
 });
 
-export const languages = [
+const languages = [
     { code: 'ta', nativeName: 'தமிழ்', englishName: 'Tamil', dir: 'ltr' },
     { code: 'en', nativeName: 'English', englishName: 'English', dir: 'ltr' },
     { code: 'hi', nativeName: 'हिंदी', englishName: 'Hindi', dir: 'ltr' },
@@ -24,53 +25,8 @@ export const languages = [
 export const LanguageProvider = ({ children }) => {
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'en');
     const [isRTL, setIsRTL] = useState(false);
-    const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        // Initial setup
-        const storedLang = localStorage.getItem('i18nextLng');
-        if (storedLang) {
-            handleLanguageChange(storedLang, false);
-        } else {
-            detectInitialLanguage();
-        }
-
-        // Auth listener for Firestore sync
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            if (currentUser) {
-                syncLanguageWithFirestore(currentUser);
-            }
-        });
-
-        return () => unsubscribe();
-    }, []);
-
-    const detectInitialLanguage = () => {
-        const browserLang = navigator.language || navigator.userLanguage;
-        if (browserLang.includes('ta')) {
-            handleLanguageChange('ta', false);
-        } else {
-            handleLanguageChange('en', false);
-        }
-    };
-
-    const syncLanguageWithFirestore = async (currentUser) => {
-        try {
-            const userRef = doc(db, 'users', currentUser.uid);
-            const docSnap = await getDoc(userRef);
-            if (docSnap.exists() && docSnap.data().language) {
-                const cloudLang = docSnap.data().language;
-                if (cloudLang !== currentLanguage) {
-                    handleLanguageChange(cloudLang, false);
-                }
-            }
-        } catch (error) {
-            console.error('Error syncing language with Firestore:', error);
-        }
-    };
-
-    const handleLanguageChange = async (langCode, shouldSync = true) => {
+    const handleLanguageChange = useCallback(async (langCode, shouldSync = true) => {
         const lang = languages.find((l) => l.code === langCode) || languages[1];
 
         i18n.changeLanguage(langCode).catch(err => console.error("i18n error:", err));
@@ -93,7 +49,50 @@ export const LanguageProvider = ({ children }) => {
                 }
             }
         }
-    };
+    }, []);
+
+    const detectInitialLanguage = useCallback(() => {
+        const browserLang = navigator.language || navigator.userLanguage;
+        if (browserLang.includes('ta')) {
+            handleLanguageChange('ta', false);
+        } else {
+            handleLanguageChange('en', false);
+        }
+    }, [handleLanguageChange]);
+
+    const syncLanguageWithFirestore = useCallback(async (currentUser) => {
+        try {
+            const userRef = doc(db, 'users', currentUser.uid);
+            const docSnap = await getDoc(userRef);
+            if (docSnap.exists() && docSnap.data().language) {
+                const cloudLang = docSnap.data().language;
+                if (cloudLang !== currentLanguage) {
+                    handleLanguageChange(cloudLang, false);
+                }
+            }
+        } catch (error) {
+            console.error('Error syncing language with Firestore:', error);
+        }
+    }, [currentLanguage, handleLanguageChange]);
+
+    useEffect(() => {
+        // Initial setup
+        const storedLang = localStorage.getItem('i18nextLng');
+        if (storedLang) {
+            handleLanguageChange(storedLang, false);
+        } else {
+            detectInitialLanguage();
+        }
+
+        // Auth listener for Firestore sync
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                syncLanguageWithFirestore(currentUser);
+            }
+        });
+
+        return () => unsubscribe();
+    }, [handleLanguageChange, detectInitialLanguage, syncLanguageWithFirestore]);
 
     return (
         <LanguageContext.Provider value={{ currentLanguage, languages, changeLanguage: handleLanguageChange, isRTL }}>

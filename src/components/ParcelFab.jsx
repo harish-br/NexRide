@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion, useTransform } from 'framer-motion';
 import packageIcon from '../icons8-package-94.png';
 

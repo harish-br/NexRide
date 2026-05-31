@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     X, ArrowUpDown, ChevronDown, Check,
@@ -6,8 +6,7 @@ import {
     Shield, CheckCircle, AlertTriangle
 } from 'lucide-react';
 import haptics from '../utils/haptics';
-import { busSchedules, busStops } from '../data/busSchedules';
-import bus3d from '../assets/bus-3d.png';
+import { busSchedules } from '../data/busSchedules';
 import parcelIcon from '../paper-parcel-delivery-box-icon-isolated-3d-render-illustration.png';
 
 const ParcelBookingSheet = ({ isOpen, onClose }) => {
@@ -15,7 +14,6 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
     const [isOperatorListOpen, setIsOperatorListOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null); // 'from' | 'to' | null
     const [showReview, setShowReview] = useState(false);
-    const [agreedToTerms, setAgreedToTerms] = useState(false);
 
     // --- Selection State ---
     const [selectedOperator, setSelectedOperator] = useState(null);
@@ -108,7 +106,6 @@ const ParcelBookingSheet = ({ isOpen, onClose }) => {
             setIsOperatorListOpen(false);
             setActiveDropdown(null);
             setShowReview(false);
-            setAgreedToTerms(false);
         }, 300);
     };
 

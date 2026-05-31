@@ -128,7 +128,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
         }
     }, []);
 
-    const fetchCurrentLocation = () => {
+    const fetchCurrentLocation = useCallback(() => {
         if ("geolocation" in navigator) {
             setIsResolving(true);
             setAddress("Locating you...");
@@ -152,7 +152,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
         } else {
             reverseGeocode(center.lat, center.lng);
         }
-    };
+    }, [center.lat, center.lng, reverseGeocode]);
 
     useEffect(() => {
         if (!initialLocation) {
@@ -160,6 +160,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
         } else {
             reverseGeocode(center.lat, center.lng);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Smart Auto-Refetch System on Re-connection
@@ -190,7 +191,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
             window.removeEventListener('online', handleOnline);
             window.removeEventListener('app:manualRefresh', handleOnline);
         };
-    }, [addressError, address, center]);
+    }, [addressError, address, center.lat, center.lng, fetchCurrentLocation, initialLocation, reverseGeocode]);
 
     const fetchSuggestions = async (input) => {
         if (!input || input.length < 2) return;
@@ -221,7 +222,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
             } else {
                 setSuggestions([]);
             }
-        } catch (error) {
+        } catch {
             setSuggestions([]);
         }
     };

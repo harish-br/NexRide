@@ -42,6 +42,7 @@ const Polyline = ({ path, options, onClick }) => {
             if (listener) window.google.maps.event.removeListener(listener);
             line.setMap(null);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, path, onClick]); // Re-create if path changes
 
     // Update Options Dynamically

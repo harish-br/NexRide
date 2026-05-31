@@ -1,20 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const SAVED_PLACES_KEY = 'nexride_saved_places';
 
 export const useSavedPlaces = () => {
-    const [savedPlaces, setSavedPlaces] = useState([]);
-
-    useEffect(() => {
+    const [savedPlaces, setSavedPlaces] = useState(() => {
         try {
             const stored = localStorage.getItem(SAVED_PLACES_KEY);
-            if (stored) {
-                setSavedPlaces(JSON.parse(stored));
-            }
+            return stored ? JSON.parse(stored) : [];
         } catch (err) {
             console.error("Error loading saved places", err);
+            return [];
         }
-    }, []);
+    });
 
     const savePlace = (place) => {
         // place structure:

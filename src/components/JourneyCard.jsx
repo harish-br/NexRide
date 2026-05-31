@@ -33,7 +33,7 @@ const JourneyCard = ({ onClick, userAddress }) => {
                 <p style={{ fontSize: '13px', opacity: 0.9, marginBottom: '8px', fontWeight: 500 }}>
                     {userAddress ? `${userAddress}` : t('home.plan_journey')}
                 </p>
-                <h2 style={{ fontSize: '22px', fontWeight: 600, lineHeight: 1.2, marginBottom: '16px', letterSpacing: '-0.3px', whiteSpace: 'pre-line' }}>
+                <h2 style={{ fontSize: '22px', fontWeight: 600, lineHeight: 1.2, marginBottom: '16px', letterSpacing: '-0.3px', whiteSpace: 'pre-line', color: 'white' }}>
                     {t('home.where_to_go')}
                 </h2>
 

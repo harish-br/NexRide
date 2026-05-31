@@ -9,9 +9,10 @@ import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
 // ------------------------------------------
 export const TicketsScreen = () => {
     const [activeTickets, setActiveTickets] = useState([]);
-    const [now, setNow] = useState(Date.now());
+    const [now, setNow] = useState(0);
 
     useEffect(() => {
+        setNow(Date.now());
         const i = setInterval(() => setNow(Date.now()), 1000);
         return () => clearInterval(i);
     }, []);
@@ -42,6 +43,9 @@ export const TicketsScreen = () => {
             return () => clearTimeout(timer);
         }
     }, [showGuide, activeTickets]);
+
+    // Prevent rendering before mount
+    if (now === 0) return null;
 
     const rotateTickets = () => {
         if (showGuide) {

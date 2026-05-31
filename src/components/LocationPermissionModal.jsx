@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 const BRAND_COLOR = '#1569FD';
 
-export const LocationPermissionCard = ({ isOpen, onClose, onAllow, onManual, isLoading }) => {
+export const LocationPermissionCard = ({ isOpen, onAllow, onManual, isLoading }) => {
     const { t } = useTranslation();
 
     if (!isOpen) return null;
@@ -105,6 +105,6 @@ export const LocationPermissionCard = ({ isOpen, onClose, onAllow, onManual, isL
     );
 };
 
-export const LocationBanner = ({ show, onEnable }) => null;
+export const LocationBanner = () => null;
 
 export default LocationPermissionCard;

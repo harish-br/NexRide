@@ -1,0 +1,698 @@
+
+/Users/harishbr/Downloads/NexRide-main-2/src/App.jsx
+    4:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                       no-unused-vars
+   67:10  error    'selectedStation' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                     no-unused-vars
+   68:10  error    'selectedTrainData' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                   no-unused-vars
+  141:23  error    'setWebViewData' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                      no-unused-vars
+  147:10  error    'confirmationResult' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                  no-unused-vars
+  147:30  error    'setConfirmationResult' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                               no-unused-vars
+  188:14  error    'e' is defined but never used                                                                                                       no-unused-vars
+  257:6   warning  React Hook useEffect has missing dependencies: 'activeScreen' and 'navigateTo'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  359:6   warning  React Hook useEffect has a missing dependency: 'startLocationTracking'. Either include it or remove the dependency array            react-hooks/exhaustive-deps
+  389:6   warning  React Hook useEffect has a missing dependency: 'handleLocateMe'. Either include it or remove the dependency array                   react-hooks/exhaustive-deps
+  535:13  error    'path' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                no-unused-vars
+  673:6   warning  React Hook useEffect has missing dependencies: 'activeScreen' and 'sheetState'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  830:9   error    'handleAdminNavigate' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                 no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/ASMBookingModal.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/ActiveRideScanner.jsx
+   2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  14:13  error    Error: Cannot access variable before it is declared
+
+`startCamera` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  12 |     useEffect(() => {
+  13 |         if (isOpen) {
+> 14 |             startCamera();
+     |             ^^^^^^^^^^^ `startCamera` accessed before it is declared
+  15 |             setBusNumber('');
+  16 |         } else {
+  17 |             stopCamera();
+
+  20 |     }, [isOpen]);
+  21 |
+> 22 |     const startCamera = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |         try {
+     | ^^^^^^^^^^^^^
+> 24 |             const mediaStream = await navigator.mediaDevices.getUserMedia({
+     …
+     | ^^^^^^^^^^^^^
+> 35 |         }
+     | ^^^^^^^^^^^^^
+> 36 |     };
+     | ^^^^^^^ `startCamera` is declared here
+  37 |
+  38 |     const stopCamera = () => {
+  39 |         if (stream) {                                                               react-hooks/immutability
+  17:13  error    Error: Cannot access variable before it is declared
+
+`stopCamera` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  15 |             setBusNumber('');
+  16 |         } else {
+> 17 |             stopCamera();
+     |             ^^^^^^^^^^ `stopCamera` accessed before it is declared
+  18 |         }
+  19 |         return () => stopCamera();
+  20 |     }, [isOpen]);
+
+  36 |     };
+  37 |
+> 38 |     const stopCamera = () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 39 |         if (stream) {
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 40 |             stream.getTracks().forEach(track => track.stop());
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 41 |             setStream(null);
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 42 |         }
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 43 |     };
+     | ^^^^^^^ `stopCamera` is declared here
+  44 |
+  45 |     const handleKeyPress = (num) => {
+  46 |         if (busNumber.length < 4) {  react-hooks/immutability
+  20:8   warning  React Hook useEffect has a missing dependency: 'stopCamera'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/exhaustive-deps
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/AsmBookingPanel.jsx
+    2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                no-unused-vars
+   31:15  error  'durationStr' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  140:45  error  Duplicate key 'border'                                                                       no-dupe-keys
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/AuthSheet.jsx
+   2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                         no-unused-vars
+  73:26  error    'e' is defined but never used                                                                         no-unused-vars
+  73:29  error    Empty block statement                                                                                 no-empty
+  80:34  error    'response' is defined but never used                                                                  no-unused-vars
+  91:8   warning  React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/BottomNav.jsx
+   3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u          no-unused-vars
+  17:13  error  'isRTL' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/BottomSheet.jsx
+    2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                         no-unused-vars
+   15:8   error    'haptics' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                        no-unused-vars
+   27:5   error    'onClearRoute' is defined but never used                                                                                              no-unused-vars
+   37:5   error    'onLegalNavigate' is defined but never used                                                                                           no-unused-vars
+   38:5   error    'onTicketBooked' is defined but never used                                                                                            no-unused-vars
+   41:13  error    'isRTL' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                 no-unused-vars
+   44:24  error    React Hook "useMotionValue" is called conditionally. React Hooks must be called in the exact same order in every component render     react-hooks/rules-of-hooks
+   52:12  error    'isGuestSelectionVisible' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                               no-unused-vars
+   57:30  error    'setSelectedAsmRoute' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                   no-unused-vars
+   70:11  error    'handleStartCashfreeBooking' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                            no-unused-vars
+   83:11  error    'handleGuestContinue' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                   no-unused-vars
+  123:8   warning  React Hook useEffect has missing dependencies: 'controls' and 'y'. Either include them or remove the dependency array                 react-hooks/exhaustive-deps
+  262:55  error    React Hook "React.useCallback" is called conditionally. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/BusBookingSheet.jsx
+    1:27  error    'useMemo' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                              no-unused-vars
+    3:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                               no-unused-vars
+    4:10  error    'useMapsLibrary' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                       no-unused-vars
+    6:10  error    'normalizePlace' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                       no-unused-vars
+    8:10  error    'busSchedules' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                         no-unused-vars
+  130:77  error    'userPosition' is defined but never used                                                                                                                                                                                                                                                    no-unused-vars
+  207:8   warning  React Hook useEffect has missing dependencies: 'isManualInput' and 'userAddress'. Either include them or remove the dependency array. If 'setSource' needs the current value of 'userAddress', you can also switch to useReducer instead of useState and read 'userAddress' in the reducer  react-hooks/exhaustive-deps
+  313:11  error    'handleKeypadPress' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                           no-unused-vars
+  315:29  error    'otp' is not defined                                                                                                                                                                                                                                                                        no-undef
+  319:13  error    'setOtp' is not defined                                                                                                                                                                                                                                                                     no-undef
+  323:11  error    'handleBackspace' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                             no-unused-vars
+  325:29  error    'otp' is not defined                                                                                                                                                                                                                                                                        no-undef
+  335:13  error    'setOtp' is not defined                                                                                                                                                                                                                                                                     no-undef
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/BusResultsScreen.jsx
+  7:10  error  'normalizePlace' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/EmailSuccessScreen.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/GlobalLoader.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/GuestSelectionScreen.jsx
+   2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     no-unused-vars
+  60:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  58 |             if (calculatedBase < 10) calculatedBase = 10;
+  59 |
+> 60 |             setBaseFare(calculatedBase);
+     |             ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  61 |             setCount(1); // Reset
+  62 |             // Reset animation to start
+  63 |             if (lottieRef.current) {  react-hooks/set-state-in-effect
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/IntroScreen.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/JourneyCard.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/LanguageContext.jsx
+   15:14  error    Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-refresh/only-export-components
+   27:12  error    'user' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+   33:13  error    Error: Cannot access variable before it is declared
+
+`handleLanguageChange` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  31 |         const storedLang = localStorage.getItem('i18nextLng');
+  32 |         if (storedLang) {
+> 33 |             handleLanguageChange(storedLang, false);
+     |             ^^^^^^^^^^^^^^^^^^^^ `handleLanguageChange` accessed before it is declared
+  34 |         } else {
+  35 |             detectInitialLanguage();
+  36 |         }
+
+  71 |     };
+  72 |
+> 73 |     const handleLanguageChange = async (langCode, shouldSync = true) => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 74 |         const lang = languages.find((l) => l.code === langCode) || languages[1];
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 75 |
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 95 |         }
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 96 |     };
+     | ^^^^^^^ `handleLanguageChange` is declared here
+  97 |
+  98 |     return (
+  99 |         <LanguageContext.Provider value={{ currentLanguage, languages, changeLanguage: handleLanguageChange, isRTL }}>                                                                                                                                                                                                                                     react-hooks/immutability
+   35:13  error    Error: Cannot access variable before it is declared
+
+`detectInitialLanguage` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  33 |             handleLanguageChange(storedLang, false);
+  34 |         } else {
+> 35 |             detectInitialLanguage();
+     |             ^^^^^^^^^^^^^^^^^^^^^ `detectInitialLanguage` accessed before it is declared
+  36 |         }
+  37 |
+  38 |         // Auth listener for Firestore sync
+
+  47 |     }, []);
+  48 |
+> 49 |     const detectInitialLanguage = () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 50 |         const browserLang = navigator.language || navigator.userLanguage;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 51 |         if (browserLang.includes('ta')) {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 52 |             handleLanguageChange('ta', false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |         } else {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |             handleLanguageChange('en', false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 55 |         }
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 56 |     };
+     | ^^^^^^^ `detectInitialLanguage` is declared here
+  57 |
+  58 |     const syncLanguageWithFirestore = async (currentUser) => {
+  59 |         try {  react-hooks/immutability
+   42:17  error    Error: Cannot access variable before it is declared
+
+`syncLanguageWithFirestore` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  40 |             setUser(currentUser);
+  41 |             if (currentUser) {
+> 42 |                 syncLanguageWithFirestore(currentUser);
+     |                 ^^^^^^^^^^^^^^^^^^^^^^^^^ `syncLanguageWithFirestore` accessed before it is declared
+  43 |             }
+  44 |         });
+  45 |
+
+  56 |     };
+  57 |
+> 58 |     const syncLanguageWithFirestore = async (currentUser) => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 59 |         try {
+     | ^^^^^^^^^^^^^
+> 60 |             const userRef = doc(db, 'users', currentUser.uid);
+     …
+     | ^^^^^^^^^^^^^
+> 70 |         }
+     | ^^^^^^^^^^^^^
+> 71 |     };
+     | ^^^^^^^ `syncLanguageWithFirestore` is declared here
+  72 |
+  73 |     const handleLanguageChange = async (langCode, shouldSync = true) => {
+  74 |         const lang = languages.find((l) => l.code === langCode) || languages[1];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/immutability
+   47:8   warning  React Hook useEffect has missing dependencies: 'detectInitialLanguage' and 'syncLanguageWithFirestore'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
+  107:14  error    Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-refresh/only-export-components
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/LanguageSettingsScreen.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/LocationFab.jsx
+  1:17  error  'useEffect' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  1:28  error  'useState' is defined but never used. Allowed unused vars must match /^[A-Z_]/u   no-unused-vars
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/LocationPermissionModal.jsx
+    2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+    7:50  error  'onClose' is defined but never used                                            no-unused-vars
+  108:34  error  'show' is defined but never used                                               no-unused-vars
+  108:40  error  'onEnable' is defined but never used                                           no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/LoginForm.jsx
+  12:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  20:65  error  'lottieRef' is defined but never used                                          no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/LoginScreen.jsx
+   12:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  420:65  error  'lottieRef' is defined but never used                                          no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/MapLayer.jsx
+   45:8   warning  React Hook useEffect has a missing dependency: 'options'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/exhaustive-deps
+  499:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  497 |         if (recenterTrigger > prevRecenterTrigger.current) {
+  498 |             prevRecenterTrigger.current = recenterTrigger;
+> 499 |             setIsFollowing(true);
+      |             ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  500 |             justRecentered = true;
+  501 |             if (userPosition) { 
+  502 |                 map.setZoom(15);   react-hooks/set-state-in-effect
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/NearbyBusStopsScreen.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/NearbyStopMapScreen.jsx
+    2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             no-unused-vars
+   21:11  error    'hasFittedRef' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+   31:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  29 |             setZoomLevel(map.getZoom() || 15);
+  30 |         });
+> 31 |         setZoomLevel(map.getZoom() || 15);
+     |         ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  32 |         return () => window.google.maps.event.removeListener(listener);
+  33 |     }, [map]);
+  34 |  react-hooks/set-state-in-effect
+  236:8   warning  React Hook useEffect has a missing dependency: 'stop.name'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/exhaustive-deps
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/NetworkStatusBanner.jsx
+   8:12  error  'showSuccess' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  77:18  error  'e' is defined but never used                                                                no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/NextArrivals.jsx
+    4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                   no-unused-vars
+  213:12  error  'currentTime' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  213:25  error  'setCurrentTime' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/NotificationPermissionModal.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/NotificationSettingsScreen.jsx
+    1:38  error    'useRef' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+    2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+   22:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  20 |     useEffect(() => {
+  21 |         if ('Notification' in window) {
+> 22 |             setPushPermissionStatus(Notification.permission);
+     |             ^^^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  23 |         }
+  24 |     }, []);
+  25 |  react-hooks/set-state-in-effect
+   57:18  error    'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+   82:8   warning  React Hook useEffect has a missing dependency: 'defaultPreferences'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+  352:29  error    'Icon' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/OTPModal.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/OnboardingHoverCard.jsx
+   1:27  error  'useEffect' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+   2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  79:34  error  'field' is defined but never used                                                 no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/ParcelBookingSheet.jsx
+   1:27  error  'useEffect' is defined but never used. Allowed unused vars must match /^[A-Z_]/u               no-unused-vars
+   1:47  error  'useRef' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                  no-unused-vars
+   2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                  no-unused-vars
+   9:24  error  'busStops' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                no-unused-vars
+  10:8   error  'bus3d' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                   no-unused-vars
+  18:12  error  'agreedToTerms' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/ParcelFab.jsx
+  1:17  error  'useEffect' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  1:28  error  'useState' is defined but never used. Allowed unused vars must match /^[A-Z_]/u   no-unused-vars
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/PaymentUnderConstructionScreen.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/PhoneAuthScreens.jsx
+   2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  75:34  error  'response' is defined but never used                                           no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/ProfileScreen.jsx
+    2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                           no-unused-vars
+    6:10  error  'auth' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                             no-unused-vars
+    7:10  error  'signOut' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                          no-unused-vars
+    7:19  error  'deleteUser' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                       no-unused-vars
+   36:7   error  Fast refresh only works when a file only exports components. Move your component(s) to a separate file  react-refresh/only-export-components
+   66:7   error  Fast refresh only works when a file only exports components. Move your component(s) to a separate file  react-refresh/only-export-components
+   66:78  error  'isLast' is defined but never used                                                                      no-unused-vars
+  116:7   error  Fast refresh only works when a file only exports components. Move your component(s) to a separate file  react-refresh/only-export-components
+  125:7   error  Fast refresh only works when a file only exports components. Move your component(s) to a separate file  react-refresh/only-export-components
+  125:80  error  'onLogin' is defined but never used                                                                     no-unused-vars
+  193:15  error  'handleDeleteAccount' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  295:1   error  Fast refresh can't handle anonymous components. Add a name to your export                               react-refresh/only-export-components
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/RideBottomSheet.jsx
+   2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      no-unused-vars
+  36:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  34 |             collapsed: collapsedY
+  35 |         };
+> 36 |         setSnapPoints(points);
+     |         ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  37 |
+  38 |         // Initial position
+  39 |         const initialY = sheetState === 'expanded' ? expandedY : (sheetState === 'mid' ? midY : collapsedY);  react-hooks/set-state-in-effect
+  42:8   warning  React Hook useEffect has missing dependencies: 'controls' and 'y'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/exhaustive-deps
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/RideScreen.jsx
+    2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         no-unused-vars
+   44:8   warning  React Hook useEffect has a missing dependency: 'options'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/exhaustive-deps
+  115:8   warning  React Hook useEffect has missing dependencies: 'center', 'options', and 'radius'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/exhaustive-deps
+  126:23  error    'onBookRide' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                no-unused-vars
+  170:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  168 |     useEffect(() => {
+  169 |         if (!routesLibrary) return;
+> 170 |         setDirectionsService(new routesLibrary.DirectionsService());
+      |         ^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  171 |     }, [routesLibrary]);
+  172 |
+  173 |     // Calculate Route when Choosing Ride                                                                                                                                                          react-hooks/set-state-in-effect
+  218:8   warning  React Hook useEffect has missing dependencies: 'isPickupConfirmed' and 'sourceLocation'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/exhaustive-deps
+  230:17  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  228 |                 const { lat, lng } = userPosition;
+  229 |                 // Only update if actually changed to avoid cycles (though simple obj check is fine here)
+> 230 |                 setSourceLocation(prev => {
+      |                 ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  231 |                     if (!prev || prev.lat !== lat || prev.lng !== lng) {
+  232 |                         return { lat, lng };
+  233 |                     }  react-hooks/set-state-in-effect
+  274:8   warning  React Hook useEffect has missing dependencies: 'isPickupConfirmed' and 'rideStep'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/exhaustive-deps
+  395:11  error    'startBookingMode' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      no-unused-vars
+  824:51  error    'index' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/RouteCard.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u      no-unused-vars
+  7:13  error  't' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/RouteOptionsList.jsx
+    4:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                     no-unused-vars
+  103:15  error    'fromInput' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                         no-unused-vars
+  104:15  error    'toInput' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                           no-unused-vars
+  122:53  error    'idx' is defined but never used                                                                                   no-unused-vars
+  228:9   warning  React Hook React.useMemo has a missing dependency: 'getRoutes'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/RouteSEOPage.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/SafetyScreen.jsx
+    3:15  error  'getDoc' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+    4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+   43:27  error  'Icon' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+   68:27  error  'Icon' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+  101:32  error  'Icon' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+  309:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  307 |     useEffect(() => {
+  308 |         if (!auth.currentUser) {
+> 309 |             setIsLoadingSetup(false);
+      |             ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  310 |             return;
+  311 |         }
+  312 |         const userDocRef = doc(db, "users", auth.currentUser.uid);  react-hooks/set-state-in-effect
+  605:36  error  'Icon' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/SavedPlacesListModal.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/SearchScreen.jsx
+   13:10  error    'generateMultiRoutes' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                            no-unused-vars
+  114:8   warning  React Hook useEffect has missing dependencies: 'initialData' and 'isManualInput'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/SetLocationScreen.jsx
+  163:8   warning  React Hook useEffect has missing dependencies: 'center.lat', 'center.lng', 'fetchCurrentLocation', 'initialLocation', and 'reverseGeocode'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  193:8   warning  React Hook useEffect has missing dependencies: 'fetchCurrentLocation', 'initialLocation', and 'reverseGeocode'. Either include them or remove the dependency array                              react-hooks/exhaustive-deps
+  224:18  error    'error' is defined but never used                                                                                                                                                               no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/SuburbanSheet.jsx
+    1:38  error  'useCallback' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+    2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                no-unused-vars
+  371:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  369 |     useEffect(() => {
+  370 |         if (!isOpen) {
+> 371 |             setSearch('');
+      |             ^^^^^^^^^ Avoid calling setState() directly within an effect
+  372 |             setSelectedTrain(null);
+  373 |         }
+  374 |     }, [isOpen]);  react-hooks/set-state-in-effect
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/SuccessAnimationScreen.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/TabScreens.jsx
+   5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    no-unused-vars
+  12:36  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  10 | export const TicketsScreen = () => {
+  11 |     const [activeTickets, setActiveTickets] = useState([]);
+> 12 |     const [now, setNow] = useState(Date.now());
+     |                                    ^^^^^^^^^^ Cannot call impure function
+  13 |
+  14 |     useEffect(() => {
+  15 |         const i = setInterval(() => setNow(Date.now()), 1000);  react-hooks/purity
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/TicketAccessControl.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/TicketCarouselFab.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/TicketScreen.jsx
+   2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               no-unused-vars
+  28:17  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  26 |             if (overrideFare) {
+  27 |                 // Important: calculate individual base fare if total is provided
+> 28 |                 setBaseFare(overrideFare / (passengerCount || 1));
+     |                 ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |                 return;
+  30 |             }
+  31 |             if (routeData) {  react-hooks/set-state-in-effect
+  41:8   warning  React Hook useEffect has a missing dependency: 'passengerCount'. Either include it or remove the dependency array. If 'setBaseFare' needs the current value of 'passengerCount', you can also switch to useReducer instead of useState and read 'passengerCount' in the reducer                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/exhaustive-deps
+  46:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  44 |     useEffect(() => {
+  45 |         if (isVisible) {
+> 46 |             setPassengers(passengerCount || 1);
+     |             ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  47 |             setIsExpanded(false);
+  48 |         }
+  49 |     }, [isVisible, passengerCount]);                                                                            react-hooks/set-state-in-effect
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/TrainBookingSheet.jsx
+    2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u      no-unused-vars
+  121:13  error  't' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/TrainStatusDashboard.jsx
+    3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                 no-unused-vars
+    6:7   error  'formatTime' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                    no-unused-vars
+  201:37  error  React Hook "useState" is called conditionally. React Hooks must be called in the exact same order in every component render   react-hooks/rules-of-hooks
+  202:22  error  React Hook "useRef" is called conditionally. React Hooks must be called in the exact same order in every component render     react-hooks/rules-of-hooks
+  218:5   error  React Hook "useEffect" is called conditionally. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/TransportModeRow.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/UnderDevelopmentRoutes.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u   no-unused-vars
+  6:8   error  'haptics' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  8:35  error  'onBack' is defined but never used                                              no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/UserDetailsScreen.jsx
+    2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u          no-unused-vars
+    6:48  error  'collection' is defined but never used. Allowed unused vars must match /^[A-Z_]/u      no-unused-vars
+    6:60  error  'query' is defined but never used. Allowed unused vars must match /^[A-Z_]/u           no-unused-vars
+    6:67  error  'where' is defined but never used. Allowed unused vars must match /^[A-Z_]/u           no-unused-vars
+    6:74  error  'getDocs' is defined but never used. Allowed unused vars must match /^[A-Z_]/u         no-unused-vars
+  552:13  error  'isRTL' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/WebLanding.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/WomenSafetyScreen.jsx
+   2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  41:30  error  'Icon' is defined but never used                                               no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/YourTripsScreen.jsx
+    2:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                no-unused-vars
+   24:18  error    'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                no-unused-vars
+   71:17  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  69 |
+  70 |     // Derived State
+> 71 |     const now = Date.now();
+     |                 ^^^^^^^^^^ Cannot call impure function
+  72 |
+  73 |     const activeTickets = tickets.filter(t => {
+  74 |         // Active if NOT expired and NOT cancelled                                   react-hooks/purity
+  241:13  error    'isRTL' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        no-unused-vars
+  260:8   warning  React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+  262:48  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  260 |     }, [ticket.expiryTime]);
+  261 |
+> 262 |     const isExpiringSoon = ticket.expiryTime - Date.now() < 3600000; // < 1 hour
+      |                                                ^^^^^^^^^^ Cannot call impure function
+  263 |
+  264 |     return (
+  265 |         <motion.div  react-hooks/purity
+  355:13  error    'isRTL' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/components/legal/LegalPages.jsx
+   1:38  error  'useRef' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+  84:17  error  Error: Cannot access variable before it is declared
+
+`finishAnimation` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  82 |         const timer = setTimeout(() => {
+  83 |             if (animationState === 'playing') {
+> 84 |                 finishAnimation();
+     |                 ^^^^^^^^^^^^^^^ `finishAnimation` accessed before it is declared
+  85 |             }
+  86 |         }, 3000);
+  87 |
+
+  89 |     }, [animationState]);
+  90 |
+> 91 |     const finishAnimation = () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 92 |         setAnimationState('fading');
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 93 |         setTimeout(() => {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 94 |             setAnimationState('finished');
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 95 |         }, 500); // 500ms fade out duration
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 96 |     };
+     | ^^^^^^^ `finishAnimation` is declared here
+  97 |
+  98 |     return (
+  99 |         <div style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'white' }}>  react-hooks/immutability
+
+/Users/harishbr/Downloads/NexRide-main-2/src/hooks/useSavedPlaces.js
+  12:17  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  10 |             const stored = localStorage.getItem(SAVED_PLACES_KEY);
+  11 |             if (stored) {
+> 12 |                 setSavedPlaces(JSON.parse(stored));
+     |                 ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  13 |             }
+  14 |         } catch (err) {
+  15 |             console.error("Error loading saved places", err);  react-hooks/set-state-in-effect
+
+/Users/harishbr/Downloads/NexRide-main-2/src/services/rideService.js
+  36:44  error  'radiusKm' is assigned a value but never used  no-unused-vars
+
+/Users/harishbr/Downloads/NexRide-main-2/src/utils/trainApi.js
+   14:36  error  'retries' is assigned a value but never used  no-unused-vars
+  100:18  error  'e' is defined but never used                 no-unused-vars
+
+✖ 206 problems (183 errors, 23 warnings)
+

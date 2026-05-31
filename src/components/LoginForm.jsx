@@ -17,7 +17,7 @@ import guestIconData from '../assets/guest-icon.json';
 import haptics from '../utils/haptics';
 
 // Helper Component for Social Icons
-const SocialButton = ({ onClick, icon, label, isLottie = false, lottieRef, onMouseEnter, onMouseLeave }) => (
+const SocialButton = ({ onClick, icon, label, isLottie = false, onMouseEnter, onMouseLeave }) => (
     <motion.button
         type="button"
         whileHover={{ scale: 1.02, y: -2, backgroundColor: '#fff' }}

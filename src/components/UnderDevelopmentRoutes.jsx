@@ -3,9 +3,8 @@ import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import Lottie from 'lottie-react';
 import programmingAnimation from './LottieAnimations/Programming Animation.json';
-import haptics from '../utils/haptics';
 
-const UnderDevelopmentRoutes = ({ onBack }) => {
+const UnderDevelopmentRoutes = () => {
     return (
         <div style={{
             display: 'flex',

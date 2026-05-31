@@ -30,14 +30,27 @@ import i18n from './i18n'
 import { I18nextProvider } from 'react-i18next'
 import { LanguageProvider } from './components/LanguageContext'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <I18nextProvider i18n={i18n}>
-      <LanguageProvider>
-        <ErrorBoundary>
-          <App />
-        </ErrorBoundary>
-      </LanguageProvider>
-    </I18nextProvider>
-  </StrictMode>,
-)
+// Import Admin Application
+import AdminApp from './admin/AdminApp';
+
+const isAdminRoute = window.location.pathname.startsWith('/admin');
+
+if (isAdminRoute) {
+  createRoot(document.getElementById('root')).render(
+    <StrictMode>
+      <AdminApp />
+    </StrictMode>,
+  )
+} else {
+  createRoot(document.getElementById('root')).render(
+    <StrictMode>
+      <I18nextProvider i18n={i18n}>
+        <LanguageProvider>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
+        </LanguageProvider>
+      </I18nextProvider>
+    </StrictMode>,
+  )
+}

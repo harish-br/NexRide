@@ -2,13 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { RefreshCw, TrainFront, Clock, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// --- TIME FORMATTER (Standardized) ---
-const formatTime = (timeStr) => {
-    if (!timeStr) return '--';
-    return timeStr; // Assuming API returns formatted str like "12:30" or "12:30 PM". 
-    // If raw ISO, add parsing logic here.
-};
-
 // --- FLOATING STATUS CARD ---
 const FloatingStatusCard = ({ trainData, isVisible }) => {
     if (!trainData) return null;
@@ -193,13 +186,11 @@ const TimelineRow = ({ stop, isFirst, isLast, isCurrent, isPast, trainData, show
 };
 
 const TrainStatusDashboard = ({ data }) => {
-    if (!data) return null;
-
-    const todayStr = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', weekday: 'short' });
-
     // --- AUTO-HIDE STATE ---
     const [showCard, setShowCard] = useState(true);
     const timerRef = useRef(null);
+
+    const todayStr = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', weekday: 'short' });
 
     const resetTimer = () => {
         // Show card immediately
@@ -216,11 +207,14 @@ const TrainStatusDashboard = ({ data }) => {
 
     // Initial Timer on Mount
     useEffect(() => {
+        if (!data) return;
         resetTimer();
         return () => {
             if (timerRef.current) clearTimeout(timerRef.current);
         };
-    }, []); // Only on mount
+    }, [data]); // Only on mount/data change
+
+    if (!data) return null;
 
     return (
         <div

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Navigation2, ArrowLeft, ArrowRight, Clock, AlertTriangle, TrainFront } from 'lucide-react';
 import { fetchTrainStatus, searchStations, fetchLiveStationData } from '../utils/trainApi';
-import { useTranslation } from 'react-i18next';
 import TrainStatusDashboard from './TrainStatusDashboard';
 import GlobalLoader from './GlobalLoader';
 
@@ -118,7 +117,6 @@ const TrainListItem = ({ train }) => {
 };
 
 const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
-    const { t } = useTranslation();
     // 1. Unified Input State
     const [query, setQuery] = useState("");
 

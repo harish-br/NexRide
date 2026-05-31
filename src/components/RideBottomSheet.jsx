@@ -39,7 +39,7 @@ const RideBottomSheet = ({
         const initialY = sheetState === 'expanded' ? expandedY : (sheetState === 'mid' ? midY : collapsedY);
         y.set(initialY);
         controls.set({ y: initialY });
-    }, [sheetState]);
+    }, [sheetState, controls, y]);
 
     const handleContentPointerDown = (e) => {
         const isAtTop = contentRef.current ? contentRef.current.scrollTop <= 0 : true;

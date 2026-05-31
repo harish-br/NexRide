@@ -210,8 +210,6 @@ const NextArrivals = ({ userAddress, userPosition, userDistrictInfo }) => {
         setManualSourceSelection(availableNearbySources[nextIndex]);
     };
 
-    const [currentTime, setCurrentTime] = useState(new Date());
-
     // 🚌 Filter & Sort Routes
     const upcomingBuses = useMemo(() => {
         if (currentCity === 'Unknown' || buses.length === 0) return [];

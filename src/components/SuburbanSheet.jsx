@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Search, X, MapPin, ArrowRight, ChevronRight } from 'lucide-react';
 import { suburbanTrains, searchSuburbanTrains } from '../data/suburbanTrains';

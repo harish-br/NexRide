@@ -4,7 +4,6 @@ import { busService } from '../services/busService';
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
-import { normalizePlace } from '../utils/busSearchUtils';
 import ASMBookingModal from './ASMBookingModal';
 
 const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) => {

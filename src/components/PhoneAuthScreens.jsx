@@ -72,7 +72,7 @@ export const PhoneInputScreen = ({ onOtpSent, onError }) => {
             try {
                 window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
                     'size': 'invisible',
-                    'callback': (response) => {
+                    'callback': () => {
                         // reCAPTCHA solved, allow signInWithPhoneNumber.
                         // handled automatically by firebase
                     },

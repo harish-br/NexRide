@@ -41,7 +41,7 @@ const Polyline = ({ path, options }) => {
                 polylineRef.current.setMap(null);
             }
         };
-    }, [map, path]); // Re-create if path or map changes
+    }, [map, path, options]); // Re-create if path or map changes
 
     // Dynamic options update
     useEffect(() => {
@@ -112,7 +112,7 @@ const Circle = ({ center, radius, options }) => {
         return () => {
             if (circleRef.current) circleRef.current.setMap(null);
         };
-    }, [map]);
+    }, [map, center, radius, options]);
 
     useEffect(() => {
         if (circleRef.current) {
@@ -123,7 +123,7 @@ const Circle = ({ center, radius, options }) => {
     return null;
 };
 
-const RideScreen = ({ onBookRide, userPosition, userAddress }) => {
+const RideScreen = ({ userPosition, userAddress }) => {
     const { t } = useTranslation();
     const { isRTL } = useLanguage();
 
@@ -210,12 +210,18 @@ const RideScreen = ({ onBookRide, userPosition, userAddress }) => {
 
     // Auto-zoom to Pickup when Confirm Mode starts (Always force view)
     // Auto-zoom to Pickup when Confirm Mode starts (Always force view)
+    const hasCenteredRef = useRef(false);
     useEffect(() => {
-        if (rideStep === 'confirm-pickup' && map && sourceLocation && !isPickupConfirmed) {
-            map.setCenter(sourceLocation); // INSTANT snap (no animation)
-            map.setZoom(18); // Zoom level 18 for 100m precision
+        if (rideStep === 'confirm-pickup') {
+            if (map && sourceLocation && !isPickupConfirmed && !hasCenteredRef.current) {
+                map.setCenter(sourceLocation); // INSTANT snap (no animation)
+                map.setZoom(18); // Zoom level 18 for 100m precision
+                hasCenteredRef.current = true;
+            }
+        } else {
+            hasCenteredRef.current = false;
         }
-    }, [rideStep, map]); // Removed sourceLocation to prevent drag-loop
+    }, [rideStep, map, sourceLocation, isPickupConfirmed]);
 
 
 
@@ -271,7 +277,7 @@ const RideScreen = ({ onBookRide, userPosition, userAddress }) => {
                 setIsResolvingLocation(true);
             }
         }
-    }, [userPosition, userAddress, isManualInput, t]);
+    }, [userPosition, userAddress, isManualInput, isPickupConfirmed, rideStep, t]);
 
     // Fetch Suggestions
     const fetchSuggestions = async (input) => {
@@ -392,9 +398,6 @@ const RideScreen = ({ onBookRide, userPosition, userAddress }) => {
         }
     };
 
-    const startBookingMode = () => {
-        setRideStep('choose-ride');
-    };
 
     const handleBackToSearch = () => {
         // 1. If we have an active booking state (Searching, Error, etc), reset it first
@@ -821,7 +824,7 @@ const RideScreen = ({ onBookRide, userPosition, userAddress }) => {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                             <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#111827', textAlign: 'center', margin: 0 }}>{t('ride.choose_trip')}</h2>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                {vehicles.map((v, index) => {
+                                {vehicles.map((v) => {
                                     const isSelected = selectedVehicle === v.id;
                                     return (
                                         <div

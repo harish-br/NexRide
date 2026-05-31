@@ -33,7 +33,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
 export const rideService = {
     /* 1️⃣ GET ONLINE DRIVERS (FIXED) */
-    getOnlineDrivers: async (userLocation, radiusKm = 5) => {
+    getOnlineDrivers: async (userLocation, _radiusKm = 5) => {
         const fetchWithRetry = async (attempt = 1) => {
             try {
                 console.log(`[RideService] Searching for ONLINE drivers (Attempt ${attempt}/3)`);

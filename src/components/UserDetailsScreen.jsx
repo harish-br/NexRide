@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, Camera, Check, User, Mail, Smartphone, Users, HeartHandshake, X } from 'lucide-react';
 import { auth, db } from '../firebase';
 import { updateProfile } from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import haptics from '../utils/haptics';
 import GlobalLoader from './GlobalLoader';
 import { useTranslation } from 'react-i18next';
@@ -549,7 +549,6 @@ const RadioButton = ({ selected, color = PRIMARY_ACCENT }) => (
 
 const Field = ({ label, subLabel, value, isEditing, onChange, placeholder, isReadOnly, verified, type = 'text', options, addLabel, verifiedLabel, onEditClick, error }) => {
     const { t } = useTranslation();
-    const { isRTL } = useLanguage();
     const isEmpty = !value || value.trim() === '';
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { auth, db } from '../firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
@@ -76,10 +76,10 @@ const OnboardingHoverCard = ({ onComplete, onBack }) => {
         }));
     };
 
-    const inputContainerStyle = (field) => ({
+    const inputContainerStyle = {
         position: 'relative',
         marginBottom: '20px'
-    });
+    };
 
     const labelStyle = (field) => ({
         position: 'absolute',
@@ -173,7 +173,7 @@ const OnboardingHoverCard = ({ onComplete, onBack }) => {
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
 
                     {/* Full Name */}
-                    <div style={inputContainerStyle('name')}>
+                    <div style={inputContainerStyle}>
                         <User size={20} color={formData.name ? "#111827" : "#CBD5E1"} style={{ position: 'absolute', left: '16px', top: '32px', transform: 'translateY(-50%)', zIndex: 2 }} />
                         <label style={labelStyle('name')}>Full Name</label>
                         <input
@@ -193,7 +193,7 @@ const OnboardingHoverCard = ({ onComplete, onBack }) => {
                     </div>
 
                     {/* Email Address */}
-                    <div style={inputContainerStyle('email')}>
+                    <div style={inputContainerStyle}>
                         <Mail size={20} color={formData.email ? "#111827" : "#CBD5E1"} style={{ position: 'absolute', left: '16px', top: '32px', transform: 'translateY(-50%)', zIndex: 2 }} />
                         <label style={labelStyle('email')}>Email Address</label>
                         <input
@@ -213,7 +213,7 @@ const OnboardingHoverCard = ({ onComplete, onBack }) => {
                     </div>
 
                     {/* Date of Birth */}
-                    <div style={inputContainerStyle('dob')}>
+                    <div style={inputContainerStyle}>
                         <Calendar size={20} color={formData.dob ? "#111827" : "#CBD5E1"} style={{ position: 'absolute', left: '16px', top: '32px', transform: 'translateY(-50%)', zIndex: 2 }} />
                         <label style={labelStyle('dob')}>Date of Birth</label>
                         <div style={{ position: 'relative' }}>

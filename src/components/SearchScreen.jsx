@@ -10,7 +10,6 @@ import SavedPlacesListModal from './SavedPlacesListModal';
 
 const API_KEY = "AIzaSyDlpxJyvl6FFHQGVO3_i-FsTO_-L9GlLO8";
 
-import { generateMultiRoutes } from '../services/multiRouteService';
 const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAddress }) => {
     const { t } = useTranslation();
     const { isRTL } = useLanguage();
@@ -111,6 +110,7 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                 sourceInputRef.current?.focus();
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Smart UI reset for Offline badge
@@ -284,12 +284,7 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                 };
             }
 
-            /* 
-            const multiRoutes = generateMultiRoutes(
-                originData.isLive ? userPosition : { lat: originData.lat, lng: originData.lng },
-                { lat: lat, lng: lng }
-            );
-            */
+
 
             onRouteFound({
                 origin: originData,

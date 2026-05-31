@@ -7,40 +7,41 @@ const ActiveRideScanner = ({ isOpen, onClose, onScanSuccess }) => {
     const [busNumber, setBusNumber] = useState('');
     const videoRef = useRef(null);
     const [hasCamera, setHasCamera] = useState(false);
-    const [stream, setStream] = useState(null);
-
     useEffect(() => {
+        let activeStream = null;
+
+        const startCamera = async () => {
+            try {
+                const mediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' }
+                });
+                activeStream = mediaStream;
+                if (videoRef.current) {
+                    videoRef.current.srcObject = mediaStream;
+                }
+                setHasCamera(true);
+            } catch (err) {
+                console.error("Camera access denied or NOT supported:", err);
+                setHasCamera(false);
+            }
+        };
+
+        const stopCamera = () => {
+            if (activeStream) {
+                activeStream.getTracks().forEach(track => track.stop());
+                activeStream = null;
+            }
+        };
+
         if (isOpen) {
             startCamera();
             setBusNumber('');
-        } else {
+        }
+
+        return () => {
             stopCamera();
-        }
-        return () => stopCamera();
+        };
     }, [isOpen]);
-
-    const startCamera = async () => {
-        try {
-            const mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: 'environment' }
-            });
-            setStream(mediaStream);
-            if (videoRef.current) {
-                videoRef.current.srcObject = mediaStream;
-            }
-            setHasCamera(true);
-        } catch (err) {
-            console.error("Camera access denied or NOT supported:", err);
-            setHasCamera(false);
-        }
-    };
-
-    const stopCamera = () => {
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-            setStream(null);
-        }
-    };
 
     const handleKeyPress = (num) => {
         if (busNumber.length < 4) {

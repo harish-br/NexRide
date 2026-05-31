@@ -38,7 +38,7 @@ const TicketScreen = ({
                 setBaseFare(calculatedFare);
             }
         }
-    }, [isVisible, routeData, selectedRoute, overrideFare]);
+    }, [isVisible, routeData, selectedRoute, overrideFare, passengerCount]);
 
     // Reset state when sheet opens
     useEffect(() => {

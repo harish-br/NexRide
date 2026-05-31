@@ -1,20 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, useAnimation, useMotionValue, useDragControls } from 'framer-motion';
 import JourneyCard from './JourneyCard';
-import { ArrowLeft } from 'lucide-react';
 import TransportModeRow from './TransportModeRow';
 import RouteOptionsList from './RouteOptionsList';
 import NextArrivals from './NextArrivals';
-import GuestSelectionScreen from './GuestSelectionScreen';
 
 import TicketScreen from './TicketScreen';
-import RouteCard from './RouteCard';
-import UnderDevelopmentRoutes from './UnderDevelopmentRoutes';
 import AsmBookingPanel from './AsmBookingPanel';
 import paymentService from '../services/paymentService';
-import haptics from '../utils/haptics';
 import { useTranslation } from 'react-i18next';
-import { useLanguage } from './LanguageContext';
 
 const BottomSheet = ({
     sheetState,
@@ -24,7 +18,6 @@ const BottomSheet = ({
     onStartSearch,
     routeData,
     routeStats,
-    onClearRoute,
     selectedRouteIndex,
     setSelectedRouteIndex,
     onBusClick,
@@ -33,28 +26,24 @@ const BottomSheet = ({
     onNearbyClick,
     userAddress,
     userPosition,
-    userDistrictInfo,
-    onLegalNavigate,
-    onTicketBooked
+    userDistrictInfo
 }) => {
     const { t } = useTranslation();
-    const { isRTL } = useLanguage();
 
     const controls = useAnimation();
-    const y = dragY || useMotionValue(0);
+    const fallbackY = useMotionValue(0);
+    const y = dragY || fallbackY;
     const dragControls = useDragControls();
 
     const [isTicketVisible, setIsTicketVisible] = useState(false);
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState('idle'); // 'idle' | 'success' | 'failure'
 
-    // Guest Selection State
-    const [isGuestSelectionVisible, setIsGuestSelectionVisible] = useState(false);
     const [ticketMeta, setTicketMeta] = useState({ count: 1, totalFare: null });
 
     // A.S.M Booking State
     const [isAsmBookingVisible, setIsAsmBookingVisible] = useState(false);
-    const [selectedAsmRoute, setSelectedAsmRoute] = useState(null);
+    const [selectedAsmRoute] = useState(null);
     const [selectedRouteDetails, setSelectedRouteDetails] = useState(null);
 
     const contentRef = useRef(null);
@@ -67,24 +56,15 @@ const BottomSheet = ({
         }
     };
 
-    const handleStartCashfreeBooking = (index) => {
-        setSelectedRouteIndex(index);
-        // Bypass Guest Selection, default to 1 passenger
-        setTicketMeta({ count: 1, totalFare: null });
-        setIsTicketVisible(true);
-    };
-
     const handleStartJourney = () => {
         // Bypass Guest Selection, default to 1 passenger
         setTicketMeta({ count: 1, totalFare: null });
         setIsTicketVisible(true);
     };
 
-    const handleGuestContinue = (count, totalFare) => {
-        setTicketMeta({ count, totalFare });
-        setIsGuestSelectionVisible(false);
-        setIsTicketVisible(true);
-    };
+    const handleRouteDetailsChange = useCallback((details) => {
+        setSelectedRouteDetails(details);
+    }, []);
 
     // ... rest of the component logic ...
     // (Skipping to the onProceedPayment part for brevity in replacement, 
@@ -120,6 +100,7 @@ const BottomSheet = ({
         // Initialize position
         y.set(collapsedY);
         controls.set({ y: collapsedY });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     /* ---------------- DRAG END LOGIC ---------------- */
@@ -259,7 +240,7 @@ const BottomSheet = ({
                                 onStartNavigation={handleStartJourney}
                                 selectedRouteIndex={selectedRouteIndex}
                                 setSelectedRouteIndex={setSelectedRouteIndex}
-                                onRouteDetailsChange={React.useCallback((details) => setSelectedRouteDetails(details), [])}
+                                onRouteDetailsChange={handleRouteDetailsChange}
                             />
                         )
                     ) : (

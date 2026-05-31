@@ -5,7 +5,6 @@ import haptics from '../utils/haptics';
 const NetworkStatusBanner = () => {
     const [isOnline, setIsOnline] = useState(navigator.onLine);
     const [visible, setVisible] = useState(!navigator.onLine);
-    const [showSuccess, setShowSuccess] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [localError, setLocalError] = useState('');
 
@@ -15,18 +14,15 @@ const NetworkStatusBanner = () => {
 
             if (!currentStatus) { // Went offline
                 setIsOnline(false);
-                setShowSuccess(false);
                 setVisible(true);
                 haptics.medium(); // Notify user of drop
             } else { // Came back online
                 setIsOnline(true);
                 if (visible) { // Only show success if we were showing the offline banner
-                    setShowSuccess(true);
                     haptics.success(); // Notify user of recovery
                     // Auto-hide success banner after 2.5 seconds
                     setTimeout(() => {
                         setVisible(false);
-                        setTimeout(() => setShowSuccess(false), 400); // clear success state after animation ends
                     }, 2500);
                 }
             }
@@ -66,15 +62,13 @@ const NetworkStatusBanner = () => {
 
             setIsOnline(true);
             setVisible(true);
-            setShowSuccess(true);
             haptics.success();
 
             setTimeout(() => {
                 setVisible(false);
-                setTimeout(() => setShowSuccess(false), 400);
             }, 2500);
 
-        } catch (e) {
+        } catch {
             haptics.medium();
             setLocalError('Failed to refresh data');
             setTimeout(() => setLocalError(''), 2500);

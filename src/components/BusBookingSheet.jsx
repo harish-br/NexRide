@@ -1,11 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { ArrowLeft, ArrowUpDown, MapPin, Search, QrCode, ScanLine, TrainFront, Bus, Plane, Landmark, Bed } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, ArrowUpDown, MapPin, Search, QrCode, TrainFront, Bus, Plane, Landmark, Bed } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useTranslation } from 'react-i18next';
-import { normalizePlace } from '../utils/busSearchUtils';
 import haptics from '../utils/haptics';
-import { busSchedules } from '../data/busSchedules';
 import { busService } from '../services/busService';
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
@@ -127,7 +124,7 @@ const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, st
     );
 });
 
-const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, userPosition }) => {
+const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) => {
     const { t } = useTranslation();
     // State
     const [source, setSource] = useState(userAddress || "");
@@ -204,6 +201,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
                 setSource(userAddress);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen]);
 
     // ------------------------------------------------------------
@@ -310,31 +308,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress, user
         onClose();
     };
 
-    const handleKeypadPress = (num) => {
-        haptics.light();
-        const nextOtp = [...otp];
-        const firstEmptyIndex = nextOtp.findIndex(d => d === '');
-        if (firstEmptyIndex !== -1) {
-            nextOtp[firstEmptyIndex] = num;
-            setOtp(nextOtp);
-        }
-    };
 
-    const handleBackspace = () => {
-        haptics.light();
-        const nextOtp = [...otp];
-        let lastFilledIndex = -1;
-        for (let i = 3; i >= 0; i--) {
-            if (nextOtp[i] !== '') {
-                lastFilledIndex = i;
-                break;
-            }
-        }
-        if (lastFilledIndex !== -1) {
-            nextOtp[lastFilledIndex] = '';
-            setOtp(nextOtp);
-        }
-    };
 
     return (
         <AnimatePresence>

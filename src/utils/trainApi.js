@@ -10,8 +10,7 @@ const getHeaders = () => ({
     'Content-Type': 'application/json'
 });
 
-// Helper for caching and retrying
-const fetchWithCache = async (url, retries = 1) => {
+const fetchWithCache = async (url) => {
     console.log(`[RailRadar] Requesting: ${url}`);
 
     if (apiCache.has(url)) {
@@ -97,7 +96,7 @@ const getDisplayTime = (timeRaw) => {
             const mm = m.toString().padStart(2, '0');
             
             return `${h12}:${mm} ${ampm}`;
-        } catch (e) {
+        } catch {
             return "—";
         }
     }

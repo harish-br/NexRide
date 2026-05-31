@@ -8,6 +8,24 @@ import { useLanguage } from './LanguageContext';
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
+// RAW SCHEDULE DATA (FULL SET)
+const SCHEDULES = {
+    'ANT-CBE': [
+        { time: "05:00 AM", name: "A.S.M" },
+        { time: "06:00 AM", name: "A.S.M" },
+        { time: "07:45 AM", name: "A.S.M" },
+        { time: "12:10 PM", name: "A.S.M" },
+        { time: "08:20 PM", name: "A.S.M" }
+    ],
+    'CBE-ANT': [
+        { time: "05:00 AM", name: "A.S.M" },
+        { time: "06:00 AM", name: "A.S.M" },
+        { time: "07:45 AM", name: "A.S.M" },
+        { time: "12:10 PM", name: "A.S.M" },
+        { time: "08:20 PM", name: "A.S.M" }
+    ]
+};
+
 const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, selectedRouteIndex, setSelectedRouteIndex, onRouteDetailsChange }) => {
     const { t } = useTranslation();
     const { isRTL } = useLanguage();
@@ -52,18 +70,9 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
         return date;
     };
 
-    // RAW SCHEDULE DATA (FULL SET)
-    const SCHEDULES = {
-        'ANT-CBE': [
-            { time: "05:00 AM", name: "A.S.M" },
-            { time: "06:00 AM", name: "A.S.M" },
-            { time: "07:45 AM", name: "A.S.M" },
-            { time: "12:10 PM", name: "A.S.M" },
-            { time: "08:20 PM", name: "A.S.M" }
-        ]
-    };
 
-    const getRoutes = (pOrigin, pDest) => {
+
+    const getRoutes = React.useCallback((pOrigin, pDest) => {
         const originCode = getCityCode(pOrigin);
         const destCode = getCityCode(pDest);
 
@@ -98,10 +107,7 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
         const now = currentTime;
         let foundNext = false; // Flag to identify the 'NEXT' bus after NOW/Departing
 
-        // Strict normalization for booking lock
-        const normalize = (text) => typeof text === 'string' ? text.trim().toLowerCase() : text?.name?.trim().toLowerCase() || '';
-        const fromInput = normalize(pOrigin);
-        const toInput = normalize(pDest);
+
 
         // Time Filter & Labeling
         const futureList = rawList.map((item, idx) => {
@@ -119,7 +125,7 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
         // Sort (should already be sorted but good to ensure)
         futureList.sort((a, b) => a.parsedDate - b.parsedDate);
 
-        const mappedOptions = futureList.map((item, idx) => {
+        const mappedOptions = futureList.map((item) => {
             // "Name / Type" logic
             let finalName = item.name;
             let finalType = 'bus';
@@ -221,11 +227,11 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
         });
 
         return { options: mappedOptions, isValidRoute: true, firstTripTime };
-    };
+    }, [currentTime, t]);
 
     const { options, isValidRoute, firstTripTime } = React.useMemo(
         () => getRoutes(origin, destination),
-        [origin, destination, currentTime, t]
+        [origin, destination, getRoutes]
     );
 
     // Sync selected route details up to parent whenever options or selected index changes

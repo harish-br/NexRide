@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, Bell, MessageSquare, Shield, Clock, Info, Smartphone, Eye, EyeOff, Sparkles, Moon, Navigation, ShieldAlert } from 'lucide-react';
 import haptics from '../utils/haptics';
@@ -7,6 +7,19 @@ import { useLanguage } from './LanguageContext';
 import { auth, db } from '../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { requestNotificationPermissionAndSubscribe } from '../services/fcmService';
+
+// Default Preferences
+const defaultPreferences = {
+    tripUpdates: true,
+    liveJourney: true,
+    safetyAlerts: true,
+    generalUpdates: false,
+    dnd: {
+        enabled: false,
+        start: "22:00",
+        end: "06:00"
+    }
+};
 
 const NotificationSettingsScreen = ({ onBack }) => {
     const { t } = useTranslation();
@@ -35,26 +48,13 @@ const NotificationSettingsScreen = ({ onBack }) => {
         setIsPushLoading(false);
     };
 
-    // Default Preferences
-    const defaultPreferences = {
-        tripUpdates: true,
-        liveJourney: true,
-        safetyAlerts: true,
-        generalUpdates: false,
-        dnd: {
-            enabled: false,
-            start: "22:00",
-            end: "06:00"
-        }
-    };
-
     // CACHE-FIRST INITIALIZATION
     const [preferences, setPreferences] = useState(() => {
         if (isGuest) return defaultPreferences;
         try {
             const cached = localStorage.getItem(`notification_prefs_${user.uid}`);
             return cached ? JSON.parse(cached) : defaultPreferences;
-        } catch (e) {
+        } catch {
             return defaultPreferences;
         }
     });
@@ -349,7 +349,7 @@ const SectionHeader = ({ title }) => (
     </div>
 );
 
-const ToggleItem = ({ icon: Icon, color, title, description, isOn, onToggle, isCritical = false }) => (
+const ToggleItem = ({ icon, color, title, description, isOn, onToggle, isCritical = false }) => (
     <div style={{
         backgroundColor: '#FFFFFF', borderRadius: '20px', padding: '16px 20px',
         marginBottom: '16px', border: '1px solid #F3F4F6',
@@ -361,7 +361,7 @@ const ToggleItem = ({ icon: Icon, color, title, description, isOn, onToggle, isC
                 width: '40px', height: '40px', borderRadius: '12px',
                 backgroundColor: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
-                <Icon size={20} color={color} />
+                {React.createElement(icon, { size: 20, color })}
             </div>
             <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

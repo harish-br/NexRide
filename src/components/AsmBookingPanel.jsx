@@ -28,7 +28,7 @@ export default function AsmBookingPanel({ route, onClose }) {
         haptics.success();
         
         const generatedId = "ASM" + Math.floor(100000 + Math.random() * 900000);
-        const durationStr = route?.duration || "2 hr"; // Fallback to 2 hr
+
         const newTicket = {
             ticketId: generatedId,
             creationTime: Date.now(),
@@ -133,7 +133,7 @@ export default function AsmBookingPanel({ route, onClose }) {
                                         disabled={isTaken}
                                         onClick={() => !isTaken && toggleSeat(seatId)}
                                         style={{
-                                            width: '36px', height: '36px', borderRadius: '8px', border: 'none', cursor: isTaken ? 'not-allowed' : 'pointer',
+                                            width: '36px', height: '36px', borderRadius: '8px', cursor: isTaken ? 'not-allowed' : 'pointer',
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold',
                                             background: isTaken ? '#E5E7EB' : isSelected ? '#10B981' : 'white',
                                             color: isTaken ? '#9CA3AF' : isSelected ? 'white' : '#6B7280',

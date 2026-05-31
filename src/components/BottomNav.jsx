@@ -2,9 +2,6 @@ import React from 'react';
 import haptics from '../utils/haptics';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useLanguage } from './LanguageContext';
-
-import ReferenceIcon from './LottieAnimations/profileicons/iconsax-ai-homepage-njtmxgyx-.svg?react'; // Keeping ref for now
 
 import HomeIcon from './LottieAnimations/profileicons/iconsax-ai-homepage-njtmxgyx-.svg?react';
 import TicketIcon from './LottieAnimations/profileicons/iconsax-ticket-u9gfewzf-.svg?react';
@@ -14,7 +11,6 @@ import ProfileIcon from './LottieAnimations/profileicons/iconsax-user-p6s26kte-.
 
 const BottomNav = ({ activeTab, onTabChange }) => {
     const { t } = useTranslation();
-    const { isRTL } = useLanguage();
 
     const tabs = [
         { id: 'home', label: t('nav.home'), icon: HomeIcon },
