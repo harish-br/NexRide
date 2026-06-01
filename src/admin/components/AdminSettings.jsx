@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 
-export default function AdminSettings() {
-  const { currentUser, logout } = useAdminAuth();
+export default function AdminSettings({ setCurrentView }) {
+  const { currentUser, adminRole, logout } = useAdminAuth();
   
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [autoSyncEnabled, setAutoSyncEnabled] = useState(true);
@@ -11,7 +11,18 @@ export default function AdminSettings() {
     <div className="admin-animate-fade">
       <div style={{ maxWidth: '800px' }}>
         <div style={{ marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '8px', borderBottom: '1px solid var(--admin-border)', paddingBottom: '16px' }}>Profile Information</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--admin-border)', paddingBottom: '16px', marginBottom: '8px' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>Profile Information</h2>
+            {setCurrentView && adminRole === 'super_admin' && (
+              <button 
+                onClick={() => setCurrentView('team')}
+                className="admin-btn admin-btn-primary" 
+                style={{ padding: '8px 16px', borderRadius: '8px', fontSize: '0.9rem' }}
+              >
+                Manage Team Members
+              </button>
+            )}
+          </div>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px', marginTop: '24px' }}>
             <div className="admin-input-group">
@@ -39,8 +50,8 @@ export default function AdminSettings() {
 
             <div className="admin-input-group">
               <label className="admin-label">Access Level</label>
-              <div style={{ padding: '14px 16px', backgroundColor: 'var(--admin-bg-surface)', borderRadius: 'var(--admin-radius)', border: '1px solid var(--admin-border)', fontWeight: 600 }}>
-                Super Administrator
+              <div style={{ padding: '14px 16px', backgroundColor: 'var(--admin-bg-surface)', borderRadius: 'var(--admin-radius)', border: '1px solid var(--admin-border)', fontWeight: 600, textTransform: 'capitalize' }}>
+                {adminRole === 'super_admin' ? 'Super Administrator' : 'Administrator'}
               </div>
             </div>
           </div>

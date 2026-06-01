@@ -1,4 +1,7 @@
 import { db, auth } from '../../firebase';
+import { app } from '../../firebase';
+import { initializeApp } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { 
   collection, doc, getDocs, getDoc, setDoc, updateDoc, 
   deleteDoc, serverTimestamp, addDoc, writeBatch
@@ -334,6 +337,7 @@ export const adminService = {
       busNumber: data.busName || '',
       busType: data.busType || 'Standard',
       operatorName: data.operatorName || 'TNSTC',
+      via: data.via || '',
       status: 'active'
     });
 
@@ -345,5 +349,83 @@ export const adminService = {
   async rejectBusRequest(requestId) {
     await updateDoc(doc(db, 'bus_requests', requestId), { status: 'rejected' });
     await logAudit('REJECT_BUS_REQUEST', `Rejected bus request ${requestId}`);
+  },
+
+  // === TEAM MEMBERS ===
+  async getAdmins() {
+    const snapshot = await getDocs(collection(db, 'admins'));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  },
+
+  async getAdminRequests() {
+    const snapshot = await getDocs(collection(db, 'admin_join_requests'));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  },
+
+  async requestAdminAccess(uid, email) {
+    await setDoc(doc(db, 'admin_join_requests', uid), {
+      email,
+      uid,
+      status: 'pending',
+      timestamp: serverTimestamp()
+    });
+    await logAudit('REQUEST_ADMIN_ACCESS', `User ${email} requested admin access`);
+  },
+
+  async approveAdminRequest(requestId, uid, email) {
+    // Add to admins collection
+    await setDoc(doc(db, 'admins', uid), {
+      email,
+      role: 'admin',
+      addedAt: serverTimestamp()
+    });
+    // Remove from requests collection
+    await deleteDoc(doc(db, 'admin_join_requests', requestId));
+    await logAudit('APPROVE_ADMIN', `Approved admin access for ${email}`);
+  },
+
+  async createAdminUserAndRecord(data) {
+    // 1. Create a secondary Firebase App to create the user without signing out the Super Admin
+    // Using a random name so it doesn't conflict if called multiple times
+    const secondaryApp = initializeApp(app.options, `SecondaryApp_${Date.now()}`);
+    const secondaryAuth = getAuth(secondaryApp);
+    
+    try {
+      // 2. Create the Auth user
+      const userCredential = await createUserWithEmailAndPassword(secondaryAuth, data.email, data.password);
+      const newUid = userCredential.user.uid;
+      
+      // 3. Add to the admins collection with all the new data
+      await setDoc(doc(db, 'admins', newUid), {
+        email: data.email,
+        name: data.name,
+        role: data.role || 'admin',
+        mobile: data.mobile,
+        addedAt: serverTimestamp()
+      });
+      
+      await logAudit('ADD_ADMIN', `Super Admin created new member: ${data.name} (${data.email})`);
+      
+      // 4. Sign out the secondary app
+      await signOut(secondaryAuth);
+    } catch (error) {
+      console.error("Failed to create admin:", error);
+      throw error;
+    }
+  },
+
+  async rejectAdminRequest(requestId, email) {
+    await deleteDoc(doc(db, 'admin_join_requests', requestId));
+    await logAudit('REJECT_ADMIN', `Rejected admin request for ${email}`);
+  },
+
+  async removeAdmin(uid, email) {
+    // Prevent removing yourself
+    const user = auth.currentUser;
+    if (user && user.uid === uid) {
+      throw new Error("You cannot remove yourself");
+    }
+    await deleteDoc(doc(db, 'admins', uid));
+    await logAudit('REMOVE_ADMIN', `Removed admin ${email}`);
   }
 };

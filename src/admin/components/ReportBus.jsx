@@ -8,7 +8,8 @@ export default function ReportBus({ setCurrentView }) {
     departureTime: '',
     arrivalTime: '',
     busName: '',
-    operatorName: 'Government'
+    operatorName: 'Government',
+    via: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -18,7 +19,7 @@ export default function ReportBus({ setCurrentView }) {
     try {
       await adminService.submitBusRequest(reportData);
       alert('Bus timing reported successfully! It is now pending admin approval.');
-      setReportData({ source: '', destination: '', departureTime: '', arrivalTime: '', busName: '', operatorName: 'Government' });
+      setReportData({ source: '', destination: '', departureTime: '', arrivalTime: '', busName: '', operatorName: 'Government', via: '' });
       if (setCurrentView) setCurrentView('dashboard');
     } catch (error) {
       console.error(error);
@@ -75,6 +76,18 @@ export default function ReportBus({ setCurrentView }) {
                   <option value="Government">Government (TNSTC/SETC)</option>
                   <option value="Private">Private</option>
                 </select>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
+              <div className="admin-input-group">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <label className="admin-label">Via Route <span style={{ color: 'var(--admin-text-secondary)', fontWeight: 'normal', fontSize: '0.85em' }}>(Optional)</span></label>
+                  {reportData.via && (
+                    <button type="button" onClick={() => setReportData({...reportData, via: ''})} style={{ background: 'none', border: 'none', color: 'var(--admin-danger)', cursor: 'pointer', fontSize: '0.85rem', padding: 0 }}>Clear</button>
+                  )}
+                </div>
+                <input type="text" className="admin-input" value={reportData.via} onChange={e => setReportData({...reportData, via: e.target.value})} placeholder="e.g. Bhavani, Anthiyur" />
               </div>
             </div>
 

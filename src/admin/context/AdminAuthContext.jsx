@@ -14,6 +14,8 @@ export function AdminAuthProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
+  const [unauthorizedUser, setUnauthorizedUser] = useState(null);
+  const [adminRole, setAdminRole] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -21,20 +23,25 @@ export function AdminAuthProvider({ children }) {
       if (user) {
         // Check if user is in admins collection
         try {
-          const adminDocRef = doc(db, 'admins', user.uid);
-          const adminDoc = await getDoc(adminDocRef);
+          const adminDocByUid = await getDoc(doc(db, 'admins', user.uid));
+          const adminDocByEmail = await getDoc(doc(db, 'admins', user.email));
           
-          if (adminDoc.exists()) {
+          const adminDoc = adminDocByUid.exists() ? adminDocByUid : (adminDocByEmail.exists() ? adminDocByEmail : null);
+          
+          if (adminDoc) {
             setCurrentUser(user);
             setIsAdmin(true);
+            const role = user.email === 'teamnexride@gmail.com' ? 'super_admin' : (adminDoc.data().role || 'admin');
+            setAdminRole(role);
             setAuthError(null);
+            setUnauthorizedUser(null);
           } else {
-            // User is logged in but not an admin. Sign them out for security.
-            console.warn("User is not an admin, signing out...");
-            await signOut(auth);
-            setCurrentUser(null);
+            // User is logged in but not an admin. We keep them logged in so they can request access.
+            console.warn("User is not an admin, retaining auth state for join request.");
+            setCurrentUser(user);
             setIsAdmin(false);
-            setAuthError("You do not have administrative privileges. Please ensure your exact UID is in the 'admins' collection.");
+            setUnauthorizedUser({ uid: user.uid, email: user.email });
+            setAuthError("You do not have administrative privileges.");
           }
         } catch (error) {
           console.error("Error checking admin status:", error);
@@ -46,6 +53,8 @@ export function AdminAuthProvider({ children }) {
       } else {
         setCurrentUser(null);
         setIsAdmin(false);
+        setAdminRole(null);
+        setUnauthorizedUser(null);
       }
       setLoading(false);
     });
@@ -65,8 +74,10 @@ export function AdminAuthProvider({ children }) {
   const value = {
     currentUser,
     isAdmin,
+    adminRole,
     loading,
     authError,
+    unauthorizedUser,
     login,
     logout
   };

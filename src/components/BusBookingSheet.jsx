@@ -80,12 +80,22 @@ const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, st
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                         <div style={{ fontSize: '14px', color: '#374151', fontWeight: '600' }}>{bus.operatorName}</div>
                         <div style={{ fontSize: '13px', color: '#9CA3AF', fontWeight: '500' }}>
-                            {bus.serviceType}
-                            {bus.via && (
-                                <span style={{ marginLeft: '8px', color: '#6B7280', fontSize: '12px', fontWeight: '400' }}>
-                                    • via {bus.via}
-                                </span>
-                            )}
+                            {(() => {
+                                let displayName = bus.busName || bus.serviceType || '';
+                                if (displayName.toLowerCase() === 'standard') {
+                                    displayName = '';
+                                }
+                                return (
+                                    <>
+                                        {displayName}
+                                        {bus.via && (
+                                            <span style={{ marginLeft: displayName ? '8px' : '0', color: '#6B7280', fontSize: '12px', fontWeight: '400' }}>
+                                                {displayName ? '• ' : ''}via {bus.via}
+                                            </span>
+                                        )}
+                                    </>
+                                );
+                            })()}
                         </div>
                     </div>
                 </div>

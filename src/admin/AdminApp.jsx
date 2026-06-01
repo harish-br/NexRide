@@ -15,6 +15,7 @@ import AuditLogs from './components/AuditLogs';
 import AdminSettings from './components/AdminSettings';
 import AdminRequests from './components/AdminRequests';
 import ReportBus from './components/ReportBus';
+import TeamMembersManager from './components/TeamMembersManager';
 
 export default function AdminApp() {
   return (
@@ -64,8 +65,10 @@ function AdminLayout() {
         return <AdminRequests />;
       case 'logs':
         return <AuditLogs />;
+      case 'team':
+        return <TeamMembersManager />;
       case 'settings':
-        return <AdminSettings />;
+        return <AdminSettings setCurrentView={setCurrentView} />;
       default:
         return <DashboardStats setCurrentView={setCurrentView} />;
     }

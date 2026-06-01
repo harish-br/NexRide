@@ -68,14 +68,16 @@ export const busService = {
             const finalBuses = [];
             filteredResults.forEach(data => {
                 data.departure_times.forEach(time => {
+                    const details = data.bus_details?.[time] || {};
                     finalBuses.push({
                         id: `${data.id}-${time}`,
                         from: data.source,
                         to: data.destination,
-                        via: (data.via || (data.route_stops ? data.route_stops.join(', ') : '')).replace(/^via\s+/i, ''),
-                        operatorName: data.operator || data.operatorName || 'TNSTC',
+                        via: (details.via || data.via || (data.route_stops ? data.route_stops.join(', ') : '')).replace(/^via\s+/i, ''),
+                        operatorName: details.operatorName || data.operator || data.operatorName || 'TNSTC',
                         departureTime: this._convertToAmPm(time),
-                        serviceType: (data.notes || data.serviceType || "Govt").replace(/^via\s+/i, '')
+                        serviceType: (details.busType || data.notes || data.serviceType || "Govt").replace(/^via\s+/i, ''),
+                        busName: details.busNumber || ''
                     });
                 });
             });
@@ -108,14 +110,16 @@ export const busService = {
 
                 if (isSourceMatch && data.status !== 'cancelled' && data.status !== 'completed') {
                     data.departure_times.forEach(time => {
+                        const details = data.bus_details?.[time] || {};
                         results.push({
                             id: `${doc.id}-${time}`,
                             from: data.source,
                             to: data.destination,
-                            via: (data.via || (data.route_stops ? data.route_stops.join(', ') : '')).replace(/^via\s+/i, ''),
-                            operatorName: data.operator || data.operatorName || 'TNSTC',
+                            via: (details.via || data.via || (data.route_stops ? data.route_stops.join(', ') : '')).replace(/^via\s+/i, ''),
+                            operatorName: details.operatorName || data.operator || data.operatorName || 'TNSTC',
                             departureTime: this._convertToAmPm(time),
-                            serviceType: (data.notes || data.serviceType || "Govt").replace(/^via\s+/i, '')
+                            serviceType: (details.busType || data.notes || data.serviceType || "Govt").replace(/^via\s+/i, ''),
+                            busName: details.busNumber || ''
                         });
                     });
                 }

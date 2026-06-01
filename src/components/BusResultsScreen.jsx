@@ -79,11 +79,14 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
             if (filterType === 'Govt') {
                 results = results.filter(bus =>
                     bus.serviceType.toLowerCase().includes('govt') ||
-                    bus.serviceType.toLowerCase().includes('tnstc')
+                    bus.serviceType.toLowerCase().includes('tnstc') ||
+                    bus.operatorName.toLowerCase().includes('govt') ||
+                    bus.operatorName.toLowerCase().includes('tnstc')
                 );
             } else if (filterType === 'Private') {
                 results = results.filter(bus =>
-                    bus.serviceType.toLowerCase() === 'private'
+                    bus.serviceType.toLowerCase() === 'private' ||
+                    bus.operatorName.toLowerCase() === 'private'
                 );
             }
         }
@@ -349,7 +352,7 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
 
                                             {/* Service Type Tag Logic */}
                                             {(() => {
-                                                const isGovt = bus.serviceType.toLowerCase().includes('govt') || bus.serviceType.toLowerCase().includes('tnstc');
+                                                const isGovt = bus.serviceType.toLowerCase().includes('govt') || bus.serviceType.toLowerCase().includes('tnstc') || bus.operatorName.toLowerCase().includes('govt') || bus.operatorName.toLowerCase().includes('tnstc');
                                                 const isNonStop = bus.serviceType.toLowerCase().includes('non-stop');
 
                                                 // Common Pill Style (for > 2 mins or non-next)
@@ -414,7 +417,10 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                                                 }
 
                                                 // STANDARD LAYOUT (Other buses or Next Bus > 2 mins)
-                                                let badgeText = bus.serviceType.replace('TNSTC ', '');
+                                                let badgeText = bus.busName || bus.serviceType.replace('TNSTC ', '');
+                                                if (badgeText.toLowerCase() === 'standard') {
+                                                    badgeText = '';
+                                                }
                                                 let showClock = false;
 
                                                 if (diff <= 30 && diff > 0) {
@@ -427,6 +433,10 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                                                         badgeText = `Departs in ${diff} min`;
                                                         showClock = true;
                                                     }
+                                                }
+
+                                                if (!badgeText && !showClock) {
+                                                    return null;
                                                 }
 
                                                 return (

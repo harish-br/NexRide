@@ -34,12 +34,23 @@ service cloud.firestore {
     // Bus Schedules: Public read, locked writes
     // Helper function to check if user is an admin
     function isAdmin() {
-      return request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      return request.auth != null && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email))
+      );
     }
 
     // Admins Collection
     match /admins/{adminId} {
-      allow read: if request.auth != null && request.auth.uid == adminId;
+      // Allow all authenticated users to read to bypass list query exists() limits
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // Admin Join Requests Collection
+    match /admin_join_requests/{requestId} {
+      allow create: if request.auth != null && request.auth.uid == requestId;
+      allow read: if request.auth != null;
       allow write: if isAdmin();
     }
 
