@@ -6,13 +6,9 @@ const LocationFab = ({ onLocate, isLocating, sheetY, show = true }) => {
     // Calculate dynamic top position via transform
     // Formula: FAB Top = Sheet Top Y - FAB Height - Margin
     // FAB Height = 48px, Margin = 16px
-    const fabTop = useTransform(
+    const fabBottom = useTransform(
         sheetY || { get: () => window.innerHeight - 358 },
-        (y) => {
-            const margin = 16;
-            const fabHeight = 48;
-            return y - fabHeight - margin;
-        }
+        (y) => `calc(100vh - ${y}px + 16px)`
     );
 
     if (!show) return null;
@@ -26,9 +22,9 @@ const LocationFab = ({ onLocate, isLocating, sheetY, show = true }) => {
             onClick={onLocate}
             disabled={isLocating}
             style={{
-                position: 'fixed',
-                top: fabTop, // Anchored exactly above the bottom sheet
-                right: '20px',
+                position: 'absolute',
+                bottom: fabBottom, // Anchored exactly above the bottom sheet
+                right: '16px',
                 width: '48px',
                 height: '48px',
                 borderRadius: '50%',

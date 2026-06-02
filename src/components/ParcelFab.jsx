@@ -6,13 +6,9 @@ const ParcelFab = ({ onClick, sheetY, show = true }) => {
     // Calculate dynamic top position via transform
     // Formula: FAB Top = Sheet Top Y - FAB Height - Margin
     // FAB Height = 48px, Margin = 16px
-    const fabTop = useTransform(
+    const fabBottom = useTransform(
         sheetY || { get: () => window.innerHeight - 358 },
-        (y) => {
-            const margin = 16;
-            const fabHeight = 48;
-            return y - fabHeight - margin;
-        }
+        (y) => `calc(100vh - ${y}px + 16px)`
     );
 
     if (!show) return null;
@@ -25,9 +21,9 @@ const ParcelFab = ({ onClick, sheetY, show = true }) => {
             whileTap={{ scale: 0.95 }}
             onClick={onClick}
             style={{
-                position: 'fixed',
-                top: fabTop, // Anchored exactly above the bottom sheet
-                left: '20px',
+                position: 'absolute',
+                bottom: fabBottom, // Anchored exactly above the bottom sheet
+                left: '16px',
                 width: '100px',
                 height: '48px',
                 borderRadius: '12px',
