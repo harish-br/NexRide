@@ -320,12 +320,14 @@ h1, h2, h3, .admin-title {
   padding: 16px 8px;
   text-align: left;
   border-bottom: 1px solid var(--admin-border);
+  white-space: nowrap;
 }
 
 .admin-table td {
   padding: 20px 8px;
   border-bottom: 1px solid var(--admin-border);
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 .admin-table tr:hover td {
