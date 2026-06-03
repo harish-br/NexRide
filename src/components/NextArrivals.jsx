@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { busService } from '../services/busService';
 import haptics from '../utils/haptics';
+import EstimatedTimeDisplay from './EstimatedTimeDisplay';
 
 const ArrivalCard = ({ bus, status, operatorName, busType, t }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -37,7 +38,7 @@ const ArrivalCard = ({ bus, status, operatorName, busType, t }) => {
 
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <span style={{ fontSize: '16px', fontWeight: 600, color: '#111827' }}>
-                            {operatorName} <span style={{ fontSize: '14px', fontWeight: 500, color: '#6B7280' }}>| {bus.displayTime}</span>
+                            {operatorName} <span style={{ fontSize: '14px', fontWeight: 500, color: '#6B7280' }}>| <EstimatedTimeDisplay time={bus.displayTime} /></span>
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
                             <span style={{ fontSize: '14px', fontWeight: '600', color: '#4B5563' }}>

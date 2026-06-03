@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, AlertCircle, Bus, Train, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import haptics from '../utils/haptics';
+import EstimatedTimeDisplay from './EstimatedTimeDisplay';
 
 const TicketScreen = ({
     isVisible,
@@ -157,7 +158,7 @@ const TicketScreen = ({
                             fontSize: '13px', color: '#9CA3AF', fontWeight: 500,
                             whiteSpace: 'nowrap', marginTop: '2px',
                         }}>
-                            {selectedRoute?.departureTime ? `Departs at ${selectedRoute.departureTime}` : 'Departs at --'}
+                            {selectedRoute?.departureTime ? <>Departs at <EstimatedTimeDisplay time={selectedRoute.departureTime} /></> : 'Departs at --'}
                         </div>
                     </div>
 

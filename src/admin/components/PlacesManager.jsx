@@ -180,7 +180,7 @@ export default function PlacesManager() {
           <div className="admin-stat-value">{placeRoutes.length}</div>
         </div>
         <div className="admin-stat-card">
-          <div className="admin-stat-label">Total Buses</div>
+          <div className="admin-stat-label">Scheduled Trips</div>
           <div className="admin-stat-value">{totalPlaceBuses}</div>
         </div>
         <div className="admin-stat-card">

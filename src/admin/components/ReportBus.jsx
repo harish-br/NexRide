@@ -16,8 +16,56 @@ export default function ReportBus({ setCurrentView }) {
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    // Default location data for fallback
+    let locationData = {
+      permissionStatus: 'Denied',
+      verificationStatus: 'Location Unverified',
+      deviceType: /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
+    };
+
     try {
-      await adminService.submitBusRequest(reportData);
+      if ('geolocation' in navigator) {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 10000 });
+        });
+        
+        const { latitude, longitude, accuracy } = position.coords;
+        locationData = {
+          ...locationData,
+          latitude,
+          longitude,
+          accuracy,
+          permissionStatus: 'Granted',
+          verificationStatus: 'Location Verified'
+        };
+
+        // Reverse Geocoding via Nominatim
+        try {
+          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`, {
+            headers: {
+              'Accept-Language': 'en'
+            }
+          });
+          const geoData = await response.json();
+          if (geoData && geoData.address) {
+            const addr = geoData.address;
+            locationData.detectedArea = addr.suburb || addr.neighbourhood || addr.village || addr.town || addr.city_district || '';
+            locationData.city = addr.city || addr.town || addr.county || '';
+            locationData.district = addr.state_district || addr.county || '';
+            locationData.state = addr.state || '';
+            locationData.country = addr.country || '';
+          }
+        } catch (geoErr) {
+          console.error("Reverse geocoding failed", geoErr);
+        }
+      }
+    } catch (geoError) {
+      console.warn("Geolocation denied or failed", geoError);
+    }
+
+    try {
+      await adminService.submitBusRequest({ ...reportData, location: locationData });
       alert('Bus timing reported successfully! It is now pending admin approval.');
       setReportData({ source: '', destination: '', departureTime: '', arrivalTime: '', busName: '', operatorName: 'Government', via: '' });
       if (setCurrentView) setCurrentView('dashboard');

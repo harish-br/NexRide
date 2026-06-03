@@ -20,6 +20,7 @@ export default function RoutesManager() {
   // Modal state
   const [showModal, setShowModal] = useState(false);
   const [editingRoute, setEditingRoute] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
   const [formData, setFormData] = useState({ 
     routeNumber: '', source: '', destination: '', distance: '', status: 'active', via: '', serviceType: '', operatorName: ''
   });
@@ -69,11 +70,14 @@ export default function RoutesManager() {
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this route? This will delete all buses on this route.")) {
+      setDeletingId(id);
       try {
         await adminService.deleteRoute(id);
       } catch (error) {
         console.error("Failed to delete route:", error);
         alert("Failed to delete route.");
+      } finally {
+        setDeletingId(null);
       }
     }
   };
@@ -114,7 +118,7 @@ export default function RoutesManager() {
   };
 
   const exportCSV = () => {
-    const headers = ["Route Number", "Source", "Destination", "Via", "Distance (km)", "Total Buses", "Status"];
+    const headers = ["Route Number", "Source", "Destination", "Via", "Distance (km)", "Scheduled Trips", "Status"];
     const rows = processedRoutes.map(r => [
       r.routeNumber || '',
       r.source || '',
@@ -261,8 +265,8 @@ export default function RoutesManager() {
                       <button className="admin-btn" style={{ padding: '6px 12px', fontSize: '0.8rem', marginRight: '8px' }} onClick={() => handleOpenModal(route)} aria-label={`Edit route from ${route.source} to ${route.destination}`}>
                         Edit
                       </button>
-                      <button className="admin-btn admin-btn-danger" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => handleDelete(route.id)} aria-label={`Delete route from ${route.source} to ${route.destination}`}>
-                        Delete
+                      <button className="admin-btn admin-btn-danger" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => handleDelete(route.id)} disabled={deletingId === route.id} aria-label={`Delete route from ${route.source} to ${route.destination}`}>
+                        {deletingId === route.id ? 'Deleting...' : 'Delete'}
                       </button>
                     </td>
                   </tr>
@@ -378,7 +382,7 @@ export default function RoutesManager() {
                         <div style={{ fontWeight: 600, fontSize: '1.1rem' }}>{selectedMobileRoute.routeNumber || '-'}</div>
                       </div>
                       <div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--admin-text-secondary)', marginBottom: '4px' }}>Total Buses</div>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--admin-text-secondary)', marginBottom: '4px' }}>Scheduled Trips</div>
                         <div style={{ fontWeight: 600, fontSize: '1.1rem' }}>{(selectedMobileRoute.departure_times || []).length}</div>
                       </div>
                       <div>
@@ -414,11 +418,13 @@ export default function RoutesManager() {
                       className="admin-btn admin-btn-danger" 
                       style={{ width: '100%', padding: '16px', fontSize: '1.1rem' }} 
                       onClick={() => {
-                        handleDelete(selectedMobileRoute.id);
-                        setSelectedMobileRoute(null);
+                        handleDelete(selectedMobileRoute.id).then(() => {
+                          setSelectedMobileRoute(null);
+                        });
                       }}
+                      disabled={deletingId === selectedMobileRoute.id}
                     >
-                      Delete Route
+                      {deletingId === selectedMobileRoute.id ? 'Deleting...' : 'Delete Route'}
                     </button>
                   </div>
                 </>

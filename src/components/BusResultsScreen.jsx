@@ -5,6 +5,7 @@ import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
 
 import ASMBookingModal from './ASMBookingModal';
+import EstimatedTimeDisplay from './EstimatedTimeDisplay';
 
 const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) => {
     // searchData: { from, to }
@@ -339,9 +340,10 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                             {/* Time & Operator */}
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                <span style={{ fontSize: '20px', fontWeight: 600, color: '#111' }}>
-                                                    {bus.departureTime}
-                                                </span>
+                                                <EstimatedTimeDisplay 
+                                                    time={bus.departureTime} 
+                                                    style={{ fontSize: '20px', fontWeight: 600, color: '#111' }} 
+                                                />
                                                 <span style={{ fontSize: '13px', fontWeight: '600', color: '#6B7280' }}>
                                                     {bus.operatorName}
                                                 </span>

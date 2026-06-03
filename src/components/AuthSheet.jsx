@@ -523,7 +523,7 @@ const AuthSheet = ({ isOpen, onClose, onSuccess }) => {
                                 disabled={devCode.length < 4}
                                 style={{
                                     width: '100%', padding: '16px', borderRadius: '16px', border: 'none',
-                                    backgroundColor: devCode.length >= 4 ? '#111827' : '#E5E7EB',
+                                    backgroundColor: devCode.length >= 4 ? '#1569fd' : '#E5E7EB',
                                     color: devCode.length >= 4 ? '#ffffff' : '#9CA3AF',
                                     fontWeight: '600', fontSize: '16px', cursor: devCode.length >= 4 ? 'pointer' : 'not-allowed'
                                 }}

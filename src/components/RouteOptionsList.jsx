@@ -7,6 +7,7 @@ import { useLanguage } from './LanguageContext';
 
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
+import EstimatedTimeDisplay from './EstimatedTimeDisplay';
 
 // RAW SCHEDULE DATA (FULL SET)
 const SCHEDULES = {
@@ -389,7 +390,15 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
                                         <span style={{ fontSize: '13px', color: '#4B5563' }}>{option.stops}</span>
                                         <div style={{ width: '3px', height: '3px', background: '#D1D5DB', borderRadius: '50%' }} />
                                         <span style={{ fontSize: '13px', color: '#4B5563', fontStyle: 'italic' }}>
-                                            {option.frequency.replace(t('route_list.every', 'Every') + ' ', '')}
+                                            {option.frequency.includes(option.departureTime) ? (
+                                                <>
+                                                    {option.frequency.split(option.departureTime)[0].replace(t('route_list.every', 'Every') + ' ', '')}
+                                                    <EstimatedTimeDisplay time={option.departureTime} />
+                                                    {option.frequency.split(option.departureTime)[1]}
+                                                </>
+                                            ) : (
+                                                option.frequency.replace(t('route_list.every', 'Every') + ' ', '')
+                                            )}
                                         </span>
                                     </div>
 
@@ -472,7 +481,7 @@ const RouteOptionsList = ({ routeStats, origin, destination, onStartNavigation, 
                         fontWeight: 600,
                         display: 'inline-block'
                     }}>
-                        Next trip tomorrow at {firstTripTime}
+                        Next trip tomorrow at <EstimatedTimeDisplay time={firstTripTime} />
                     </div>
                 </div>
             ) : (

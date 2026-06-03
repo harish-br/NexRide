@@ -20,6 +20,7 @@ export default function BusesManager() {
   // Modal state
   const [showModal, setShowModal] = useState(false);
   const [editingBus, setEditingBus] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
   const [formData, setFormData] = useState({
     busNumber: '', routeId: '', departureTime: '', arrivalTime: '', busType: '', status: 'active', conductorName: '', driverName: '',
     operatingDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -127,11 +128,14 @@ export default function BusesManager() {
 
   const handleDelete = async (bus) => {
     if (window.confirm("Are you sure you want to delete this timing?")) {
+      setDeletingId(bus.id);
       try {
         await adminService.deleteBus(bus.routeId, bus.departureTime);
       } catch (error) {
         console.error("Failed to delete timing:", error);
         alert("Failed to delete timing.");
+      } finally {
+        setDeletingId(null);
       }
     }
   };
@@ -329,8 +333,8 @@ export default function BusesManager() {
                       <button className="admin-btn" style={{ padding: '6px 12px', fontSize: '0.8rem', marginRight: '8px' }} onClick={() => handleOpenModal(bus)} aria-label={`Edit bus ${bus.busNumber}`}>
                         Edit
                       </button>
-                      <button className="admin-btn admin-btn-danger" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => handleDelete(bus)} aria-label={`Delete bus ${bus.busNumber}`}>
-                        Delete
+                      <button className="admin-btn admin-btn-danger" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => handleDelete(bus)} disabled={deletingId === bus.id} aria-label={`Delete bus ${bus.busNumber}`}>
+                        {deletingId === bus.id ? 'Deleting...' : 'Delete'}
                       </button>
                     </td>
                   </tr>
@@ -533,11 +537,13 @@ export default function BusesManager() {
                       className="admin-btn admin-btn-danger"
                       style={{ width: '100%', padding: '16px', fontSize: '1.1rem' }}
                       onClick={() => {
-                        handleDelete(selectedMobileBus);
-                        setSelectedMobileBus(null);
+                        handleDelete(selectedMobileBus).then(() => {
+                          setSelectedMobileBus(null);
+                        });
                       }}
+                      disabled={deletingId === selectedMobileBus.id}
                     >
-                      Delete Bus
+                      {deletingId === selectedMobileBus.id ? 'Deleting...' : 'Delete Bus'}
                     </button>
                   </div>
                 </>

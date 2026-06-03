@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, CheckCircle, Ticket, MapPin, User, Phone, Mail, Clock, ShieldCheck } from 'lucide-react';
 import haptics from '../utils/haptics';
+import EstimatedTimeDisplay from './EstimatedTimeDisplay';
 
 const ASMBookingModal = ({ isOpen, onClose, bus }) => {
     const [step, setStep] = useState('form'); // 'form' | 'success'
@@ -207,7 +208,7 @@ const ASMBookingModal = ({ isOpen, onClose, bus }) => {
                                         boxShadow: '0 2px 8px rgba(0,0,0,0.02)', marginBottom: '24px'
                                     }}>
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                                            <div style={{ fontSize: '20px', fontWeight: 700, color: '#111' }}>{bus.departureTime}</div>
+                                            <EstimatedTimeDisplay time={bus.departureTime} style={{ fontSize: '20px', fontWeight: 700, color: '#111' }} />
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#6B7280', fontSize: '14px', fontWeight: 500 }}>
                                                 <Clock size={16} /> Approx 2h 30m
                                             </div>
@@ -310,7 +311,7 @@ const ASMBookingModal = ({ isOpen, onClose, bus }) => {
                                         </div>
 
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#374151', fontSize: '14px', fontWeight: 500 }}>
-                                            <Clock size={16} color="#9CA3AF" /> {bus.departureTime}
+                                            <Clock size={16} color="#9CA3AF" /> <EstimatedTimeDisplay time={bus.departureTime} />
                                         </div>
                                     </div>
                                 </motion.div>

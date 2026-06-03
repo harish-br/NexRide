@@ -98,7 +98,7 @@ export default function DashboardStats({ setCurrentView }) {
           <div className="admin-stat-value">{totalRoutes}</div>
         </div>
         <div className="admin-stat-card">
-          <div className="admin-stat-label">Total Buses</div>
+          <div className="admin-stat-label">Scheduled Trips</div>
           <div className="admin-stat-value">{totalBuses}</div>
         </div>
         <div className="admin-stat-card">

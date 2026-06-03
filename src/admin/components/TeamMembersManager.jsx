@@ -7,6 +7,7 @@ export default function TeamMembersManager() {
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [fetchError, setFetchError] = useState(null);
+  const [processingId, setProcessingId] = useState(null);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -39,34 +40,43 @@ export default function TeamMembersManager() {
   };
 
   const handleApprove = async (request) => {
+    setProcessingId(request.id);
     try {
       await adminService.approveAdminRequest(request.id, request.uid, request.email);
-      fetchData();
+      await fetchData();
     } catch (error) {
       console.error("Error approving request:", error);
       alert('Failed to approve request');
+    } finally {
+      setProcessingId(null);
     }
   };
 
   const handleReject = async (request) => {
     if (!window.confirm(`Are you sure you want to reject ${request.email}?`)) return;
+    setProcessingId(request.id);
     try {
       await adminService.rejectAdminRequest(request.id, request.email);
-      fetchData();
+      await fetchData();
     } catch (error) {
       console.error("Error rejecting request:", error);
       alert('Failed to reject request');
+    } finally {
+      setProcessingId(null);
     }
   };
 
   const handleRemoveAdmin = async (admin) => {
     if (!window.confirm(`Are you sure you want to remove ${admin.email} from the admin team?`)) return;
+    setProcessingId(admin.id);
     try {
       await adminService.removeAdmin(admin.id, admin.email);
-      fetchData();
+      await fetchData();
     } catch (error) {
       console.error("Error removing admin:", error);
       alert(error.message || 'Failed to remove admin');
+    } finally {
+      setProcessingId(null);
     }
   };
 
@@ -175,15 +185,17 @@ export default function TeamMembersManager() {
                           className="admin-btn admin-btn-primary" 
                           style={{ padding: '6px 12px', fontSize: '0.85rem' }}
                           onClick={() => handleApprove(req)}
+                          disabled={processingId === req.id}
                         >
-                          Approve
+                          {processingId === req.id ? 'Processing...' : 'Approve'}
                         </button>
                         <button 
                           className="admin-btn" 
                           style={{ padding: '6px 12px', fontSize: '0.85rem', color: 'var(--admin-danger)', border: '1px solid var(--admin-danger)', background: 'transparent' }}
                           onClick={() => handleReject(req)}
+                          disabled={processingId === req.id}
                         >
-                          Reject
+                          {processingId === req.id ? 'Processing...' : 'Reject'}
                         </button>
                       </div>
                     </td>
@@ -233,8 +245,9 @@ export default function TeamMembersManager() {
                       className="admin-btn" 
                       style={{ padding: '6px 12px', fontSize: '0.85rem', color: 'var(--admin-danger)', border: 'none', background: '#fee2e2' }}
                       onClick={() => handleRemoveAdmin(admin)}
+                      disabled={processingId === admin.id}
                     >
-                      Remove
+                      {processingId === admin.id ? 'Removing...' : 'Remove'}
                     </button>
                   </td>
                 </tr>

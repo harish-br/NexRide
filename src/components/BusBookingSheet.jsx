@@ -6,6 +6,7 @@ import haptics from '../utils/haptics';
 import { busService } from '../services/busService';
 import busIconImg from '../assets/bus_hero_final.png';
 import trainIconImg from '../assets/train_hero_final.png';
+import EstimatedTimeDisplay from './EstimatedTimeDisplay';
 
 // --- OPTIMIZED BUS CARD COMPONENT ---
 const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, statusColor, statusText }) => {
@@ -62,7 +63,10 @@ const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, st
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {/* Time & Status Row */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                        <div style={{ fontSize: '20px', fontWeight: 600, color: '#111', lineHeight: '1.2' }}>{bus.departureTime}</div>
+                        <EstimatedTimeDisplay 
+                            time={bus.departureTime} 
+                            style={{ fontSize: '20px', fontWeight: 600, color: '#111', lineHeight: '1.2' }} 
+                        />
 
                         <div style={{ width: '1px', height: '16px', background: '#D1D5DB' }}></div>
 
