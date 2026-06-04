@@ -23,18 +23,30 @@ export function AdminAuthProvider({ children }) {
       if (user) {
         // Check if user is in admins collection
         try {
-          const adminDocByUid = await getDoc(doc(db, 'admins', user.uid));
-          const adminDocByEmail = await getDoc(doc(db, 'admins', user.email));
+          const isSuperAdmin = user.email === 'teamnexride@gmail.com';
           
-          const adminDoc = adminDocByUid.exists() ? adminDocByUid : (adminDocByEmail.exists() ? adminDocByEmail : null);
+          let adminDoc = null;
+          try {
+            const adminDocByUid = await getDoc(doc(db, 'admins', user.uid));
+            const adminDocByEmail = await getDoc(doc(db, 'admins', user.email));
+            adminDoc = adminDocByUid.exists() ? adminDocByUid : (adminDocByEmail.exists() ? adminDocByEmail : null);
+          } catch (dbError) {
+            console.error("Error fetching admin doc:", dbError);
+            if (!isSuperAdmin) {
+              throw dbError; // Rethrow to be caught by outer block if not super admin
+            }
+          }
           
-          if (adminDoc) {
+          if (adminDoc || isSuperAdmin) {
             setCurrentUser(user);
             setIsAdmin(true);
-            const role = user.email === 'teamnexride@gmail.com' ? 'super_admin' : (adminDoc.data().role || 'admin');
+            const role = isSuperAdmin ? 'super_admin' : (adminDoc ? adminDoc.data().role || 'admin' : 'admin');
             setAdminRole(role);
             setAuthError(null);
             setUnauthorizedUser(null);
+            
+            // If super admin doesn't have a document, optionally we could create one, 
+            // but for now just letting them in is enough.
           } else {
             // User is logged in but not an admin. We keep them logged in so they can request access.
             console.warn("User is not an admin, retaining auth state for join request.");
@@ -48,7 +60,7 @@ export function AdminAuthProvider({ children }) {
           await signOut(auth);
           setCurrentUser(null);
           setIsAdmin(false);
-          setAuthError("Permission denied checking admin status. Ensure firestore rules are correct.");
+          setAuthError(`Admin check failed: ${error.message || "Ensure firestore rules are correct."}`);
         }
       } else {
         setCurrentUser(null);

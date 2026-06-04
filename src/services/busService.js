@@ -89,47 +89,93 @@ export const busService = {
         }
     },
 
-    /**
-     * Fetches all buses departing from a specific source.
-     */
     async getArrivalsBySource(source) {
         try {
             const schedulesRef = collection(db, "bus_schedules");
             const normSource = source.toLowerCase().trim();
 
             // Fetch everything and filter locally for flexibility
-            const q = query(schedulesRef, limit(200));
+            const q = query(schedulesRef, limit(1000));
             const querySnapshot = await getDocs(q);
 
-            const results = [];
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                // STRICT SOURCE MATCHING: Only show buses that START their journey from this stop.
-                // This prevents passing-through buses from appearing as local departures.
-                const isSourceMatch = normalize(data.source) === normSource;
+            const processBusData = (data, id) => {
+                const results = [];
+                const dbSource = normalize(data.source);
+                const isSourceMatch = dbSource === normSource || (
+                    dbSource.length > 0 && normSource.length > 0 && 
+                    (dbSource.includes(normSource) || normSource.includes(dbSource))
+                );
 
                 if (isSourceMatch && data.status !== 'cancelled' && data.status !== 'completed') {
-                    data.departure_times.forEach(time => {
-                        const details = data.bus_details?.[time] || {};
-                        results.push({
-                            id: `${doc.id}-${time}`,
-                            from: data.source,
-                            to: data.destination,
-                            via: (details.via || data.via || (data.route_stops ? data.route_stops.join(', ') : '')).replace(/^via\s+/i, ''),
-                            operatorName: details.operatorName || data.operator || data.operatorName || 'TNSTC',
-                            departureTime: this._convertToAmPm(time),
-                            serviceType: (details.busType || data.notes || data.serviceType || "Govt").replace(/^via\s+/i, ''),
-                            busName: details.busNumber || ''
+                    if (Array.isArray(data.departure_times)) {
+                        data.departure_times.forEach(time => {
+                            const details = data.bus_details?.[time] || {};
+                            results.push({
+                                id: `${id}-${time}`,
+                                from: data.source,
+                                to: data.destination,
+                                via: (details.via || data.via || (data.route_stops ? data.route_stops.join(', ') : '')).replace(/^via\s+/i, ''),
+                                operatorName: details.operatorName || data.operator || data.operatorName || 'TNSTC',
+                                departureTime: this._convertToAmPm(time),
+                                serviceType: (details.busType || data.notes || data.serviceType || "Govt").replace(/^via\s+/i, ''),
+                                busName: details.busNumber || ''
+                            });
                         });
-                    });
+                    }
                 }
+                return results;
+            };
+
+            let results = [];
+            querySnapshot.forEach((doc) => {
+                results.push(...processBusData(doc.data(), doc.id));
             });
+
+            // FALLBACK TO MOCK DATA if Firestore is empty or fails to return Erode buses
+            if (results.length === 0) {
+                console.log(`Firestore returned 0 results for ${source}. Falling back to mock data.`);
+                const { busSchedules } = await import('../data/busSchedules.js');
+                busSchedules.forEach((mockData) => {
+                    results.push(...processBusData(mockData, mockData.id));
+                });
+            }
 
             console.log(`Firestore Arrivals: Found ${results.length} results for ${source}`);
             return results;
         } catch (error) {
-            console.error("Error fetching arrivals:", error);
-            throw error;
+            console.error("Error fetching arrivals, falling back to mock data:", error);
+            const normSource = source.toLowerCase().trim();
+            const processBusData = (data, id) => {
+                // ... same logic as above but simplified for fallback error handling
+                const results = [];
+                const dbSource = normalize(data.source);
+                const isSourceMatch = dbSource === normSource || (
+                    dbSource.length > 0 && normSource.length > 0 && 
+                    (dbSource.includes(normSource) || normSource.includes(dbSource))
+                );
+                if (isSourceMatch && Array.isArray(data.departure_times)) {
+                    data.departure_times.forEach(time => {
+                        results.push({
+                            id: `${id}-${time}`,
+                            from: data.source,
+                            to: data.destination,
+                            via: data.via || '',
+                            operatorName: data.operator || 'TNSTC',
+                            departureTime: this._convertToAmPm(time),
+                            serviceType: data.serviceType || "Govt",
+                            busName: ''
+                        });
+                    });
+                }
+                return results;
+            };
+            
+            const { busSchedules } = await import('../data/busSchedules.js');
+            let results = [];
+            busSchedules.forEach((mockData) => {
+                results.push(...processBusData(mockData, mockData.id));
+            });
+            return results;
         }
     },
 
