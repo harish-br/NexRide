@@ -44,7 +44,7 @@
 }
 
 .admin-root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
   background-color: var(--admin-bg);
   color: var(--admin-text-primary);
   height: 100vh;

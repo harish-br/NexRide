@@ -16,6 +16,7 @@ import AdminSettings from './components/AdminSettings';
 import AdminRequests from './components/AdminRequests';
 import ReportBus from './components/ReportBus';
 import TeamMembersManager from './components/TeamMembersManager';
+import AdminTerms from './components/AdminTerms';
 
 export default function AdminApp() {
   return (
@@ -69,6 +70,8 @@ function AdminLayout() {
         return <TeamMembersManager />;
       case 'settings':
         return <AdminSettings setCurrentView={setCurrentView} />;
+      case 'terms':
+        return <AdminTerms />;
       default:
         return <DashboardStats setCurrentView={setCurrentView} />;
     }
@@ -117,6 +120,9 @@ function AdminLayout() {
         </div>
         <div className={`admin-nav-item ${currentView === 'settings' ? 'active' : ''}`} style={{ color: isMobile ? '#000' : '#FFF', padding: isMobile ? '12px 16px' : '8px 16px', backgroundColor: (currentView === 'settings' && isMobile) ? 'var(--admin-bg-surface)' : undefined, borderRadius: isMobile ? '8px' : undefined }} onClick={() => {setCurrentView('settings'); setMobileMenuOpen(false);}}>
           Settings
+        </div>
+        <div className={`admin-nav-item ${currentView === 'terms' ? 'active' : ''}`} style={{ color: isMobile ? '#000' : '#FFF', padding: isMobile ? '12px 16px' : '8px 16px', backgroundColor: (currentView === 'terms' && isMobile) ? 'var(--admin-bg-surface)' : undefined, borderRadius: isMobile ? '8px' : undefined }} onClick={() => {setCurrentView('terms'); setMobileMenuOpen(false);}}>
+          Legal
         </div>
       </nav>
 
@@ -194,7 +200,7 @@ function AdminLayout() {
             </button>
           )}
           <h1 className="admin-title" style={{ textTransform: 'capitalize', margin: 0 }}>
-            {currentView === 'logs' ? 'Audit Logs' : currentView}
+            {currentView === 'logs' ? 'Audit Logs' : currentView === 'terms' ? 'Legal' : currentView}
           </h1>
         </div>
         

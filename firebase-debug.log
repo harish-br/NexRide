@@ -1,0 +1,230 @@
+[debug] [2026-06-06T15:40:12.087Z] ----------------------------------------------------------------------
+[debug] [2026-06-06T15:40:12.089Z] Command:       /Users/harishbr/.nvm/versions/node/v24.12.0/bin/node /Users/harishbr/.nvm/versions/node/v24.12.0/bin/firebase deploy
+[debug] [2026-06-06T15:40:12.089Z] CLI Version:   15.18.0
+[debug] [2026-06-06T15:40:12.089Z] Platform:      darwin
+[debug] [2026-06-06T15:40:12.089Z] Node Version:  v24.12.0
+[debug] [2026-06-06T15:40:12.089Z] Time:          Sat Jun 06 2026 21:10:12 GMT+0530 (India Standard Time)
+[debug] [2026-06-06T15:40:12.089Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-06T15:40:13.026Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-06T15:40:13.026Z] > authorizing via signed-in user (teamnexride@gmail.com)
+[debug] [2026-06-06T15:40:13.026Z] [iam] checking project nexridein for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-06-06T15:40:13.027Z] Checked if tokens are valid: false, expires at: 1780732968285
+[debug] [2026-06-06T15:40:13.027Z] Checked if tokens are valid: false, expires at: 1780732968285
+[debug] [2026-06-06T15:40:13.027Z] > refreshing access token with scopes: []
+[debug] [2026-06-06T15:40:13.028Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-06-06T15:40:13.028Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-06-06T15:40:13.347Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-06-06T15:40:13.348Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-06-06T15:40:13.363Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions [none]
+[debug] [2026-06-06T15:40:13.363Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions  x-goog-user-project=nexridein
+[debug] [2026-06-06T15:40:13.363Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-06-06T15:40:15.532Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions 200
+[debug] [2026-06-06T15:40:15.532Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-06-06T15:40:15.532Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:15.532Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:15.533Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/nexridein/serviceAccounts/nexridein@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2026-06-06T15:40:15.533Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/nexridein/serviceAccounts/nexridein@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-06-06T15:40:17.525Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/nexridein/serviceAccounts/nexridein@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2026-06-06T15:40:17.525Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/nexridein/serviceAccounts/nexridein@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-06-06T15:40:17.526Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:17.526Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:17.527Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/nexridein [none]
+[debug] [2026-06-06T15:40:18.463Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/nexridein 200
+[debug] [2026-06-06T15:40:18.463Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/nexridein {"projectId":"nexridein","projectNumber":"320418103794","displayName":"NexRide","name":"projects/nexridein","resources":{"hostingSite":"nexridein"},"state":"ACTIVE","etag":"1_e1b4f4e7-b249-4e9c-abd3-515edb80814c"}
+[info] 
+[info] === Deploying to 'nexridein'...
+[info] 
+[info] i  deploying firestore, functions, hosting 
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2026-06-06T15:40:18.468Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:18.469Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:18.469Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/nexridein/databases/(default) [none]
+[debug] [2026-06-06T15:40:20.517Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/nexridein/databases/(default) 200
+[debug] [2026-06-06T15:40:20.517Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/nexridein/databases/(default) {"name":"projects/nexridein/databases/(default)","uid":"d5febab4-08ec-433e-aea5-88d0efffff2d","createTime":"2026-01-12T14:21:40.879857Z","updateTime":"2026-01-12T14:21:40.879857Z","locationId":"nam5","type":"FIRESTORE_NATIVE","concurrencyMode":"PESSIMISTIC","versionRetentionPeriod":"3600s","earliestVersionTime":"2026-06-06T14:40:20.398595Z","appEngineIntegrationMode":"DISABLED","keyPrefix":"s","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED","deleteProtectionState":"DELETE_PROTECTION_DISABLED","databaseEdition":"STANDARD","freeTier":false,"realtimeUpdatesMode":"REALTIME_UPDATES_MODE_ENABLED","etag":"IMPmpsL58pQDMLedkaiFr5QD"}
+[info] i  cloud.firestore: checking firestore.rules for compilation errors... 
+[debug] [2026-06-06T15:40:20.519Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:20.519Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:20.519Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/nexridein:test [none]
+[debug] [2026-06-06T15:40:20.519Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/nexridein:test [omitted]
+[debug] [2026-06-06T15:40:23.620Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/nexridein:test 200
+[debug] [2026-06-06T15:40:23.620Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/nexridein:test {}
+[info] ✔  cloud.firestore: rules file firestore.rules compiled successfully 
+[debug] [2026-06-06T15:40:23.624Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:23.624Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:23.624Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/nexridein [none]
+[debug] [2026-06-06T15:40:24.235Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/nexridein 200
+[debug] [2026-06-06T15:40:24.235Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/nexridein {"projectNumber":"320418103794","projectId":"nexridein","lifecycleState":"ACTIVE","name":"NexRide","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-12-26T16:42:58.725500Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2026-06-06T15:40:24.237Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:24.237Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:24.237Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/nexridein/adminSdkConfig [none]
+[debug] [2026-06-06T15:40:24.695Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/nexridein/adminSdkConfig 200
+[debug] [2026-06-06T15:40:24.695Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/nexridein/adminSdkConfig {"projectId":"nexridein","storageBucket":"nexridein.firebasestorage.app"}
+[debug] [2026-06-06T15:40:24.696Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:24.697Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:24.697Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/nexridein/configs [none]
+[debug] [2026-06-06T15:40:25.532Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/nexridein/configs 200
+[debug] [2026-06-06T15:40:25.532Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/nexridein/configs {}
+[debug] [2026-06-06T15:40:25.535Z] Validating nodejs source
+[warn] ⚠  functions: Runtime Node.js 20 was deprecated on 2026-04-30 and will be decommissioned on 2026-10-30, after which you will not be able to deploy without upgrading. Consider upgrading now to avoid disruption. See https://cloud.google.com/functions/docs/runtime-support for full details on the lifecycle policy 
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-06-06T15:40:26.579Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for NexRide",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-functions": "^6.2.0",
+    "firebase-admin": "^13.0.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "cashfree-pg": "^4.2.0",
+    "dotenv": "^16.4.7"
+  },
+  "private": true
+}
+[debug] [2026-06-06T15:40:26.579Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2026-06-06T15:40:26.579Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-06-06T15:40:26.585Z] Found firebase-functions binary at '/Users/harishbr/Downloads/NexRide-main-2/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8145
+
+[info] [Backend] Cashfree initialized in PRODUCTION mode (Key: PROD)
+
+[debug] [2026-06-06T15:40:26.975Z] Got response from /__/functions.yaml {"endpoints":{"nexrideApi":{"availableMemoryMb":256,"timeoutSeconds":60,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["us-central1"],"labels":{},"httpsTrigger":{},"entryPoint":"nexrideApi"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2026-06-06T15:40:30.993Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:30.993Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:30.994Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/nexridein/locations/-/functions [none]
+[debug] [2026-06-06T15:40:32.324Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/nexridein/locations/-/functions 200
+[debug] [2026-06-06T15:40:32.325Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/nexridein/locations/-/functions {}
+[debug] [2026-06-06T15:40:32.325Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:32.325Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:32.325Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/nexridein/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2026-06-06T15:40:34.035Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/nexridein/locations/-/functions 200
+[debug] [2026-06-06T15:40:34.035Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/nexridein/locations/-/functions {"functions":[{"name":"projects/nexridein/locations/us-central1/functions/nexrideApi","buildConfig":{"build":"projects/320418103794/locations/us-central1/builds/47ea9ce4-e529-48ab-901f-11886c23e905","runtime":"nodejs20","entryPoint":"nexrideApi","source":{"storageSource":{"bucket":"gcf-v2-sources-320418103794-us-central1","object":"nexrideApi/function-source.zip","generation":"1780502364211974"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/nexridein/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-320418103794-us-central1","object":"nexrideApi/function-source.zip","generation":"1780502364211974"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/nexridein/serviceAccounts/320418103794-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/nexridein/locations/us-central1/services/nexrideapi","timeoutSeconds":60,"environmentVariables":{"CASHFREE_APP_ID":"896041d8f54dee23374b874529140698","CASHFREE_SECRET_KEY":"cfsk_ma_prod_b6a97e958571f61d9f3c8664c743eadc_8524e9ff","CASHFREE_ENV":"SANDBOX","FIREBASE_CONFIG":"{\"projectId\":\"nexridein\",\"storageBucket\":\"nexridein.firebasestorage.app\"}","GCLOUD_PROJECT":"nexridein","EVENTARC_CLOUD_EVENT_SOURCE":"projects/nexridein/locations/us-central1/services/nexrideApi","FUNCTION_TARGET":"nexrideApi","LOG_EXECUTION_ID":"true"},"maxInstanceCount":3,"ingressSettings":"ALLOW_ALL","uri":"https://nexrideapi-23bslmk2wa-uc.a.run.app","serviceAccountEmail":"320418103794-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"nexrideapi-00034-mif","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2026-06-06T01:58:02.547563490Z","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"b077dcde3b32ad55e7518dd9058602f6ee1b4faf"},"environment":"GEN_2","url":"https://us-central1-nexridein.cloudfunctions.net/nexrideApi","createTime":"2025-12-29T02:59:21.660491518Z","satisfiesPzi":true}]}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2026-06-06T15:40:34.036Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-06T15:40:34.036Z] > authorizing via signed-in user (teamnexride@gmail.com)
+[debug] [2026-06-06T15:40:34.036Z] [iam] checking project nexridein for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2026-06-06T15:40:34.036Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:34.036Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:34.036Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions [none]
+[debug] [2026-06-06T15:40:34.036Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions  x-goog-user-project=nexridein
+[debug] [2026-06-06T15:40:34.036Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2026-06-06T15:40:35.705Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions 200
+[debug] [2026-06-06T15:40:35.706Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/nexridein:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2026-06-06T15:40:35.707Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:35.707Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:35.707Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/nexridein/instances pageSize=100&pageToken=
+[debug] [2026-06-06T15:40:37.856Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/nexridein/instances 200
+[debug] [2026-06-06T15:40:37.857Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/nexridein/instances {}
+[info] i  functions: Loaded environment variables from .env. 
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged /Users/harishbr/Downloads/NexRide-main-2/functions (33.75 KB) for uploading 
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[info] i  functions: generating the service identity for pubsub.googleapis.com... 
+[debug] [2026-06-06T15:40:37.895Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:37.895Z] Checked if tokens are valid: true, expires at: 1780764012348
+[info] i  functions: generating the service identity for eventarc.googleapis.com... 
+[debug] [2026-06-06T15:40:37.896Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:37.896Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:37.896Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/pubsub.googleapis.com:generateServiceIdentity [none]
+[debug] [2026-06-06T15:40:37.896Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/pubsub.googleapis.com:generateServiceIdentity  x-goog-user-project=320418103794
+[debug] [2026-06-06T15:40:37.896Z] >>> [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/pubsub.googleapis.com:generateServiceIdentity {}
+[debug] [2026-06-06T15:40:37.897Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/eventarc.googleapis.com:generateServiceIdentity [none]
+[debug] [2026-06-06T15:40:37.897Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/eventarc.googleapis.com:generateServiceIdentity  x-goog-user-project=320418103794
+[debug] [2026-06-06T15:40:37.897Z] >>> [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/eventarc.googleapis.com:generateServiceIdentity {}
+[debug] [2026-06-06T15:40:40.064Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/eventarc.googleapis.com:generateServiceIdentity 200
+[debug] [2026-06-06T15:40:40.064Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/eventarc.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-320418103794@gcp-sa-eventarc.iam.gserviceaccount.com","uniqueId":"117227089687575146113"}}
+[debug] [2026-06-06T15:40:40.114Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/pubsub.googleapis.com:generateServiceIdentity 200
+[debug] [2026-06-06T15:40:40.114Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/320418103794/services/pubsub.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-320418103794@gcp-sa-pubsub.iam.gserviceaccount.com","uniqueId":"105406147319278083566"}}
+[debug] [2026-06-06T15:40:40.118Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:40.118Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:40.118Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/nexridein [none]
+[debug] [2026-06-06T15:40:40.519Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/nexridein 200
+[debug] [2026-06-06T15:40:40.519Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/nexridein {"projectNumber":"320418103794","projectId":"nexridein","lifecycleState":"ACTIVE","name":"NexRide","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-12-26T16:42:58.725500Z"}
+[debug] [2026-06-06T15:40:40.520Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:40.520Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:40.520Z] >>> [apiv2][query] GET https://compute.googleapis.com/compute/v1/projects/320418103794 [none]
+[debug] [2026-06-06T15:40:41.552Z] <<< [apiv2][status] GET https://compute.googleapis.com/compute/v1/projects/320418103794 403
+[debug] [2026-06-06T15:40:41.552Z] <<< [apiv2][body] GET https://compute.googleapis.com/compute/v1/projects/320418103794 {"error":{"code":403,"message":"Compute Engine API has not been used in project 320418103794 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","errors":[{"message":"Compute Engine API has not been used in project 320418103794 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","domain":"usageLimits","reason":"accessNotConfigured","extendedHelp":"https://console.developers.google.com"}],"status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"SERVICE_DISABLED","domain":"googleapis.com","metadata":{"activationUrl":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794","containerInfo":"320418103794","consumer":"projects/320418103794","service":"compute.googleapis.com","serviceTitle":"Compute Engine API"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Compute Engine API has not been used in project 320418103794 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developers console API activation","url":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794"}]}]}}
+[debug] [2026-06-06T15:40:41.553Z] unable to look up default compute service account. Falling back to 320418103794-compute@developer.gserviceaccount.com. Error: {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"Compute Engine API has not been used in project 320418103794 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","errors":[{"message":"Compute Engine API has not been used in project 320418103794 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","domain":"usageLimits","reason":"accessNotConfigured","extendedHelp":"https://console.developers.google.com"}],"status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"SERVICE_DISABLED","domain":"googleapis.com","metadata":{"activationUrl":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794","containerInfo":"320418103794","consumer":"projects/320418103794","service":"compute.googleapis.com","serviceTitle":"Compute Engine API"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Compute Engine API has not been used in project 320418103794 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developers console API activation","url":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794"}]}]}},"response":{"statusCode":403}},"exit":1,"message":"Request to https://compute.googleapis.com/compute/v1/projects/320418103794 had HTTP Error: 403, Compute Engine API has not been used in project 320418103794 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=320418103794 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","status":403}
+[debug] [2026-06-06T15:40:41.554Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:41.554Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:41.554Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/nexridein/sites/nexridein [none]
+[debug] [2026-06-06T15:40:43.034Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/nexridein/sites/nexridein 200
+[debug] [2026-06-06T15:40:43.034Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/nexridein/sites/nexridein {"name":"projects/nexridein/sites/nexridein","defaultUrl":"https://nexridein.web.app","type":"DEFAULT_SITE"}
+[debug] [2026-06-06T15:40:43.040Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:43.040Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:43.040Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/nexridein/versions [none]
+[debug] [2026-06-06T15:40:43.040Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/nexridein/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-06-06T15:40:44.187Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/nexridein/versions 200
+[debug] [2026-06-06T15:40:44.188Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/nexridein/versions {"name":"projects/320418103794/sites/nexridein/versions/f0ed630ec22ce5a5","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-06-06T15:40:44.189Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:44.189Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:44.189Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/nexridein/releases pageSize=10&pageToken=
+[debug] [2026-06-06T15:40:45.630Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/nexridein/releases 200
+[debug] [2026-06-06T15:40:45.631Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/nexridein/releases {"releases":[{"name":"projects/nexridein/releases/cloud.firestore","rulesetName":"projects/nexridein/rulesets/501f6474-112f-474c-a419-93fcca64040d","createTime":"2026-01-12T14:22:40.781338Z","updateTime":"2026-06-06T07:03:25.944220Z"}]}
+[debug] [2026-06-06T15:40:45.631Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:45.631Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:45.631Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/nexridein/rulesets/501f6474-112f-474c-a419-93fcca64040d [none]
+[debug] [2026-06-06T15:40:46.952Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/nexridein/rulesets/501f6474-112f-474c-a419-93fcca64040d 200
+[debug] [2026-06-06T15:40:46.953Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/nexridein/rulesets/501f6474-112f-474c-a419-93fcca64040d [omitted]
+[info] i  firestore: latest version of firestore.rules already up to date, skipping upload... 
+[info] i  firestore: deploying indexes... 
+[debug] [2026-06-06T15:40:46.953Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:46.953Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:46.953Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/nexridein/billingInfo [none]
+[debug] [2026-06-06T15:40:48.709Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/nexridein/billingInfo 200
+[debug] [2026-06-06T15:40:48.710Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/nexridein/billingInfo {"name":"projects/nexridein/billingInfo","projectId":"nexridein","billingAccountName":"billingAccounts/012609-31FD8D-807747","billingEnabled":true}
+[info] i  hosting[nexridein]: beginning deploy... 
+[info] i  hosting[nexridein]: found 50 files in dist 
+[debug] [2026-06-06T15:40:48.725Z] [hosting] uploading with 200 concurrency
+[debug] [2026-06-06T15:40:48.962Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:48.962Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:48.963Z] [hosting] hash cache [ZGlzdA] stored for 50 files
+[debug] [2026-06-06T15:40:48.963Z] [hosting][hash queue][FINAL] {"max":234,"min":9,"avg":29.72,"active":0,"complete":50,"success":50,"errored":0,"retried":0,"total":50,"elapsed":237}
+[debug] [2026-06-06T15:40:48.963Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/320418103794/sites/nexridein/versions/f0ed630ec22ce5a5:populateFiles [none]
+[debug] [2026-06-06T15:40:48.963Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/320418103794/sites/nexridein/versions/f0ed630ec22ce5a5:populateFiles {"files":{"/sitemap.xml":"0f2c86382af73e4ba0bb9b961312fb439a689650c3c7e08ab548da787739e2da","/robots.txt":"24f6e7c0447a22b7e14581eabeee191fcbff73beff50106ef30ac2e8a5921177","/manifest.json":"90523fe93c4eb49987e34e2aca03a6aa5b1c003da3cec4ec5ee41ffb376e7845","/logo.png":"429bf88088b8cfef9b3dd3dc3f5b4d5bcceb34204235d63de261f55ab7e737b0","/firebase-messaging-sw.js":"8f1098fc0b2ca24cd33b0e674b855dffb26ceaa5ae29786e26292464a3b1f0fe","/index.html":"7feca36f559bcc7faf61a1a32d36dd17c0d39d706609d16806bcab23e7c666ca","/icon-192.png":"424c1097af79b5920963f786480163dd52030350a057c930dbc52da138e0490e","/apple-touch-icon.png":"424c1097af79b5920963f786480163dd52030350a057c930dbc52da138e0490e","/icon-512.png":"429bf88088b8cfef9b3dd3dc3f5b4d5bcceb34204235d63de261f55ab7e737b0","/android-chrome-192x192.png":"424c1097af79b5920963f786480163dd52030350a057c930dbc52da138e0490e","/android-chrome-512x512.png":"429bf88088b8cfef9b3dd3dc3f5b4d5bcceb34204235d63de261f55ab7e737b0","/icons/safety_icon.png":"592bb3502e8a11e893ff809a1945918f14c970cc85b7a32321c5e23a825f8e3f","/login_bg_new.png":"37264c9fba70b7160adb97800d934813e35cad7fb5ee3ab7ea73c5ecc7bdf659","/icons/ticket_icon.png":"efc14ba4e5699a6f49ac893536565c9e209105704a5d0d69a1eb1f2e0618283c","/icons/profile_icon.png":"34f09309b480d64a9ff4f1559b31d34ae5480da5f35b4106f1188e79a5f852a7","/icons/profile_trips_icon.png":"ec0e90675d058d9d99a8562ab387d4abe9ee4adce944b12e7910e2bbb33c8687","/icons/profile_details_icon.png":"19cc628ec4bd85a2d1a9fac010fa60a54f80a1139b18c8e9563726c83ff3646d","/icons/home_icon_v2.png":"6885b589b9383b6ef742ca0f66f42ba533f6050f55d6b3318efa273ad38a5832","/icons/live_icon.png":"4a75e4a23cd34661ec91b48e0beebdd623e7db6774129497f2d737cb7776d56a","/assets/web-US0dqVWA.js":"a7210b5f3e01499baa78371c39553f7599e6983a1e908f0639bb4ff7b6861dfb","/icons/home_icon.png":"b702c7f14758a54bac04a50f326b60c51e5cac2ef241aaa1921e1acb76ae13c3","/assets/web-CdiHPJvb.js":"026cd48b4721bda328830262a416d87571d69439df916871324b7e62a6686314","/assets/index-DUFE6kd9.css":"31711d8c39b9b766bc2005a22cca4875ebe443444db2e193a02b747fe208a727","/assets/icons8-package-94-BQUsX1Ea.png":"c6525d4b96d7091f820acd82170175cd8ed4eefa616a5859fb055f67141c0bad","/login_hero.png":"37264c9fba70b7160adb97800d934813e35cad7fb5ee3ab7ea73c5ecc7bdf659","/assets/guest-icon.json":"7d7cf479dbe4a9354d84dc19d44c593d7d049199fedbb1320e8b9b4bbd24eee8","/NexRide AO.png":"b5e58b397efaceac8a854836055003e7c6b3728c6462f20df902fb97d6001114","/assets/github-icon.json":"1d503a75d42e7d43f2958dd4b1dfab24e608976330a32928de21ba8cfd750242","/icons/bus_3d.jpg":"718c743101a94f61bddccec7b049e9c75309aef857169c6b21da75ac4605eff3","/icons/bus_icon_minimal.jpg":"718c743101a94f61bddccec7b049e9c75309aef857169c6b21da75ac4605eff3","/icons/train_new_square.jpg":"71549f4ee39754dd98072a6216ebf15121a29a99453432df7f17719ec85b6e3f","/icons/train_3d.jpg":"074cbac649d938866d91752ec25c8a8b23b5d6f90f3eb19cea75fed069997294","/icons/metro_3d.jpg":"f5b710ee0eb474da08b28c59fbe3825dd31d1a415074f28fbcf4017b2a193964","/icons/nearby_bus_stop_3d.jpg":"beb6effdff7bd7053557750a42c230b3eb36e9e07419ae27fa1d8c567ebd1bcb","/assets/google-icon.json":"668e952d20baf1938ce71216b088ac881b4241b153acf125059ed3cfec13c2d2","/assets/vehicle-sedan-lZeX81Kc.png":"18d74abe0fdbbe09a7f07686ca0baa5c1e99565872985c524a1fe6c2a699b026","/assets/3d-folder-with-papers-and-ai-stars_optimized-CtzfOFn0.png":"f0482d7fc37b9583791965bf028233c83381a9d333a912a06dce8a81a71aac81","/assets/bus_option_new-MHgpmrOo.png":"b8bcd08e7f1b86a1583dc6a1ab18ef92c913dd2806b50c8279676bd88981446e","/assets/vehicle-mini-DnIJHatP.png":"b1d09d5debf97d1f59a1575959c1b08c6ad24fabcd960a3df9a52ac177336f84","/icons/nearby_bus_stop_3d_new.png":"7b6db4407b1e45acfb04aaad7a50ff96d46a375c8e9312c29ffb4d7f24ccc881","/assets/vehicle-xl-CgJMY3rq.png":"289fc9cfb6e507bf00c2e3d4060024b08df51c2c3ef0a4c9daff43a1172b7309","/assets/bus_hero_final-B7FXnaIb.png":"05c8ce5a3adbe8840b905f3430ef9492a992e2f7ff1fff51518875e7eddc067c","/assets/train_hero_final-Dt9MxJO4.png":"3c69263cf8df6abbc2a8f4e2acc2e32f9be427116c047c55c4048a663aed9e1b","/train_hero_final.png":"3c69263cf8df6abbc2a8f4e2acc2e32f9be427116c047c55c4048a663aed9e1b","/bus-stop-icon.png":"0ed1b7e90a8c0b1fa4bb0d5a060069a42f8800c6c22fa60b55e9157f83c1afd5","/assets/empty-state-search-CWE5H2r0.png":"a67907fddf2388528a199d695ecc719dd5b1c2c1b06481ee9e4030cc74871f54","/assets/intro_bg-Q8KVZLuB.png":"172b1efb82a6dee34c2431e15f9553c712a3200184d13fbd55745baced35faa7","/assets/paper-parcel-delivery-box-icon-isolated-3d-render-illustration-D-fwc_yi.png":"b0be198635fb52c106df6996d94b37645e01e4f6fbcd0a6a3483944395dc67c1","/assets/experimental-suitcase-with-stickers-Be9Ldc_T.mp4":"376d0e9c0b4f07dfb48f0f1cdc7e968f8014f0ee08b1ea4573417c66455cd529","/assets/index-BQ3gg8jM.js":"f5147b27b04f7980dbd77aee50cfb8ca55cdcbbcc2334435bd9a61d46cb45dc7"}}
+[debug] [2026-06-06T15:40:49.806Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/320418103794/sites/nexridein/versions/f0ed630ec22ce5a5:populateFiles 200
+[debug] [2026-06-06T15:40:49.806Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/320418103794/sites/nexridein/versions/f0ed630ec22ce5a5:populateFiles {"uploadRequiredHashes":["7feca36f559bcc7faf61a1a32d36dd17c0d39d706609d16806bcab23e7c666ca","026cd48b4721bda328830262a416d87571d69439df916871324b7e62a6686314","a7210b5f3e01499baa78371c39553f7599e6983a1e908f0639bb4ff7b6861dfb","f5147b27b04f7980dbd77aee50cfb8ca55cdcbbcc2334435bd9a61d46cb45dc7","31711d8c39b9b766bc2005a22cca4875ebe443444db2e193a02b747fe208a727"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files"}
+[debug] [2026-06-06T15:40:49.806Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.806Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.806Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.806Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.807Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.807Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.807Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.807Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.807Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.807Z] Checked if tokens are valid: true, expires at: 1780764012348
+[debug] [2026-06-06T15:40:49.807Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/7feca36f559bcc7faf61a1a32d36dd17c0d39d706609d16806bcab23e7c666ca [none]
+[debug] [2026-06-06T15:40:49.807Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/7feca36f559bcc7faf61a1a32d36dd17c0d39d706609d16806bcab23e7c666ca [stream]
+[debug] [2026-06-06T15:40:49.808Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/026cd48b4721bda328830262a416d87571d69439df916871324b7e62a6686314 [none]
+[debug] [2026-06-06T15:40:49.808Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/026cd48b4721bda328830262a416d87571d69439df916871324b7e62a6686314 [stream]
+[debug] [2026-06-06T15:40:49.809Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/a7210b5f3e01499baa78371c39553f7599e6983a1e908f0639bb4ff7b6861dfb [none]
+[debug] [2026-06-06T15:40:49.809Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/a7210b5f3e01499baa78371c39553f7599e6983a1e908f0639bb4ff7b6861dfb [stream]
+[debug] [2026-06-06T15:40:49.810Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/f5147b27b04f7980dbd77aee50cfb8ca55cdcbbcc2334435bd9a61d46cb45dc7 [none]
+[debug] [2026-06-06T15:40:49.810Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/f5147b27b04f7980dbd77aee50cfb8ca55cdcbbcc2334435bd9a61d46cb45dc7 [stream]
+[debug] [2026-06-06T15:40:49.810Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/31711d8c39b9b766bc2005a22cca4875ebe443444db2e193a02b747fe208a727 [none]
+[debug] [2026-06-06T15:40:49.810Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/nexridein/versions/f0ed630ec22ce5a5/files/31711d8c39b9b766bc2005a22cca4875ebe443444db2e193a02b747fe208a727 [stream]
+[debug] [2026-06-06T15:40:49.811Z] [hosting][populate queue][FINAL] {"max":845,"min":845,"avg":845,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":849}
+[debug] [2026-06-06T15:40:49.811Z] [hosting] uploads queued: 5

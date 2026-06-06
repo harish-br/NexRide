@@ -3,9 +3,8 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: #111827;
-    /* Dark theme background */
-    color: white;
+    background: #ffffff;
+    color: #111827;
     z-index: 99999;
     flex-direction: column;
     align-items: center;
@@ -29,7 +28,7 @@
 
 .rotate-content p {
     font-size: 16px;
-    color: #9CA3AF;
+    color: #4B5563;
     line-height: 1.5;
 }
 
@@ -49,6 +48,6 @@
     /* Prevent scrolling on body */
     body {
         overflow: hidden !important;
-        background-color: #111827 !important;
+        background-color: #ffffff !important;
     }
 }
