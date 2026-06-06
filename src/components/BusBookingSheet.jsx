@@ -9,7 +9,7 @@ import trainIconImg from '../assets/train_hero_final.png';
 import EstimatedTimeDisplay from './EstimatedTimeDisplay';
 
 // --- OPTIMIZED BUS CARD COMPONENT ---
-const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, statusColor, statusText }) => {
+const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, statusColor, statusText, isPast }) => {
     return (
         <div style={{
             background: 'white',
@@ -21,7 +21,9 @@ const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, st
             position: 'relative',
             overflow: 'hidden',
             minHeight: '80px',
-            willChange: 'transform' // Hint for GPU acceleration
+            willChange: 'transform', // Hint for GPU acceleration
+            opacity: isPast ? 0.55 : 1,
+            filter: isPast ? 'grayscale(80%)' : 'none'
         }}>
             {/* 3D Icon - Absolute Right */}
             <div style={{
@@ -258,19 +260,11 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
                         return hours * 60 + minutes;
                     };
 
-                    const futureBuses = results.filter(bus => {
-                        const busMinutes = toMinutes(bus.departureTime);
-                        return busMinutes >= currentTotalMinutes - 10;
-                    });
+                    const sortedBuses = [...results];
+                    sortedBuses.sort((a, b) => toMinutes(a.departureTime) - toMinutes(b.departureTime));
 
-                    futureBuses.sort((a, b) => toMinutes(a.departureTime) - toMinutes(b.departureTime));
-
-                    if (futureBuses.length === 0) {
-                        setRouteStatus('NO_FUTURE_BUSES');
-                    } else {
-                        setRouteStatus('FOUND');
-                    }
-                    setUpcomingBuses(futureBuses);
+                    setRouteStatus('FOUND');
+                    setUpcomingBuses(sortedBuses);
                 }
             } catch (error) {
                 console.error("Search failed:", error);
@@ -563,8 +557,13 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
                                                 let statusLabel = t('bus_booking.on_time');
                                                 let statusColor = '#E0F2FE';
                                                 let statusText = '#0369A1';
+                                                const isPast = diff < 0;
 
-                                                if (diff <= 15) {
+                                                if (isPast) {
+                                                    statusLabel = 'DEPARTED';
+                                                    statusColor = '#F3F4F6';
+                                                    statusText = '#6B7280';
+                                                } else if (diff <= 15) {
                                                     statusLabel = t('bus_booking.arriving');
                                                     statusColor = '#DCFCE7';
                                                     statusText = '#166534';
@@ -580,6 +579,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
                                                         statusLabel={statusLabel}
                                                         statusColor={statusColor}
                                                         statusText={statusText}
+                                                        isPast={isPast}
                                                     />
                                                 );
                                             })}

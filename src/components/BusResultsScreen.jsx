@@ -43,7 +43,7 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
     useEffect(() => {
         const fetchResults = async () => {
             if (!searchData?.from || !searchData?.to) return;
-            
+
             setIsLoading(true);
             try {
                 const results = await busService.getSchedules(searchData.from, searchData.to);
@@ -212,9 +212,9 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {isLoading ? (
                         <div style={{ padding: '60px', textAlign: 'center', color: '#6B7280' }}>
-                            <div className="animate-spin" style={{ 
-                                width: '32px', height: '32px', border: '3px solid #F3F4F6', 
-                                borderTopColor: '#2563EB', borderRadius: '50%', margin: '0 auto 16px' 
+                            <div className="animate-spin" style={{
+                                width: '32px', height: '32px', border: '3px solid #F3F4F6',
+                                borderTopColor: '#2563EB', borderRadius: '50%', margin: '0 auto 16px'
                             }}></div>
                             <span style={{ fontWeight: 600 }}>Searching schedules...</span>
                         </div>
@@ -340,9 +340,9 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                             {/* Time & Operator */}
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                <EstimatedTimeDisplay 
-                                                    time={bus.departureTime} 
-                                                    style={{ fontSize: '20px', fontWeight: 600, color: '#111' }} 
+                                                <EstimatedTimeDisplay
+                                                    time={bus.departureTime}
+                                                    style={{ fontSize: '20px', fontWeight: 600, color: '#111' }}
                                                 />
                                                 <span style={{ fontSize: '13px', fontWeight: '600', color: '#6B7280' }}>
                                                     {bus.operatorName}
@@ -486,10 +486,10 @@ const BusResultsScreen = ({ onBack, searchData, filterState, setFilterState }) =
             </div>
 
             {/* A.S.M Booking Modal */}
-            <ASMBookingModal 
-                isOpen={!!selectedAsmBus} 
-                onClose={() => setSelectedAsmBus(null)} 
-                bus={selectedAsmBus} 
+            <ASMBookingModal
+                isOpen={!!selectedAsmBus}
+                onClose={() => setSelectedAsmBus(null)}
+                bus={selectedAsmBus}
             />
         </div >
     );

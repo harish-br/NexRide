@@ -23,8 +23,8 @@ const analytics = getAnalytics(app);
 
 // Initialize App Check (Safe Mode)
 try {
-    // Only run if localhost or https (App Check often requires valid domain)
-    if (location.hostname === 'localhost' || location.protocol === 'https:') {
+    // Only run if not localhost and https (App Check often requires valid domain)
+    if (location.hostname !== 'localhost' && location.protocol === 'https:') {
         initializeAppCheck(app, {
             provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_V3_KEY),
             isTokenAutoRefreshEnabled: true,

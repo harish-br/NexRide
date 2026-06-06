@@ -17,6 +17,13 @@ export function AdminAuthProvider({ children }) {
   const [unauthorizedUser, setUnauthorizedUser] = useState(null);
   const [adminRole, setAdminRole] = useState(null);
 
+  const withTimeout = (promise, ms = 8000) => {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout checking admin status. Ensure you have internet access and your database is online.")), ms))
+    ]);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(true);
@@ -27,8 +34,16 @@ export function AdminAuthProvider({ children }) {
           
           let adminDoc = null;
           try {
-            const adminDocByUid = await getDoc(doc(db, 'admins', user.uid));
-            const adminDocByEmail = await getDoc(doc(db, 'admins', user.email));
+            // Add a timeout to prevent indefinite hangs (e.g. from App Check or offline)
+            const adminDocByUidPromise = getDoc(doc(db, 'admins', user.uid));
+            const adminDocByUid = await withTimeout(adminDocByUidPromise);
+            
+            let adminDocByEmail = { exists: () => false };
+            if (user.email) {
+              const adminDocByEmailPromise = getDoc(doc(db, 'admins', user.email));
+              adminDocByEmail = await withTimeout(adminDocByEmailPromise);
+            }
+            
             adminDoc = adminDocByUid.exists() ? adminDocByUid : (adminDocByEmail.exists() ? adminDocByEmail : null);
           } catch (dbError) {
             console.error("Error fetching admin doc:", dbError);
@@ -96,7 +111,15 @@ export function AdminAuthProvider({ children }) {
 
   return (
     <AdminAuthContext.Provider value={value}>
-      {!loading && children}
+      {loading ? (
+        <div style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f3f4f6', color: '#6b7280', fontFamily: 'system-ui, sans-serif' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ width: '40px', height: '40px', border: '3px solid #e5e7eb', borderTopColor: '#3b82f6', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }}></div>
+            <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+            <h2>Loading Admin...</h2>
+          </div>
+        </div>
+      ) : children}
     </AdminAuthContext.Provider>
   );
 }

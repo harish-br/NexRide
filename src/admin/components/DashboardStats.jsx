@@ -123,10 +123,10 @@ export default function DashboardStats({ setCurrentView }) {
                 <div key={log.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                   <div style={{ width: '10px', height: '10px', backgroundColor: '#000000', marginTop: '6px' }}></div>
                   <div>
-                    <div style={{ fontWeight: 500 }}>{log.action.replace(/_/g, ' ')}</div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--admin-text-secondary)', margin: '4px 0' }}>{log.details}</div>
+                    <div style={{ fontWeight: 500 }}>{log.action ? log.action.replace(/_/g, ' ') : 'Unknown Action'}</div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--admin-text-secondary)', margin: '4px 0' }}>{log.details || 'No details'}</div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--admin-text-secondary)', opacity: 0.7 }}>
-                      {log.timestamp ? new Date(log.timestamp.toMillis()).toLocaleString() : 'Just now'} • by {log.adminEmail}
+                      {log.timestamp ? new Date(log.timestamp.toMillis()).toLocaleString() : 'Just now'} • by {log.adminEmail || 'System'}
                     </div>
                   </div>
                 </div>

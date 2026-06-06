@@ -25,6 +25,9 @@ export function AdminDataProvider({ children }) {
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setSchedules(data);
         setLoading(false);
+      }, (error) => {
+        console.error("Error listening to bus_schedules:", error);
+        setLoading(false);
       });
 
       // Listen to audit_logs
@@ -32,6 +35,8 @@ export function AdminDataProvider({ children }) {
       unsubscribeLogs = onSnapshot(logsQuery, (snapshot) => {
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setAuditLogs(data);
+      }, (error) => {
+        console.error("Error listening to audit_logs:", error);
       });
 
       // Listen to pending bus requests
@@ -39,6 +44,8 @@ export function AdminDataProvider({ children }) {
       unsubscribeRequests = onSnapshot(requestsQuery, (snapshot) => {
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setBusRequests(data);
+      }, (error) => {
+        console.error("Error listening to bus_requests:", error);
       });
     } catch (error) {
       console.error("Failed to subscribe to data:", error);
