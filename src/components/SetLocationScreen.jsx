@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowLeft, LocateFixed, Search, MapPin, Loader2, Check } from 'lucide-react';
 import { Map, useMap } from '@vis.gl/react-google-maps';
 import haptics from '../utils/haptics';
+import { customMapStyles } from '../utils/mapStyles';
 
 const API_KEY = "AIzaSyDlpxJyvl6FFHQGVO3_i-FsTO_-L9GlLO8";
 
@@ -18,10 +19,10 @@ const MapController = ({ center }) => {
 // Custom component to safely bind native map events
 const MapEventsHandler = ({ onIdle, onDragStart }) => {
     const map = useMap();
-    
+
     useEffect(() => {
         if (!map || !window.google) return;
-        
+
         const idleListener = map.addListener("idle", () => {
             const center = map.getCenter();
             if (center) {
@@ -34,8 +35,8 @@ const MapEventsHandler = ({ onIdle, onDragStart }) => {
         });
 
         const dragListener2 = map.addListener("center_changed", () => {
-             // Optionally mark as moving if center changes programmatically
-             // Or we rely purely on map bounds.
+            // Optionally mark as moving if center changes programmatically
+            // Or we rely purely on map bounds.
         });
 
         return () => {
@@ -49,9 +50,9 @@ const MapEventsHandler = ({ onIdle, onDragStart }) => {
 };
 
 const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
-    
+
     const defaultLocation = initialLocation || { lat: 11.3410, lng: 77.7172 };
-    
+
     const [center, setCenter] = useState({ ...defaultLocation, forcePan: true });
     const [address, setAddress] = useState('Fetching address...');
     const [isResolving, setIsResolving] = useState(false);
@@ -87,11 +88,11 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
             const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`, { signal: controller.signal });
             clearTimeout(timeoutId);
             const data = await res.json();
-            
+
             console.log("[Geocode] Status:", data.status);
 
             if (data.status === 'REQUEST_DENIED') {
-                 console.error("[Geocode] API Key is missing permissions/billing!");
+                console.error("[Geocode] API Key is missing permissions/billing!");
             }
 
             if (data.results && data.results.length > 0) {
@@ -240,6 +241,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
     };
 
     const handleSelectSuggestion = async (item) => {
+        if (item.isPlaceholder) return;
         haptics.light();
         setSearchQuery('');
         setSuggestions([]);
@@ -265,7 +267,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
         setCenter({ lat, lng, forcePan: false });
 
         if (geocodeTimeout.current) clearTimeout(geocodeTimeout.current);
-        
+
         geocodeTimeout.current = setTimeout(() => {
             reverseGeocode(lat, lng);
         }, 500); // 500ms debounce
@@ -280,13 +282,13 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
 
     return (
         <div className="location-screen-container" style={{
-            position: 'absolute', inset: 0, zIndex: 1000, 
+            position: 'absolute', inset: 0, zIndex: 1000,
             background: '#F5F6FA', display: 'flex', flexDirection: 'column'
         }}>
             {/* TOP BAR / SEARCH */}
-            <div className="header" style={{ 
-                background: '#fff', padding: '24px 20px 16px', 
-                boxShadow: '0 2px 12px rgba(0,0,0,0.06)', zIndex: 10 
+            <div className="header" style={{
+                background: '#fff', padding: '24px 20px 16px',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.06)', zIndex: 10
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
                     <button onClick={() => { haptics.light(); onClose(); }} style={{
@@ -300,8 +302,8 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                 </div>
 
                 <div style={{ position: 'relative' }}>
-                    <div className="search-bar" style={{ 
-                        display: 'flex', alignItems: 'center', background: '#F9FAFB', 
+                    <div className="search-bar" style={{
+                        display: 'flex', alignItems: 'center', background: '#F9FAFB',
                         borderRadius: '14px', padding: '14px 16px',
                         border: '1.5px solid transparent', transition: 'all 0.2s ease'
                     }}>
@@ -323,9 +325,9 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                             border: '1px solid #F3F4F6'
                         }}>
                             {suggestions.map((item, idx) => (
-                                <div 
+                                <div
                                     key={item.id} onClick={() => handleSelectSuggestion(item)}
-                                    style={{ 
+                                    style={{
                                         padding: '16px', display: 'flex', alignItems: 'center', gap: '14px',
                                         borderBottom: idx < suggestions.length - 1 ? '1px solid #F3F4F6' : 'none',
                                         cursor: 'pointer', transition: 'background 0.2s',
@@ -356,6 +358,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                     gestureHandling="auto"
                     draggable={true}
                     style={{ width: '100%', height: '100%' }}
+                    styles={customMapStyles}
                 >
                     <MapEventsHandler onIdle={handleLocationChange} onDragStart={handleDragStart} />
                     <MapController center={center} />
@@ -372,8 +375,8 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
                         pointerEvents: 'none'
                     }}>
-                        <div className="pin-label" style={{ 
-                            background: '#1569FD', color: 'white', padding: '8px 14px', 
+                        <div className="pin-label" style={{
+                            background: '#1569FD', color: 'white', padding: '8px 14px',
                             borderRadius: '24px', fontSize: '13px', fontWeight: 600,
                             marginBottom: '10px', boxShadow: '0 6px 16px rgba(21,105,253,0.3)',
                             whiteSpace: 'nowrap',
@@ -385,11 +388,11 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                         {/* Map marker SVG custom pin */}
                         <div style={{ position: 'relative' }}>
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 8px 8px rgba(0,0,0,0.25))' }}>
-                                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="#1569FD" stroke="white" strokeWidth="2"/>
-                                <circle cx="12" cy="9" r="3.5" fill="white"/>
+                                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="#1569FD" stroke="white" strokeWidth="2" />
+                                <circle cx="12" cy="9" r="3.5" fill="white" />
                             </svg>
                             {/* Shadow beneath pin */}
-                            <div style={{ 
+                            <div style={{
                                 position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%)',
                                 width: '12px', height: '4px', background: 'rgba(0,0,0,0.3)', borderRadius: '50%',
                                 filter: 'blur(2px)', opacity: isMoving ? 0.3 : 0.8, transition: 'opacity 0.2s'
@@ -398,7 +401,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                     </div>
 
                     {/* LOCATE ME BUTTON */}
-                    <button 
+                    <button
                         onClick={() => {
                             haptics.light();
                             fetchCurrentLocation();
@@ -406,7 +409,7 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                         className="location-btn clickable"
                         style={{
                             position: 'absolute', bottom: '32px', right: '20px',
-                            width: '48px', height: '48px', borderRadius: '50%', 
+                            width: '48px', height: '48px', borderRadius: '50%',
                             background: 'rgba(21,105,253,0.1)', color: '#1569FD',
                             boxShadow: '0 4px 16px rgba(0,0,0,0.08)', border: '1.5px solid white',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -434,16 +437,16 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                 <div style={{ fontSize: '13.5px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '12px', marginTop: '4px' }}>
                     Address Details
                 </div>
-                <div 
-                    onClick={() => { 
+                <div
+                    onClick={() => {
                         if (addressError) {
                             haptics.light();
                             reverseGeocode(center.lat, center.lng);
                         }
                     }}
-                    style={{ 
+                    style={{
                         display: 'flex', alignItems: 'flex-start', gap: '14px', marginBottom: '28px',
-                        cursor: addressError ? 'pointer' : 'default' 
+                        cursor: addressError ? 'pointer' : 'default'
                     }}
                 >
                     {isResolving || isMoving ? (
@@ -451,15 +454,15 @@ const SetLocationScreen = ({ onClose, onSave, type, initialLocation }) => {
                             <Loader2 size={20} color="#1569FD" className="animate-spin" />
                         </div>
                     ) : (
-                        <div style={{ 
-                            width: '36px', height: '36px', borderRadius: '18px', 
-                            background: addressError ? 'rgba(239,68,68,0.1)' : 'rgba(21,105,253,0.1)', 
-                            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
+                        <div style={{
+                            width: '36px', height: '36px', borderRadius: '18px',
+                            background: addressError ? 'rgba(239,68,68,0.1)' : 'rgba(21,105,253,0.1)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
                         }}>
                             <MapPin size={20} color={addressError ? "#EF4444" : "#1569FD"} />
                         </div>
                     )}
-                    <div style={{ 
+                    <div style={{
                         flex: 1, fontSize: '16px', fontWeight: 600, lineHeight: 1.5, paddingTop: '6px',
                         color: addressError && !isMoving ? '#EF4444' : '#111827'
                     }}>

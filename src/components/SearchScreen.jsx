@@ -307,7 +307,7 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
 
             let originData = { name: sourceQuery, isLive: false };
             if (!isManualInput && userPosition) originData = { ...userPosition, name: sourceQuery, isLive: true };
-            
+
             onRouteFound({
                 origin: originData,
                 destination: { name: place.name || place.type, lat: place.lat, lng: place.lng },
@@ -537,17 +537,17 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                         {suggestions.map((item) => {
                             const { icon, bg } = getCategoryIcon(item.types);
                             return (
-                                <div 
-                                    key={item.id} 
-                                    onClick={() => handleSelect(item)} 
-                                    style={{ 
-                                        background: 'white', 
-                                        borderRadius: '16px', 
-                                        padding: '12px 16px', 
-                                        display: 'flex', 
-                                        alignItems: 'center', 
-                                        gap: '16px', 
-                                        cursor: 'pointer', 
+                                <div
+                                    key={item.id}
+                                    onClick={() => handleSelect(item)}
+                                    style={{
+                                        background: 'white',
+                                        borderRadius: '16px',
+                                        padding: '12px 16px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '16px',
+                                        cursor: 'pointer',
                                         boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
                                         border: '1px solid #F3F4F6',
                                         transition: 'transform 0.1s active'
@@ -555,15 +555,15 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                                     onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.98)'}
                                     onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                 >
-                                    <div style={{ 
-                                        width: '44px', 
-                                        height: '44px', 
-                                        borderRadius: '50%', 
-                                        background: bg, 
-                                        display: 'flex', 
-                                        alignItems: 'center', 
-                                        justifyContent: 'center', 
-                                        flexShrink: 0 
+                                    <div style={{
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: '50%',
+                                        background: bg,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0
                                     }}>
                                         {icon}
                                     </div>
@@ -639,7 +639,7 @@ const SearchScreen = ({ onBack, onRouteFound, userPosition, initialData, userAdd
                 onAddNewPlace={() => {
                     setShowSavedPlacesModal(false);
                     // Add delay to prevent unmount glitch
-                    setTimeout(() => setLocationModalType('custom'), 50); 
+                    setTimeout(() => setLocationModalType('custom'), 50);
                 }}
             />
 

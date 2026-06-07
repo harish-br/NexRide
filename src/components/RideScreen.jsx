@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Info, ArrowDown, Navigation, LocateFixed, X, Loader2, ArrowLeft, Banknote, ChevronRight, User, Star, Plus, Minus, Phone, TrainFront, Bus, Plane, Landmark, Bed } from 'lucide-react';
 import { Map, useMap, useMapsLibrary, AdvancedMarker, Marker } from '@vis.gl/react-google-maps';
 import haptics from '../utils/haptics';
+import { customMapStyles } from '../utils/mapStyles';
 import { rideService } from '../services/rideService';
 import { auth } from '../firebase';
 import { useTranslation } from 'react-i18next';
@@ -209,7 +210,6 @@ const RideScreen = ({ userPosition, userAddress }) => {
     }, [rideStep]);
 
     // Auto-zoom to Pickup when Confirm Mode starts (Always force view)
-    // Auto-zoom to Pickup when Confirm Mode starts (Always force view)
     const hasCenteredRef = useRef(false);
     useEffect(() => {
         if (rideStep === 'confirm-pickup') {
@@ -281,7 +281,7 @@ const RideScreen = ({ userPosition, userAddress }) => {
 
     // Fetch Suggestions
     const fetchSuggestions = async (input) => {
-        if (!input || input.length < 1) return;
+        if (!input || input.length < 2) return;
         try {
             const response = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
                 method: 'POST',
@@ -292,16 +292,18 @@ const RideScreen = ({ userPosition, userAddress }) => {
                 },
                 body: JSON.stringify({ input: input, includedRegionCodes: ['IN'] })
             });
+
+            if (!response.ok) throw new Error('API failed');
             const data = await response.json();
+
             if (data.suggestions) {
                 const formatted = data.suggestions.map(s => {
                     const placePrediction = s.placePrediction;
                     return {
-                        id: placePrediction.placeId || placePrediction.place,
+                        id: placePrediction.placeId,
                         name: placePrediction.structuredFormat?.mainText?.text || placePrediction.text?.text,
                         subtitle: placePrediction.structuredFormat?.secondaryText?.text || '',
-                        types: placePrediction.types || [],
-                        original: placePrediction
+                        types: placePrediction.types || []
                     };
                 });
                 setSuggestions(formatted);
@@ -612,6 +614,7 @@ const RideScreen = ({ userPosition, userAddress }) => {
                             }
                         }}
                         style={{ width: '100%', height: '100%' }}
+                        styles={customMapStyles}
                     >
                         {/* Fallback/Guide Polyline (Dashed) - Visible only if no valid route found, but HIDDEN in confirm-pickup */}
                         {sourceLocation && destLocation && !directions && rideStep !== 'confirm-pickup' && (

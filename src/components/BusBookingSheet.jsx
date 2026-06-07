@@ -65,9 +65,9 @@ const BusCard = React.memo(({ bus, source, destination, isTrain, statusLabel, st
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {/* Time & Status Row */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                        <EstimatedTimeDisplay 
-                            time={bus.departureTime} 
-                            style={{ fontSize: '20px', fontWeight: 600, color: '#111', lineHeight: '1.2' }} 
+                        <EstimatedTimeDisplay
+                            time={bus.departureTime}
+                            style={{ fontSize: '20px', fontWeight: 600, color: '#111', lineHeight: '1.2' }}
                         />
 
                         <div style={{ width: '1px', height: '16px', background: '#D1D5DB' }}></div>
@@ -244,7 +244,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
 
             try {
                 const results = await busService.getSchedules(source, destination);
-                
+
                 if (results.length === 0) {
                     setRouteStatus('NO_ROUTE');
                     setUpcomingBuses([]);
@@ -277,7 +277,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
         if (source && destination && source !== destination) {
             setIsSearching(true);
         }
-        const timer = setTimeout(performSearch, 500); 
+        const timer = setTimeout(performSearch, 500);
         return () => clearTimeout(timer);
     }, [source, destination, currentTime]);
 
@@ -470,10 +470,11 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
                                                 position: 'absolute',
                                                 top: '100%', left: 0, right: 0,
                                                 marginTop: '12px',
-                                                background: 'white', border: '1px solid #F3F4F6',
-                                                borderRadius: '16px', overflow: 'hidden',
-                                                boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
-                                                zIndex: 60
+                                                display: 'flex', flexDirection: 'column', gap: '8px',
+                                                zIndex: 60,
+                                                maxHeight: '350px',
+                                                overflowY: 'auto',
+                                                paddingBottom: '20px'
                                             }}>
                                                 {bgSuggestions.map(s => {
                                                     const { icon, bg } = getCategoryIcon(s.types);
@@ -487,33 +488,36 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
                                                             }
                                                             setBgSuggestions([]);
                                                         }}
-                                                            style={{ 
-                                                                padding: '12px 16px', 
-                                                                borderBottom: '1px solid #F9FAFB', 
-                                                                cursor: 'pointer', 
-                                                                display: 'flex', 
-                                                                alignItems: 'center', 
+                                                            style={{
+                                                                background: 'white',
+                                                                borderRadius: '16px',
+                                                                padding: '12px 16px',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
                                                                 gap: '16px',
-                                                                transition: 'background 0.2s'
+                                                                cursor: 'pointer',
+                                                                boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+                                                                border: '1px solid #F3F4F6',
+                                                                transition: 'transform 0.1s active'
                                                             }}
-                                                            onMouseEnter={(e) => e.currentTarget.style.background = '#F9FAFB'}
-                                                            onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                                                            onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.98)'}
+                                                            onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                                         >
-                                                            <div style={{ 
-                                                                width: '40px', 
-                                                                height: '40px', 
-                                                                borderRadius: '50%', 
-                                                                background: bg, 
-                                                                display: 'flex', 
-                                                                alignItems: 'center', 
+                                                            <div style={{
+                                                                width: '44px',
+                                                                height: '44px',
+                                                                borderRadius: '50%',
+                                                                background: bg,
+                                                                display: 'flex',
+                                                                alignItems: 'center',
                                                                 justifyContent: 'center',
-                                                                flexShrink: 0 
+                                                                flexShrink: 0
                                                             }}>
                                                                 {icon}
                                                             </div>
                                                             <div style={{ flex: 1, minWidth: 0 }}>
-                                                                <div style={{ fontSize: '15px', fontWeight: '600', color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.name}</div>
-                                                                {s.subtitle && <div style={{ fontSize: '12px', color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.subtitle}</div>}
+                                                                <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.name}</div>
+                                                                {s.subtitle && <div style={{ fontSize: '13px', color: '#6B7280', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.subtitle}</div>}
                                                             </div>
                                                         </div>
                                                     );
@@ -522,12 +526,13 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
                                         )}
                                     </div>
 
-                                    {/* CASE: SEARCHING */}
-                                    {isSearching && (
+                                    <div style={{ opacity: bgSuggestions.length > 0 ? 0 : 1, transition: 'opacity 0.2s', pointerEvents: bgSuggestions.length > 0 ? 'none' : 'auto' }}>
+                                        {/* CASE: SEARCHING */}
+                                        {isSearching && (
                                         <div style={{ padding: '40px', textAlign: 'center', color: '#6B7280' }}>
-                                            <div className="animate-spin" style={{ 
-                                                width: '24px', height: '24px', border: '2px solid #F3F4F6', 
-                                                borderTopColor: '#3B82F6', borderRadius: '50%', margin: '0 auto 12px' 
+                                            <div className="animate-spin" style={{
+                                                width: '24px', height: '24px', border: '2px solid #F3F4F6',
+                                                borderTopColor: '#3B82F6', borderRadius: '50%', margin: '0 auto 12px'
                                             }}></div>
                                             <span>{t('bus_booking.searching')}...</span>
                                         </div>
@@ -607,6 +612,7 @@ const BusBookingSheet = ({ isOpen, onClose, onActiveRideClick, userAddress }) =>
                                             </p>
                                         </div>
                                     )}
+                                    </div>
                                 </div>
                             </div>
 
