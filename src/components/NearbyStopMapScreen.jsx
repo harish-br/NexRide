@@ -5,6 +5,7 @@ import { ArrowLeft, MapPin, Navigation2, Bus, Footprints, Loader2, Locate } from
 import { useTranslation } from 'react-i18next';
 import haptics from '../utils/haptics';
 import { getDistance } from '../utils/locationUtils';
+import { customMapStyles } from '../utils/mapStyles';
 
 // Modular cache to prevent hitting Quota limits if user
 // clicks back and forth between the same stop rapidly.
@@ -328,6 +329,7 @@ const NearbyStopMapScreen = ({ userPosition, stop, onBack }) => {
                     disableDefaultUI={true}
                     gestureHandling="greedy"
                     style={{ width: '100%', height: '100%' }}
+                    styles={customMapStyles}
                     onTilesLoaded={() => setMapReady(true)}
                 >
                     {mapReady && (

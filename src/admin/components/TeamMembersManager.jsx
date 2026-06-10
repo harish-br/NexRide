@@ -8,6 +8,7 @@ export default function TeamMembersManager() {
   const [adding, setAdding] = useState(false);
   const [fetchError, setFetchError] = useState(null);
   const [processingId, setProcessingId] = useState(null);
+  const [processingAction, setProcessingAction] = useState(null);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -41,6 +42,7 @@ export default function TeamMembersManager() {
 
   const handleApprove = async (request) => {
     setProcessingId(request.id);
+    setProcessingAction('approve');
     try {
       await adminService.approveAdminRequest(request.id, request.uid, request.email);
       await fetchData();
@@ -49,12 +51,14 @@ export default function TeamMembersManager() {
       alert('Failed to approve request');
     } finally {
       setProcessingId(null);
+      setProcessingAction(null);
     }
   };
 
   const handleReject = async (request) => {
     if (!window.confirm(`Are you sure you want to reject ${request.email}?`)) return;
     setProcessingId(request.id);
+    setProcessingAction('reject');
     try {
       await adminService.rejectAdminRequest(request.id, request.email);
       await fetchData();
@@ -63,6 +67,7 @@ export default function TeamMembersManager() {
       alert('Failed to reject request');
     } finally {
       setProcessingId(null);
+      setProcessingAction(null);
     }
   };
 
@@ -187,7 +192,7 @@ export default function TeamMembersManager() {
                           onClick={() => handleApprove(req)}
                           disabled={processingId === req.id}
                         >
-                          {processingId === req.id ? 'Processing...' : 'Approve'}
+                          {processingId === req.id && processingAction === 'approve' ? 'Processing...' : 'Approve'}
                         </button>
                         <button 
                           className="admin-btn" 
@@ -195,7 +200,7 @@ export default function TeamMembersManager() {
                           onClick={() => handleReject(req)}
                           disabled={processingId === req.id}
                         >
-                          {processingId === req.id ? 'Processing...' : 'Reject'}
+                          {processingId === req.id && processingAction === 'reject' ? 'Processing...' : 'Reject'}
                         </button>
                       </div>
                     </td>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { APIProvider, Map, useMap, useMapsLibrary, Marker } from '@vis.gl/react-google-maps';
+import { customMapStyles } from '../utils/mapStyles';
 
 const CameraHandler = ({ center }) => {
     const map = useMap();
@@ -571,6 +572,7 @@ const MapLayer = ({ isSheetOpen, isDragging, activeScreen, routeData, onRouteDet
                 disableDefaultUI={true} clickableIcons={false}
                 gestureHandling={gesturesEnabled ? 'greedy' : 'none'}
                 style={{ width: '100%', height: '100%' }}
+                styles={customMapStyles}
             >
                 <MapContent
                     userPosition={userPosition} routeData={routeData}

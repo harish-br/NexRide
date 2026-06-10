@@ -204,14 +204,40 @@ export const fetchTrainStatus = async (trainNumber) => {
 export const searchStations = async (query) => {
     if (!query || query.length < 2) return [];
     try {
-        // Updated to matching base URL pattern
         const url = `https://api.railradar.in/api/v1/search/stations?query=${query}&apiKey=${API_KEY}`;
-        const data = await fetchWithCache(url);
+        console.log(`[DEBUG] searchStations API URL:`, url);
+        
+        // Fetch directly to bypass any stale cache issues
+        const response = await fetch(url, { method: 'GET', headers: getHeaders() });
+        const data = await response.json();
+        
+        console.log(`[DEBUG] searchStations Raw Response:`, JSON.stringify(data).substring(0, 300) + '...');
+        
         // Robust handling for wrapped data structure
         const stations = data.data?.stations || data.stations || [];
+        console.log(`[DEBUG] searchStations Parsed Array Length:`, stations.length);
+        
         return stations;
     } catch (error) {
-        console.error('Station Search Failed:', error);
+        console.error('[DEBUG] Station Search Failed:', error);
+        return [];
+    }
+};
+
+export const searchTrains = async (query) => {
+    if (!query || query.length < 2) return [];
+    try {
+        const url = `https://api.railradar.in/api/v1/search/trains?query=${query}&apiKey=${API_KEY}`;
+        console.log(`[DEBUG] searchTrains API URL:`, url);
+        
+        const response = await fetch(url, { method: 'GET', headers: getHeaders() });
+        const data = await response.json();
+        
+        const trains = data.data || [];
+        console.log(`[DEBUG] searchTrains Parsed Array Length:`, trains.length);
+        return trains;
+    } catch (error) {
+        console.error('[DEBUG] Train Search Failed:', error);
         return [];
     }
 };

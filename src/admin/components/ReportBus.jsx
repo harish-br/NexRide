@@ -153,8 +153,18 @@ export default function ReportBus({ setCurrentView }) {
               <button type="button" className="admin-btn" style={{ flex: 1, padding: '16px', fontSize: '1.1rem', borderRadius: '12px' }} onClick={() => setCurrentView && setCurrentView('dashboard')}>
                 Cancel
               </button>
-              <button type="submit" className="admin-btn admin-btn-primary" style={{ flex: 2, padding: '16px', fontSize: '1.1rem', borderRadius: '12px' }} disabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Submit for Approval'}
+              <button type="submit" className="admin-btn admin-btn-primary" style={{ flex: 2, padding: '16px', fontSize: '1.1rem', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }} disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" opacity="0.25"></circle>
+                      <path d="M12 2a10 10 0 0 1 10 10">
+                        <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite" />
+                      </path>
+                    </svg>
+                    Submitting
+                  </>
+                ) : 'Submit for Approval'}
               </button>
             </div>
           </form>

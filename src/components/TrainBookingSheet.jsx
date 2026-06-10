@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Navigation2, ArrowLeft, ArrowRight, Clock, AlertTriangle, TrainFront } from 'lucide-react';
-import { fetchTrainStatus, searchStations, fetchLiveStationData } from '../utils/trainApi';
+import { fetchTrainStatus, searchStations, searchTrains, fetchLiveStationData } from '../utils/trainApi';
 import TrainStatusDashboard from './TrainStatusDashboard';
 import GlobalLoader from './GlobalLoader';
 
@@ -122,6 +122,7 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
 
     // 2. Results State
     const [suggestions, setSuggestions] = useState([]); // For Stations
+    const [trainSuggestions, setTrainSuggestions] = useState([]); // For Trains
     const [trainData, setTrainData] = useState(null);   // For Train Live Status
     const [stationBoard, setStationBoard] = useState(null); // For Station Live Board
 
@@ -129,14 +130,17 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [activeBoardTab, setActiveBoardTab] = useState('arriving'); // 'atStation', 'arriving', 'departing'
+    const [isSearching, setIsSearching] = useState(false);
 
     const inputRef = useRef(null);
+    const debounceTimeout = useRef(null);
 
     // --- Reset on Open/Close ---
     useEffect(() => {
         if (isOpen) {
             setQuery("");
             setSuggestions([]);
+            setTrainSuggestions([]);
             setTrainData(null);
             setStationBoard(null);
             setError(null);
@@ -160,8 +164,12 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
 
         const cleanVal = val.trim();
 
+        if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+
         if (!cleanVal) {
             setSuggestions([]);
+            setTrainSuggestions([]);
+            setIsSearching(false);
             return;
         }
 
@@ -171,6 +179,7 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
         if (isNumeric) {
             // MODE: TRAIN NUMBER (Wait for 5 digits)
             setSuggestions([]); // Clear station suggestions
+            setTrainSuggestions([]);
             if (cleanVal.length === 5) {
                 // AUTO-FETCH TRIGGER
                 setLoading(true);
@@ -205,19 +214,47 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
                 }
             }
         } else {
-            // MODE: STATION SEARCH (Wait for 2+ chars)
+            // MODE: STATION/MIXED SEARCH (Wait for 2+ chars)
             if (cleanVal.length >= 2) {
-                try {
-                    // Start suggestion search
-                    // Note: We don't set 'loading' here to avoid flickering, just update list
-                    const results = await searchStations(cleanVal);
-                    setSuggestions(results || []);
-                } catch (err) {
-                    console.error(err);
-                    // Silent fail for suggestions is better than error UI
-                }
+                setIsSearching(true);
+                // Debounce to prevent rate limit on rapid typing
+                debounceTimeout.current = setTimeout(async () => {
+                    try {
+                        const hasLetters = /[a-zA-Z]/.test(cleanVal);
+                        const hasNumbers = /\d/.test(cleanVal);
+
+                        let stationRes = [];
+                        let trainRes = [];
+
+                        if (hasLetters && !hasNumbers) {
+                            console.log(`[DEBUG] handleSearch: Text only mode. Calling searchStations for: ${cleanVal}`);
+                            stationRes = await searchStations(cleanVal);
+                        } else if (hasLetters && hasNumbers) {
+                            console.log(`[DEBUG] handleSearch: Mixed mode. Calling searchStations for: ${cleanVal}`);
+                            stationRes = await searchStations(cleanVal);
+                            
+                            await new Promise(resolve => setTimeout(resolve, 300));
+                            
+                            console.log(`[DEBUG] handleSearch: Mixed mode. Calling searchTrains for: ${cleanVal}`);
+                            trainRes = await searchTrains(cleanVal);
+                        }
+
+                        console.log(`[DEBUG] handleSearch: Setting station suggestions. Length:`, stationRes?.length || 0);
+                        setSuggestions(stationRes || []);
+                        
+                        console.log(`[DEBUG] handleSearch: Setting train suggestions. Length:`, trainRes?.length || 0);
+                        setTrainSuggestions(trainRes || []);
+                        
+                    } catch (err) {
+                        console.error('[DEBUG] handleSearch: Error:', err);
+                    } finally {
+                        setIsSearching(false);
+                    }
+                }, 400); // 400ms delay
             } else {
                 setSuggestions([]);
+                setTrainSuggestions([]);
+                setIsSearching(false);
             }
         }
     };
@@ -227,6 +264,7 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
         haptics.success();
         setQuery(`${station.name} (${station.code})`);
         setSuggestions([]); // Hide list
+        setTrainSuggestions([]);
 
         setLoading(true);
         setError(null);
@@ -248,6 +286,43 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
         } catch (err) {
             console.error(err);
             setError("Unable to fetch live station board.");
+            haptics.error();
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // --- HANDLE TRAIN SELECTION ---
+    const handleTrainSuggestionSelect = async (train) => {
+        haptics.success();
+        setQuery(`${train.trainName} (${train.trainNumber})`);
+        setSuggestions([]);
+        setTrainSuggestions([]);
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const res = await fetchTrainStatus(train.trainNumber);
+            const data = res.data || res;
+
+            if (data && (data.trainNumber || data.trainName)) {
+                setTrainData(data);
+                haptics.success();
+                if (data.currentLocation && data.currentLocation.lat && data.currentLocation.lng) {
+                    onTrainLocationFound && onTrainLocationFound({
+                        lat: parseFloat(data.currentLocation.lat),
+                        lng: parseFloat(data.currentLocation.lng),
+                        title: `${data.trainName} (Live)`
+                    });
+                }
+            } else {
+                setError("Train not found or inactive.");
+                haptics.error();
+            }
+        } catch (err) {
+            console.error(err);
+            setError("Could not fetch train status.");
             haptics.error();
         } finally {
             setLoading(false);
@@ -403,57 +478,127 @@ const TrainBookingSheet = ({ isOpen, onClose, onTrainLocationFound }) => {
                                 </motion.div>
                             )}
 
-                            {/* CASE 2: STATION SUGGESTIONS (Autocomplete) */}
-                            {suggestions.length > 0 && !trainData && !stationBoard && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#9CA3AF', paddingLeft: '4px' }}>
-                                        SUGGESTED STATIONS
-                                    </div>
-                                    {suggestions.map((station, idx) => (
-                                        <motion.div
-                                            key={station.code}
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: idx * 0.03 }}
-                                            onClick={() => handleStationSelect(station)}
-                                            style={{
-                                                background: 'white',
-                                                padding: '12px 16px',
-                                                borderRadius: '16px',
-                                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                                                boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
-                                                border: '1px solid #F3F4F6',
-                                                cursor: 'pointer',
-                                                marginBottom: '8px'
-                                            }}
-                                            whileTap={{ scale: 0.98, backgroundColor: '#F9FAFB' }}
-                                        >
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                                <div style={{
-                                                    width: '44px', height: '44px', borderRadius: '50%',
-                                                    background: 'rgba(26, 115, 232, 0.1)', color: '#1A73E8',
-                                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                    flexShrink: 0
-                                                }}>
-                                                    <TrainFront size={22} />
-                                                </div>
-                                                <div>
-                                                    <div style={{ fontSize: '15px', fontWeight: 700, color: '#1E293B' }}>
-                                                        {station.name}
-                                                    </div>
-                                                    <div style={{ fontSize: '12px', color: '#64748B', fontWeight: '500', marginTop: '2px' }}>
-                                                        {station.state || 'Railway Station'}
-                                                    </div>
-                                                </div>
+                            {/* CASE 2: SUGGESTIONS (Autocomplete) */}
+                            {isSearching && !trainData && !stationBoard && (
+                                <div style={{ textAlign: 'center', padding: '30px', color: '#9CA3AF', fontSize: '14px' }}>
+                                    Searching...
+                                </div>
+                            )}
+
+                            {!isSearching && !trainData && !stationBoard && query.length >= 2 && trainSuggestions.length === 0 && suggestions.length === 0 && !loading && (
+                                <div style={{ textAlign: 'center', padding: '40px', color: '#9CA3AF' }}>
+                                    No trains or stations found for "{query}"
+                                </div>
+                            )}
+
+                            {!isSearching && !trainData && !stationBoard && (trainSuggestions.length > 0 || suggestions.length > 0) && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                    
+                                    {/* TRAIN SUGGESTIONS */}
+                                    {trainSuggestions.length > 0 && (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                            <div style={{ fontSize: '12px', fontWeight: 600, color: '#9CA3AF', paddingLeft: '4px' }}>
+                                                SUGGESTED TRAINS
                                             </div>
-                                            <div style={{
-                                                padding: '6px 10px', background: '#F3F4F6', borderRadius: '8px',
-                                                fontSize: '12px', fontWeight: 600, color: '#4B5563', letterSpacing: '0.5px'
-                                            }}>
-                                                {station.code}
+                                            {trainSuggestions.map((train, idx) => (
+                                                <motion.div
+                                                    key={train.trainNumber || idx}
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: idx * 0.03 }}
+                                                    onClick={() => handleTrainSuggestionSelect(train)}
+                                                    style={{
+                                                        background: 'white',
+                                                        padding: '12px 16px',
+                                                        borderRadius: '16px',
+                                                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                                        boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+                                                        border: '1px solid #F3F4F6',
+                                                        cursor: 'pointer',
+                                                    }}
+                                                    whileTap={{ scale: 0.98, backgroundColor: '#F9FAFB' }}
+                                                >
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                        <div style={{
+                                                            width: '36px', height: '36px', borderRadius: '10px',
+                                                            background: '#F0F9FF', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                                        }}>
+                                                            <TrainFront size={20} color="#0EA5E9" />
+                                                        </div>
+                                                        <div>
+                                                            <div style={{ fontSize: '15px', fontWeight: 700, color: '#1E293B' }}>
+                                                                {train.trainName || "Unknown Train"}
+                                                            </div>
+                                                            <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                                <span>{train.sourceStationCode || "?"}</span>
+                                                                <ArrowRight size={10} />
+                                                                <span>{train.destinationStationCode || "?"}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style={{
+                                                        fontSize: '12px', fontWeight: 600, color: '#0EA5E9',
+                                                        background: '#F0F9FF', padding: '4px 8px', borderRadius: '6px'
+                                                    }}>
+                                                        {train.trainNumber}
+                                                    </div>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* STATION SUGGESTIONS */}
+                                    {suggestions.length > 0 && (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                            <div style={{ fontSize: '12px', fontWeight: 600, color: '#9CA3AF', paddingLeft: '4px' }}>
+                                                SUGGESTED STATIONS
                                             </div>
-                                        </motion.div>
-                                    ))}
+                                            {suggestions.map((station, idx) => (
+                                                <motion.div
+                                                    key={station.code}
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: idx * 0.03 }}
+                                                    onClick={() => handleStationSelect(station)}
+                                                    style={{
+                                                        background: 'white',
+                                                        padding: '12px 16px',
+                                                        borderRadius: '16px',
+                                                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                                        boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+                                                        border: '1px solid #F3F4F6',
+                                                        cursor: 'pointer',
+                                                    }}
+                                                    whileTap={{ scale: 0.98, backgroundColor: '#F9FAFB' }}
+                                                >
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                                        <div style={{
+                                                            width: '44px', height: '44px', borderRadius: '50%',
+                                                            background: 'rgba(26, 115, 232, 0.1)', color: '#1A73E8',
+                                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                            flexShrink: 0
+                                                        }}>
+                                                            <MapPin size={22} />
+                                                        </div>
+                                                        <div>
+                                                            <div style={{ fontSize: '15px', fontWeight: 700, color: '#1E293B' }}>
+                                                                {station.name}
+                                                            </div>
+                                                            <div style={{ fontSize: '12px', color: '#64748B', fontWeight: '500', marginTop: '2px' }}>
+                                                                {station.state || 'Railway Station'}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style={{
+                                                        padding: '6px 10px', background: '#F3F4F6', borderRadius: '8px',
+                                                        fontSize: '12px', fontWeight: 600, color: '#4B5563', letterSpacing: '0.5px'
+                                                    }}>
+                                                        {station.code}
+                                                    </div>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             )}
 

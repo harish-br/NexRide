@@ -6,6 +6,7 @@ import { adminService } from '../services/adminService';
 export default function AdminRequests() {
   const { busRequests } = useAdminData();
   const [processingId, setProcessingId] = useState(null);
+  const [processingAction, setProcessingAction] = useState(null);
   
   // Filtering and Sorting State
   const [filterVerified, setFilterVerified] = useState('All'); // 'All', 'Verified', 'Unverified'
@@ -20,6 +21,7 @@ export default function AdminRequests() {
     if (!window.confirm(`Are you sure you want to approve this bus from ${request.source} to ${request.destination} at ${request.departureTime}?`)) return;
     
     setProcessingId(request.id);
+    setProcessingAction('approve');
     try {
       await adminService.approveBusRequest(request.id);
       setSelectedRequest(null);
@@ -28,6 +30,7 @@ export default function AdminRequests() {
       alert('Failed to approve request');
     } finally {
       setProcessingId(null);
+      setProcessingAction(null);
     }
   };
 
@@ -35,6 +38,7 @@ export default function AdminRequests() {
     if (!window.confirm('Are you sure you want to reject this request?')) return;
     
     setProcessingId(request.id);
+    setProcessingAction('reject');
     try {
       await adminService.rejectBusRequest(request.id);
       setSelectedRequest(null);
@@ -43,6 +47,7 @@ export default function AdminRequests() {
       alert('Failed to reject request');
     } finally {
       setProcessingId(null);
+      setProcessingAction(null);
     }
   };
 
@@ -237,7 +242,7 @@ export default function AdminRequests() {
                     onClick={(e) => { e.stopPropagation(); handleReject(request); }}
                     disabled={processingId === request.id}
                   >
-                    {processingId === request.id ? 'Processing...' : 'Reject'}
+                    {processingId === request.id && processingAction === 'reject' ? 'Processing...' : 'Reject'}
                   </button>
                   <button 
                     className="admin-btn admin-btn-primary"
@@ -245,7 +250,7 @@ export default function AdminRequests() {
                     onClick={(e) => { e.stopPropagation(); handleApprove(request); }}
                     disabled={processingId === request.id}
                   >
-                    {processingId === request.id ? 'Processing...' : 'Approve'}
+                    {processingId === request.id && processingAction === 'approve' ? 'Processing...' : 'Approve'}
                   </button>
                 </div>
               </div>
@@ -341,7 +346,7 @@ export default function AdminRequests() {
                 onClick={() => handleReject(selectedRequest)}
                 disabled={processingId === selectedRequest.id}
               >
-                {processingId === selectedRequest.id ? 'Processing...' : 'Reject'}
+                {processingId === selectedRequest.id && processingAction === 'reject' ? 'Processing...' : 'Reject'}
               </button>
               <button 
                 className="admin-btn admin-btn-primary"
@@ -349,7 +354,7 @@ export default function AdminRequests() {
                 onClick={() => handleApprove(selectedRequest)}
                 disabled={processingId === selectedRequest.id}
               >
-                {processingId === selectedRequest.id ? 'Processing...' : 'Approve'}
+                {processingId === selectedRequest.id && processingAction === 'approve' ? 'Processing...' : 'Approve'}
               </button>
             </div>
           </div>
